@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import DocumentMeta from 'react-document-meta';
-import { MiniInfoBar } from 'components';
 import config from '../../config';
 
 export default class About extends Component {
@@ -30,8 +29,6 @@ export default class About extends Component {
 
         <p>Hey! You found the mini info bar! The following component is display-only. Note that it shows the same
           time as the info bar.</p>
-
-        <MiniInfoBar/>
 
         <h3>Images</h3>
 

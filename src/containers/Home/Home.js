@@ -96,13 +96,6 @@ export default class Home extends Component {
           <h3>Features demonstrated in this project</h3>
 
           <dl>
-            <dt>Multiple components subscribing to same redux store slice</dt>
-            <dd>
-              The <code>App.js</code> that wraps all the pages contains an <code>InfoBar</code> component
-              that fetches data from the server initially, but allows for the user to refresh the data from
-              the client. <code>About.js</code> contains a <code>MiniInfoBar</code> that displays the same
-              data.
-            </dd>
             <dt>Server-side data loading</dt>
             <dd>
               The <Link to="/widgets">Widgets page</Link> demonstrates how to fetch data asynchronously from
