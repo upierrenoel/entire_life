@@ -1,8 +1,8 @@
 /**
  *  Define scss variables here.
  *
- *  Available options for Bootstrap:
- *  http://getbootstrap.com/customize/
+ *  Available options for Picnicss:
+ *  https://github.com/picnicss/picnic/blob/master/themes/default/_theme.scss
  *
  */
 
@@ -10,13 +10,18 @@
 $cyan: #33e0ff;
 $humility: #777;
 
-// Bootstrap Variables
-$brand-primary: darken(#428bca, 6.5%);
-$brand-secondary: #e25139;
-$brand-success: #5cb85c;
-$brand-warning: #f0ad4e;
-$brand-danger: #d9534f;
-$brand-info: #5bc0de;
+$orange: #B36A30;
+$pink: #F0BFA1;
+$black: #20221F;
+
+// Picnicss Variables
+$picnic-black: $black;
+$picnic-primary: $orange;
+$picnic-secondary: $pink;
+$picnic-success: #5cb85c;
+$picnic-warning: #f0ad4e;
+$picnic-danger: #d9534f;
+$picnic-info: #5bc0de;
 
 $text-color: #333;
 
