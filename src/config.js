@@ -15,24 +15,22 @@ module.exports = Object.assign({
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: process.env.APIPORT,
   app: {
-    title: 'React Redux Example',
-    description: 'All the modern best practices in one example.',
+    title: 'Entire.Life',
+    description: 'Entire.Life is a symbolic life calendar that helps you remember the good and plan for the better.',
     meta: {
       charSet: 'utf-8',
       property: {
-        'og:site_name': 'React Redux Example',
-        'og:image': 'https://react-redux.herokuapp.com/logo.jpg',
+        'og:site_name': 'Entire.Life',
+        'og:image': 'https://entire.life/images/social-share-2.png',
         'og:locale': 'en_US',
-        'og:title': 'React Redux Example',
-        'og:description': 'All the modern best practices in one example.',
+        'og:title': 'Entire.Life',
+        'og:description': 'Entire.Life is a symbolic life calendar that helps you remember the good and plan for the better.',
         'twitter:card': 'summary',
-        'twitter:site': '@erikras',
-        'twitter:creator': '@erikras',
-        'twitter:title': 'React Redux Example',
-        'twitter:description': 'All the modern best practices in one example.',
-        'twitter:image': 'https://react-redux.herokuapp.com/logo.jpg',
-        'twitter:image:width': '200',
-        'twitter:image:height': '200'
+        'twitter:site': '@yourentirelife',
+        'twitter:creator': '@chadoh',
+        'twitter:title': 'Entire.Life',
+        'twitter:description': 'Entire.Life is a symbolic life calendar that helps you remember the good and plan for the better.',
+        'twitter:image': 'https://entire.life/images/social-share-2.png',
       }
     }
   }

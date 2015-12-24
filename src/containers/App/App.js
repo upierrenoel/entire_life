@@ -54,9 +54,7 @@ export default class App extends Component {
     return (
       <div className={styles.app}>
         <DocumentMeta {...config.app}/>
-        <div className={styles.appContent}>
-          {this.props.children}
-        </div>
+        {this.props.children}
       </div>
     );
   }
