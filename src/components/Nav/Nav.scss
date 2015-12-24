@@ -1,0 +1,25 @@
+@import "../../theme/picnicss-with-overrides.scss";
+
+.wrap {
+  text-align: right;
+  height: 0;
+  font-size: 1.1rem;
+  a {
+    z-index: 2;
+    position: relative;
+    background-color: transparent;
+    color: gray;
+  }
+  h1, h2 {
+    float: left;
+    a {
+      top: 0;
+    }
+  }
+}
+
+.items {
+  float: right;
+  position: relative;
+  top: 0.5rem;
+}

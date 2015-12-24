@@ -1,4 +1,9 @@
 @import "../../theme/picnicss-with-overrides.scss";
 
 .app {
+  font-size: 1em;
+  @media(min-width: $picnic-breakpoint) {
+    font-size: 1.5em;
+  }
 }
+

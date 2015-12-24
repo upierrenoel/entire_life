@@ -1,0 +1,32 @@
+.sunset {
+  min-height: 100vh;
+  background-attachment: scroll;
+  background-color: #373a3c;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  @media (min-width: 1025px) {
+    background-attachment: fixed;
+  }
+  background-image: url(./sunset.jpeg);
+}
+.sunset-inner {
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: rgba(0,0,0,0.3);
+  color: white;
+}
+
+.dark {
+}
+.dark-inner {
+}
+
+.light {
+}
+.light-inner {
+}
