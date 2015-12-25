@@ -12,8 +12,8 @@ class Details extends React.Component {
     height: 400,
   }
 
-  expand(e) {
-    e.preventDefault();
+  expand = (event) => {
+    event.preventDefault();
     this.setState({expanded: true, height: this.refs.container.offsetHeight});
   }
 
@@ -99,7 +99,7 @@ export default class Home extends Component {
           </Nav>
           <h1 className={styles.global.container}>
             <div className={styles.global.brand}>Plan. Remember.</div>
-            <div style={{fontSize: '.8em'}}>Live a Meaningful Life.</div>
+            <div style={{fontSize: '.7em'}}>Live a Meaningful Life.</div>
           </h1>
           <div className={styles.global.containerWide} style={{fontSize: '.9em'}}>
             <p>{config.app.description}</p>
