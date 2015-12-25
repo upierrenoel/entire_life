@@ -7,13 +7,9 @@ import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter(require('./Home.scss'));
 
 class Details extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: false,
-      height: 400,
-    };
-    this.expand = this.expand.bind(this);
+  state = {
+    expanded: false,
+    height: 400,
   }
 
   expand(e) {
@@ -34,7 +30,7 @@ class Details extends React.Component {
 
     return (
       <div style={{position: 'relative', overflow: 'hidden', height: this.state.height, transition: 'height 500ms ease'}} >
-        <div ref={styles.global.container} style={{padding: '1em 0'}}>
+        <div ref="container" style={{padding: '1em 0'}}>
           {this.state.expanded ? null : expandButton}
           <div className={styles.global.container}>
             <p style={{marginTop: 0}}>And instead of just adding thoughts and events about the present, you can add events for any of your past weeks.</p>
