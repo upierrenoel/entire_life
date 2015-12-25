@@ -1,4 +1,4 @@
-import global from '../theme/picnicss-with-overrides.scss';
+import global from '../theme/global.scss';
 
 export default (local) => {
   return {

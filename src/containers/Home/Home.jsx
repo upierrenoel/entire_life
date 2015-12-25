@@ -34,41 +34,41 @@ class Details extends React.Component {
 
     return (
       <div style={{position: 'relative', overflow: 'hidden', height: this.state.height, transition: 'height 500ms ease'}} >
-        <div ref="container" style={{padding: '1em 0'}}>
+        <div ref={styles.global.container} style={{padding: '1em 0'}}>
           {this.state.expanded ? null : expandButton}
-          <div className="container">
+          <div className={styles.global.container}>
             <p style={{marginTop: 0}}>And instead of just adding thoughts and events about the present, you can add events for any of your past weeks.</p>
           </div>
           <div className="centered">
             <img style={{width: 320}} src={require('./event-add-example.png')} alt="Entire.Life event creation form, with the event Made My First Sale being added"/>
           </div>
-          <div className="container">
+          <div className={styles.global.container}>
             <p>With all of that historic context, the present can start to feel like a gift again. We can remember how hard we worked to get where we're at, and spot plot arcs and foreshadowing that give us a sense of purpose.</p>
           </div>
           <div className="centered">
             <img style={{width: 320}} src={require('./past-calendar-example.png')} alt="Entire.Life calendar filled in, with different romantic events showing"/>
           </div>
 
-          <div className="container">
+          <div className={styles.global.container}>
             <h3 className="brand">But that's not all</h3>
             <p>Entire.Life also shows your whole unwritten future.</p>
           </div>
           <div className="centered">
             <img style={{width: 464}} src={require('./past-and-future.png')} alt="a row dark dots, fading out to the left, with This Week! The Present! in the middle, and then light dots after, fading out to the right"/>
           </div>
-          <div className="container">
+          <div className={styles.global.container}>
             <p>You can add plans to any future date. Once the date passes by, you can mark it as complete, snooze until next week, or forget about it forever.</p>
           </div>
           <div className="centered">
             <img style={{width: 320}} src={require('./expired-plan.png')} alt="a Finish Writing Book plan now in the past, with options to mark done, snooze, or delete"/>
           </div>
-          <div className="container">
+          <div className={styles.global.container}>
             <p>But you can even add farther-future events.</p>
           </div>
           <div className="centered">
             <img style={{width: 320}} src={require('./social-security.png')} alt="Entire.Life's week detail view showing a plan: Eligible For Social Security"/>
           </div>
-          <div className="container">
+          <div className={styles.global.container}>
             <p style={{marginBottom: 0}}>Just as reflecting on the past can give us a sense of gratitude, reflecting on the future can give us a sense of urgency. </p>
           </div>
         </div>
@@ -79,7 +79,7 @@ class Details extends React.Component {
   render() {
     return (
       <div>
-        <div className="container">
+        <div className={styles.global.container}>
           <h3 className="brand">So let's look from farther away</h3>
           <p>Entire.Life doesn't just give you the present. It also gives you your entire past, back to the day you were born.</p>
         </div>
@@ -99,13 +99,13 @@ export default class Home extends Component {
       <div className={styles.local.home}>
         <PageSection type="sunset" style={{textAlign: 'center'}}>
           <Nav>
-            <Logo type="black" style={{float: 'left'}}/>
+            <Logo type="white" style={{float: 'left'}}/>
           </Nav>
-          <h1 className="hero-header container">
-            <div className="brand">Plan. Remember.</div>
-            <div>Live a Meaningful Life.</div>
+          <h1 className={styles.global.container + ' hero-header'}>
+            <div className={styles.global.brand}>Plan. Remember.</div>
+            <div style={{fontSize: '.8em'}}>Live a Meaningful Life.</div>
           </h1>
-          <div className="container-wide">
+          <div className={styles.global.containerWide} style={{fontSize: '.9em'}}>
             <p>{config.app.description}</p>
           </div>
           <p style={{marginTop: 0}}>
@@ -113,12 +113,12 @@ export default class Home extends Component {
               Claim my free life calendar now
             </Link>
           </p>
-          <div className="devices-photo">
+          <div className={styles.local.screenshots}>
             <img src={require('./screenshots.png')} alt="Entire.Life works on all devices"/>
           </div>
         </PageSection>
         <div className="bg-light">
-          <div className="container">
+          <div className={styles.global.container}>
             <div className="row vertically-centered">
               <div className="col-sm-4 centered">
                 <img src={require('./plot-points.png')} className="circle" alt="section of a life calendar showing ages 20 to 30, with a kissy emoji and a bride emoji showing"/>
@@ -167,7 +167,7 @@ export default class Home extends Component {
         </div>
         <div className="bg-dark">
           <div className="rounded-images">
-            <div className="container">
+            <div className={styles.global.container}>
               <h2 className="brand" id="how-it-works">How it works</h2>
               <p>Most websites and apps keep us focused on <em>right now</em>, or maybe <em>this week</em>:</p>
               <div className="centered">
@@ -185,7 +185,7 @@ export default class Home extends Component {
         </div>
 
         <div className="hero sunset-cliffs">
-          <div className="container" style={{display: 'flex', minHeight: '100vh', justifyContent: 'space-around', flexDirection: 'column'}}>
+          <div className={styles.global.container} style={{display: 'flex', minHeight: '100vh', justifyContent: 'space-around', flexDirection: 'column'}}>
             <div className="bg-tint">
               <h2 className="brand">The Forest &amp; The Branches</h2>
               <p>It's easy to get stuck in the monotonous slog of the present.</p>
@@ -202,7 +202,7 @@ export default class Home extends Component {
           </div>
         </div>
         <div className="bg-dark">
-          <div className="container">
+          <div className={styles.global.container}>
             <h2 className="brand">Hall of Fame</h2>
             <p>People we celebrate. Click through to see their life calendars.</p>
           </div>

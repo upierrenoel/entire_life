@@ -1,2 +1,17 @@
 .home {
 }
+.screenshots {
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  img {
+    width: 100%;
+    vertical-align: bottom;
+    @media(min-width: 600px) {
+      width: 75%;
+    }
+    @media(min-width: 900px) {
+      width: 50%;
+    }
+  }
+}

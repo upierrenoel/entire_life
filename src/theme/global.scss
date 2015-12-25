@@ -1,0 +1,20 @@
+@import "./variables.scss";
+@import "node_modules/picnic/src/picnic.scss";
+@import "node_modules/picnic/plugins/label/_plugin.scss";
+@import "node_modules/picnic/plugins/button/_plugin.scss";
+@import url(https://fonts.googleapis.com/css?family=Dancing+Script);
+
+.brand {
+  font-family: 'Dancing Script';
+}
+
+.container, .containerWide {
+  margin: 0 auto;
+  padding: 0;
+  width: 90%;
+  max-width: 800px;
+  clear: both;
+}
+.containerWide {
+  max-width: 1200px;
+}
