@@ -1,10 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router';
-import styles from './Nav.scss';
+import styleImporter from 'helpers/styleImporter';
+
+const styles = styleImporter(require('./Nav.scss'));
 
 const headerItems = () => {
   return (
-    <Link to={"/signin"} className={styles.button}>
+    <Link to={"/signin"} className={styles.global.button}>
       Sign In
     </Link>
   );
@@ -12,8 +14,8 @@ const headerItems = () => {
 
 export default ({children}) => {
   return (
-    <nav className={styles.wrap}>
-      <div className={styles.items}>
+    <nav className={styles.local.wrap}>
+      <div className={styles.local.items}>
         {headerItems()}
       </div>
       {children}

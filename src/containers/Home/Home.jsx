@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Nav, Logo, PageSection, Footer } from 'components';
 import config from '../../config';
-import styles from './Home.scss';
+import styleImporter from 'helpers/styleImporter';
+
+const styles = styleImporter(require('./Home.scss'));
 
 class Details extends React.Component {
   constructor(props) {
@@ -23,7 +25,7 @@ class Details extends React.Component {
     const expandButton = (
       <div style={{position: 'absolute', bottom: 0, height: 400, width: '100%', background: 'linear-gradient(transparent, #20221F)'}}>
         <div className="centered" style={{position: 'absolute', bottom: 0, width: '100%'}}>
-          <a href="#" onClick={this.expand} className={styles.button}>
+          <a href="#" onClick={this.expand} className={styles.global.button}>
             read more...
           </a>
         </div>
@@ -94,7 +96,7 @@ class Details extends React.Component {
 export default class Home extends Component {
   render() {
     return (
-      <div className={styles.home}>
+      <div className={styles.local.home}>
         <PageSection type="sunset" style={{textAlign: 'center'}}>
           <Nav>
             <Logo type="black" style={{float: 'left'}}/>
@@ -107,7 +109,7 @@ export default class Home extends Component {
             <p>{config.app.description}</p>
           </div>
           <p style={{marginTop: 0}}>
-            <Link to="/signin" className={styles.button} style={{boxShadow: '-1px 1px 8px rgba(255,255,255,0.5)'}}>
+            <Link to="/signin" className={styles.global.button} style={{boxShadow: '-1px 1px 8px rgba(255,255,255,0.5)'}}>
               Claim my free life calendar now
             </Link>
           </p>
@@ -192,7 +194,7 @@ export default class Home extends Component {
               <p>Most likely, all the other websites and apps that you use today will only increase your tendency to lose context. They'll keep you focused on a view of the branches right around you.</p>
               <p>Entire.Life will lift you above it all, and show you a view of the whole forest. The whole, beautiful forest of your life.</p>
               <p className="centered">
-                <Link to="/signin" className={styles.button}>
+                <Link to="/signin" className={styles.global.button}>
                   Claim my free life calendar now
                 </Link>
               </p>
@@ -216,7 +218,7 @@ export default class Home extends Component {
                   <div className="col-sm-8">
                     <h3 className="brand">Bessie Coleman</h3>
                     <p>Black daredevil aviatrix. When no one in racist America would teach her to fly, this badass went to flight school in France. Never got to start her own flight school.</p>
-                    <Link to="/bessie-coleman" className={styles.button}>View her Entire.Life</Link>
+                    <Link to="/bessie-coleman" className={styles.global.button}>View her Entire.Life</Link>
                   </div>
                 </div>
               </div>
@@ -230,7 +232,7 @@ export default class Home extends Component {
                   <div className="col-sm-8">
                     <h3 className="brand">Bayard Rustin</h3>
                     <p>A voice behind many of the voices of the American Civil Rights movement. Organizer of the 1963 March on Washington for Jobs and Freedom. American hero.</p>
-                    <Link to="/bayard-rustin" className={styles.button}>View his Entire.Life</Link>
+                    <Link to="/bayard-rustin" className={styles.global.button}>View his Entire.Life</Link>
                   </div>
                 </div>
               </div>
