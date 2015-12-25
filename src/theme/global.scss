@@ -1,8 +1,11 @@
 @import "./variables.scss";
 @import "node_modules/picnic/src/picnic.scss";
-@import "node_modules/picnic/plugins/label/_plugin.scss";
 @import "node_modules/picnic/plugins/button/_plugin.scss";
 @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
+
+img {
+  max-width: 100%;
+}
 
 .brand {
   font-family: 'Dancing Script';
@@ -17,4 +20,43 @@
 }
 .containerWide {
   max-width: 1200px;
+}
+
+.row {
+  margin-bottom: 7rem;
+}
+.row:last-child {
+  margin-bottom: 0;
+}
+@media(min-width: 525px) {
+  .row {
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    &.reverse {
+      flex-direction: row-reverse;
+    }
+  }
+  .verticallyCentered [class^=col] {
+    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .col2 { width: 14.6666665%; }
+  .col4 { width: 31.3333333%; }
+  .col6 { width: 48%; }
+  .col8 { width: 64.6666666%; }
+}
+
+.centered {
+  text-align: center;
+}
+
+.smaller {
+  font-size: .9em;
+}
+
+.circle {
+  border-radius: 50%;
 }

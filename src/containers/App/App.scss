@@ -1,6 +1,8 @@
 @import "../../theme/variables.scss";
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 .app {
+  font-family: 'Open Sans', sans-serif;
   font-size: 1em;
   @media(min-width: $picnic-breakpoint) {
     font-size: 1.2em;

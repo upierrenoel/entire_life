@@ -21,12 +21,26 @@
   color: white;
 }
 
-.dark {
+.dark, .light {
+  padding: 3rem 0;
 }
+.dark:first-child, .light:first-child {
+  padding-top: 0;
+}
+.dark {
+  background-color: #20221F;
+  color: #F0BFA1;
+}
+.light {
+  background-color: #F0BFA1;
+  color: white;
+  [type=text], [type=email] {
+    color: gray;
+  }
+}
+
 .dark-inner {
 }
 
-.light {
-}
 .light-inner {
 }
