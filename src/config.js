@@ -13,7 +13,6 @@ module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
   apiHost: process.env.APIHOST || 'localhost',
-  apiPort: process.env.APIPORT,
   app: {
     title: 'Entire.Life',
     description: 'Entire.Life is a symbolic life calendar that helps you remember the good and plan for the better.',
