@@ -110,12 +110,12 @@ function create({userSlug, event}) {
     promise: (client) => client.post(`/users/${userSlug}/events`, {
       data: event
     })
-  }
+  };
 }
 
 export function save({userSlug, event}) {
-  if(event.id) return update({userSlug, event});
-  else return create({userSlug, event});
+  if (event.id) return update({userSlug, event});
+  return create({userSlug, event});
 }
 
 export function editStart(id) {

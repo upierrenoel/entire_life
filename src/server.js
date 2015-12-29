@@ -24,8 +24,8 @@ const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
 const proxy = httpProxy.createProxyServer({
-  target: 'http://' + config.apiHost,
-  ws: true
+  target: config.apiHost,
+  changeOrigin: true
 });
 
 app.use(compression());

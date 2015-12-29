@@ -4,6 +4,7 @@ import {IndexRoute, Route} from 'react-router';
 import {
     App,
     Home,
+    User,
   } from 'containers';
 
 // export default (store) => {
@@ -43,6 +44,7 @@ export default () => {
 
       { /* Catch all route */ }
       { /* <Route path="*" component={NotFound} status={404} /> */ }
+      <Route path=":slug" component={User}/>
     </Route>
   );
 };
