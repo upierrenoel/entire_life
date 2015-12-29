@@ -1,11 +1,11 @@
-const LOAD = 'redux-example/widgets/LOAD';
-const LOAD_SUCCESS = 'redux-example/widgets/LOAD_SUCCESS';
-const LOAD_FAIL = 'redux-example/widgets/LOAD_FAIL';
-const EDIT_START = 'redux-example/widgets/EDIT_START';
-const EDIT_STOP = 'redux-example/widgets/EDIT_STOP';
-const SAVE = 'redux-example/widgets/SAVE';
-const SAVE_SUCCESS = 'redux-example/widgets/SAVE_SUCCESS';
-const SAVE_FAIL = 'redux-example/widgets/SAVE_FAIL';
+const LOAD = 'entire-life/user/LOAD';
+const LOAD_SUCCESS = 'entire-life/user/LOAD_SUCCESS';
+const LOAD_FAIL = 'entire-life/user/LOAD_FAIL';
+const EDIT_START = 'entire-life/user/EDIT_START';
+const EDIT_STOP = 'entire-life/user/EDIT_STOP';
+const SAVE = 'entire-life/user/SAVE';
+const SAVE_SUCCESS = 'entire-life/user/SAVE_SUCCESS';
+const SAVE_FAIL = 'entire-life/user/SAVE_FAIL';
 
 const initialState = {
   loaded: false,
@@ -83,22 +83,22 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState) {
-  return globalState.widgets && globalState.widgets.loaded;
+  return globalState.user && globalState.user.loaded;
 }
 
-export function load() {
+export function load(userSlug) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/widget/load/param1/param2') // params not used, just shown as demonstration
+    promise: (client) => client.get(`/users/${userSlug}`)
   };
 }
 
-export function save(widget) {
+export function save(user) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    id: widget.id,
-    promise: (client) => client.post('/widget/update', {
-      data: widget
+    id: user.id,
+    promise: (client) => client.post(`/users/${user.id}`, {
+      data: user
     })
   };
 }

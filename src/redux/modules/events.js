@@ -1,11 +1,11 @@
-const LOAD = 'redux-example/widgets/LOAD';
-const LOAD_SUCCESS = 'redux-example/widgets/LOAD_SUCCESS';
-const LOAD_FAIL = 'redux-example/widgets/LOAD_FAIL';
-const EDIT_START = 'redux-example/widgets/EDIT_START';
-const EDIT_STOP = 'redux-example/widgets/EDIT_STOP';
-const SAVE = 'redux-example/widgets/SAVE';
-const SAVE_SUCCESS = 'redux-example/widgets/SAVE_SUCCESS';
-const SAVE_FAIL = 'redux-example/widgets/SAVE_FAIL';
+const LOAD = 'entire-life/events/LOAD';
+const LOAD_SUCCESS = 'entire-life/events/LOAD_SUCCESS';
+const LOAD_FAIL = 'entire-life/events/LOAD_FAIL';
+const EDIT_START = 'entire-life/events/EDIT_START';
+const EDIT_STOP = 'entire-life/events/EDIT_STOP';
+const SAVE = 'entire-life/events/SAVE';
+const SAVE_SUCCESS = 'entire-life/events/SAVE_SUCCESS';
+const SAVE_FAIL = 'entire-life/events/SAVE_FAIL';
 
 const initialState = {
   loaded: false,
@@ -83,24 +83,39 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState) {
-  return globalState.widgets && globalState.widgets.loaded;
+  return globalState.events && globalState.events.loaded;
 }
 
-export function load() {
+export function load({userSlug}) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/widget/load/param1/param2') // params not used, just shown as demonstration
+    promise: (client) => client.get(`/users/${userSlug}/events`)
   };
 }
 
-export function save(widget) {
+function update({userSlug, event}) {
+  console.log("can we use event.user.slug? here's `event`:", event);
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    id: widget.id,
-    promise: (client) => client.post('/widget/update', {
-      data: widget
+    id: event.id,
+    promise: (client) => client.post(`/users/${userSlug}/events/${event.id}`, {
+      data: event
     })
   };
+}
+
+function create({userSlug, event}) {
+  return {
+    types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
+    promise: (client) => client.post(`/users/${userSlug}/events`, {
+      data: event
+    })
+  }
+}
+
+export function save({userSlug, event}) {
+  if(event.id) return update({userSlug, event});
+  else return create({userSlug, event});
 }
 
 export function editStart(id) {
