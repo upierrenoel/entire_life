@@ -30,9 +30,7 @@
     "start-dev": "better-npm-run start-dev",
     "watch-client": "better-npm-run watch-client",
     "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev\"",
-    "test": "karma start",
-    "test-node": "./node_modules/mocha/bin/mocha $(find src -name '*-test.js') --compilers js:babel-core/register",
-    "test-node-watch": "./node_modules/mocha/bin/mocha $(find src -name '*-test.js') --compilers js:babel-core/register --watch"
+    "test": "karma start"
   },
   "betterScripts": {
     "start-prod": {

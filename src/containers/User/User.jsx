@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { isLoaded as isUserLoaded, load as loadUser } from 'redux/modules/user';
+import { isLoaded as isUserLoaded, load as loadUser } from 'redux/modules/users';
 import { isLoaded as isEventsLoaded, load as loadEvents } from 'redux/modules/events';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
@@ -9,10 +9,10 @@ function fetchData(getState, dispatch, location, params) {
   const promises = [];
   const slug = params.slug;
 
-  if (!isUserLoaded(getState())) {
+  if (!isUserLoaded(getState(), slug)) {
     promises.push(dispatch(loadUser(slug)));
   }
-  if (!isEventsLoaded(getState())) {
+  if (!isEventsLoaded(getState(), slug)) {
     promises.push(dispatch(loadEvents({userSlug: slug})));
   }
   return Promise.all(promises);
@@ -20,7 +20,12 @@ function fetchData(getState, dispatch, location, params) {
 
 @connectData(fetchData)
 @connect(
-  state => ({user: state.user, events: state.events}),
+  state => {
+    return {
+      user: state.users.data[state.router.params.slug],
+      events: state.events.data[state.router.params.slug],
+    };
+  },
   dispatch => ({dispatch, pushState})
 )
 export default class User extends Component {

@@ -1,16 +1,16 @@
-const LOAD = 'entire-life/user/LOAD';
-const LOAD_SUCCESS = 'entire-life/user/LOAD_SUCCESS';
-const LOAD_FAIL = 'entire-life/user/LOAD_FAIL';
-const EDIT_START = 'entire-life/user/EDIT_START';
-const EDIT_STOP = 'entire-life/user/EDIT_STOP';
-const SAVE = 'entire-life/user/SAVE';
-const SAVE_SUCCESS = 'entire-life/user/SAVE_SUCCESS';
-const SAVE_FAIL = 'entire-life/user/SAVE_FAIL';
+const LOAD = 'entire-life/users/LOAD';
+const LOAD_SUCCESS = 'entire-life/users/LOAD_SUCCESS';
+const LOAD_FAIL = 'entire-life/users/LOAD_FAIL';
+const EDIT_START = 'entire-life/users/EDIT_START';
+const EDIT_STOP = 'entire-life/users/EDIT_STOP';
+const SAVE = 'entire-life/users/SAVE';
+const SAVE_SUCCESS = 'entire-life/users/SAVE_SUCCESS';
+const SAVE_FAIL = 'entire-life/users/SAVE_FAIL';
 
 const initialState = {
-  loaded: false,
+  data: {},
   editing: {},
-  saveError: {}
+  saveError: {},
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -21,19 +21,19 @@ export default function reducer(state = initialState, action = {}) {
         loading: true
       };
     case LOAD_SUCCESS:
+      state.data[action.slug] = action.result.user;
       return {
         ...state,
         loading: false,
-        loaded: true,
-        data: action.result,
+        data: state.data,
         error: null
       };
     case LOAD_FAIL:
+      state.data[action.slug] = null;
       return {
         ...state,
         loading: false,
-        loaded: false,
-        data: null,
+        data: state.data,
         error: action.error
       };
     case EDIT_START:
@@ -56,10 +56,10 @@ export default function reducer(state = initialState, action = {}) {
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
       const data = [...state.data];
-      data[action.result.id - 1] = action.result;
+      data[action.result.user.id] = action.result.user;
       return {
         ...state,
-        data: data,
+        data,
         editing: {
           ...state.editing,
           [action.id]: false
@@ -82,13 +82,14 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-export function isLoaded(globalState) {
-  return globalState.user && globalState.user.loaded;
+export function isLoaded(globalState, slug) {
+  return globalState.users && globalState.users[slug];
 }
 
 export function load(userSlug) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    slug: userSlug,
     promise: (client) => client.get(`/users/${userSlug}`)
   };
 }

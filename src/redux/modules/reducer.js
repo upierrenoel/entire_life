@@ -2,11 +2,11 @@ import { combineReducers } from 'redux';
 import { routerStateReducer } from 'redux-router';
 
 import events from './events';
-import user from './user';
+import users from './users';
 // import {reducer as form} from 'redux-form';
 
 export default combineReducers({
   router: routerStateReducer,
-  user,
+  users,
   events
 });

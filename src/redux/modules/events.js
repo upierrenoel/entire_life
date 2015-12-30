@@ -8,7 +8,7 @@ const SAVE_SUCCESS = 'entire-life/events/SAVE_SUCCESS';
 const SAVE_FAIL = 'entire-life/events/SAVE_FAIL';
 
 const initialState = {
-  loaded: false,
+  data: {},
   editing: {},
   saveError: {}
 };
@@ -18,22 +18,25 @@ export default function reducer(state = initialState, action = {}) {
     case LOAD:
       return {
         ...state,
-        loading: true
       };
     case LOAD_SUCCESS:
       return {
         ...state,
         loading: false,
-        loaded: true,
-        data: action.result,
+        data: {
+          ...state.data,
+          [action.slug]: action.result
+        },
         error: null
       };
     case LOAD_FAIL:
       return {
         ...state,
         loading: false,
-        loaded: false,
-        data: null,
+        data: {
+          ...state.data,
+          [action.slug]: null
+        },
         error: action.error
       };
     case EDIT_START:
@@ -55,19 +58,16 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
+      // TODO
+      // need to update something like
+      // state.data[action.slug][action.result.event.weekno]
+      // probably need to remove the original
+      // and add one at new weekno, in case event switched weeks
+      console.warning('SAVE_SUCCESS not yet implemented');
       const data = [...state.data];
       data[action.result.id - 1] = action.result;
       return {
         ...state,
-        data: data,
-        editing: {
-          ...state.editing,
-          [action.id]: false
-        },
-        saveError: {
-          ...state.saveError,
-          [action.id]: null
-        }
       };
     case SAVE_FAIL:
       return typeof action.error === 'string' ? {
@@ -82,13 +82,14 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-export function isLoaded(globalState) {
-  return globalState.events && globalState.events.loaded;
+export function isLoaded(globalState, slug) {
+  return globalState.events && globalState.events[slug];
 }
 
 export function load({userSlug}) {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    slug: userSlug,
     promise: (client) => client.get(`/users/${userSlug}/events`)
   };
 }
@@ -98,6 +99,7 @@ function update({userSlug, event}) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: event.id,
+    slug: userSlug,
     promise: (client) => client.post(`/users/${userSlug}/events/${event.id}`, {
       data: event
     })
@@ -107,6 +109,7 @@ function update({userSlug, event}) {
 function create({userSlug, event}) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
+    slug: userSlug,
     promise: (client) => client.post(`/users/${userSlug}/events`, {
       data: event
     })
