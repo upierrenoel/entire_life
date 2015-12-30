@@ -21,20 +21,30 @@ export default function reducer(state = initialState, action = {}) {
         loading: true
       };
     case LOAD_SUCCESS:
-      state.data[action.slug] = action.result.user;
       return {
         ...state,
         loading: false,
-        data: state.data,
-        error: null
+        data: {
+          ...state.data,
+          [action.slug]: action.result.user
+        },
+        error: {
+          ...state.error,
+          [action.slug]: null
+        }
       };
     case LOAD_FAIL:
-      state.data[action.slug] = null;
       return {
         ...state,
         loading: false,
-        data: state.data,
-        error: action.error
+        data: {
+          ...state.data,
+          [action.slug]: null,
+        },
+        error: {
+          ...state.error,
+          [action.slug]: action.error
+        }
       };
     case EDIT_START:
       return {
@@ -55,11 +65,13 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
-      const data = [...state.data];
-      data[action.result.user.id] = action.result.user;
       return {
         ...state,
-        data,
+        data: {
+          ...state.data,
+          [action.slug]: null, // user's slug may have changed
+          [action.result.user.slug]: action.result.user
+        },
         editing: {
           ...state.editing,
           [action.id]: false
@@ -98,6 +110,7 @@ export function save(user) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: user.id,
+    slug: user.slug,
     promise: (client) => client.post(`/users/${user.id}`, {
       data: user
     })

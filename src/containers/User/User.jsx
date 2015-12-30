@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { isLoaded as isUserLoaded, load as loadUser } from 'redux/modules/users';
 import { isLoaded as isEventsLoaded, load as loadEvents } from 'redux/modules/events';
+import { NotFound } from 'components';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 
@@ -30,8 +31,8 @@ function fetchData(getState, dispatch, location, params) {
 )
 export default class User extends Component {
   static propTypes = {
-    user: PropTypes.object.isRequired,
-    events: PropTypes.object.isRequired,
+    user: PropTypes.object,
+    events: PropTypes.object,
     pushState: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
   };
@@ -50,6 +51,7 @@ export default class User extends Component {
   }
 
   render() {
+    if (!this.props.user) return <NotFound/>;
     return (
       <div>
         Hey there

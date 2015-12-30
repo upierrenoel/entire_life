@@ -9,3 +9,4 @@ export Footer from './Footer/Footer';
 export Nav from './Nav/Nav';
 export Logo from './Logo/Logo';
 export PageSection from './PageSection/PageSection';
+export NotFound from './NotFound/NotFound';

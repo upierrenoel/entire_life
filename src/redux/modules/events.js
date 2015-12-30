@@ -37,7 +37,10 @@ export default function reducer(state = initialState, action = {}) {
           ...state.data,
           [action.slug]: null
         },
-        error: action.error
+        error: {
+          ...state.error,
+          [action.slug]: action.error
+        }
       };
     case EDIT_START:
       return {
