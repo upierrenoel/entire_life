@@ -2,9 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { isLoaded as isUserLoaded, load as loadUser } from 'redux/modules/users';
 import { isLoaded as isEventsLoaded, load as loadEvents } from 'redux/modules/events';
-import { NotFound } from 'components';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
+import { Nav, Logo, NotFound } from 'components';
+import styleImporter from 'helpers/styleImporter';
+const styles = styleImporter();
 
 function fetchData(getState, dispatch, location, params) {
   const promises = [];
@@ -50,11 +52,25 @@ export default class User extends Component {
     }
   }
 
+  renderName = () => {
+    // if(!LoginStore.canView(this.props.user)) {
+    //   const name = this.props.user.get('name').split(' ')[0]
+    //   return `${name}'s life is ${name}'s business!`
+    // }
+    return this.props.user.name;
+  }
+
   render() {
     if (!this.props.user) return <NotFound/>;
     return (
       <div>
-        Hey there
+        {/* <Nav startTour={this.startTour}> */}
+        <Nav className={styles.global.containerWide} lower>
+          <Logo type="a-life" style={{float: 'left', padding: '1.4em 1em 0 0'}}/>
+          <h1 className={styles.global.brand}>
+            {this.renderName()}
+          </h1>
+        </Nav>
       </div>
     );
   }

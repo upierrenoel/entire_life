@@ -9,7 +9,7 @@ const Logo = ({type, style}) => {
       <img
         src={require(`./${type}.svg`)}
         alt={config.app.title}
-        className={styles.logo}
+        className={styles[type]}
       />
     </Link>
   );

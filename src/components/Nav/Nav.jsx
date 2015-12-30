@@ -12,10 +12,12 @@ const headerItems = () => {
   );
 };
 
-export default ({children}) => {
+export default ({children, className, lower}) => {
+  const localStyles = {};
+  if (lower) localStyles.top = '1.5em';
   return (
-    <nav className={styles.local.wrap}>
-      <div className={styles.local.items}>
+    <nav className={[styles.local.wrap, className].join(' ')}>
+      <div className={styles.local.items} style={localStyles}>
         {headerItems()}
       </div>
       {children}
