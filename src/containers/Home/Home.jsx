@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import { Nav, Logo, PageSection, Footer } from 'components';
 import config from '../../config';
 import styleImporter from 'helpers/styleImporter';
-
 const styles = styleImporter(require('./Home.scss'));
 
 class Details extends React.Component {

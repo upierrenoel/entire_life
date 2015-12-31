@@ -4,7 +4,7 @@ import { isLoaded as isUserLoaded, load as loadUser } from 'redux/modules/users'
 import { isLoaded as isEventsLoaded, load as loadEvents } from 'redux/modules/events';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
-import { Nav, Logo, NotFound } from 'components';
+import { Nav, Logo, NotFound, Calendar } from 'components';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter();
 
@@ -27,6 +27,8 @@ function fetchData(getState, dispatch, location, params) {
     return {
       user: state.users.data[state.router.params.slug],
       events: state.events.data[state.router.params.slug],
+      weekno: state.router.params.weekno,
+      monthno: state.router.params.monthno,
     };
   },
   dispatch => ({dispatch, pushState})
@@ -37,6 +39,9 @@ export default class User extends Component {
     events: PropTypes.object,
     pushState: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
+    children: PropTypes.object,
+    weekno: PropTypes.string,
+    monthno: PropTypes.string,
   };
 
   static contextTypes = {
@@ -60,6 +65,27 @@ export default class User extends Component {
     return this.props.user.name;
   }
 
+  renderCalendar = () => {
+    // const user = this.props.user;
+    // if(!LoginStore.canView(user)) {
+    //   const name = user.get('name').split(' ')[0]
+    //   return <div className="container-wide">
+    //     <p>There are things we're not meant to know. Amongst them, the detail's of {name}'s life!</p>
+    //     <p>If this is your calendar, <Link to="/signin">sign in again</Link> to see it.</p>
+    //   </div>
+    // } else if(!this.props.events.get('0') || !this.props.user.get('born')) {
+    //   return <Loading/>
+    // } else {
+    return (
+      <Calendar
+        events={this.props.events} user={this.props.user}
+        slug={this.props.user.slug}
+        detail={this.props.children} weekno={this.props.weekno}
+        monthno={this.props.monthno}
+      />
+    );
+  }
+
   render() {
     if (!this.props.user) return <NotFound/>;
     return (
@@ -68,9 +94,10 @@ export default class User extends Component {
         <Nav className={styles.global.containerWide} lower>
           <Logo type="a-life" style={{float: 'left', padding: '1.4em 1em 0 0'}}/>
           <h1 className={styles.global.brand}>
-            {this.renderName()}
+           {this.renderName()}
           </h1>
         </Nav>
+        {this.renderCalendar()}
       </div>
     );
   }

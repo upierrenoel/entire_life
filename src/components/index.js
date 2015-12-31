@@ -10,3 +10,6 @@ export Nav from './Nav/Nav';
 export Logo from './Logo/Logo';
 export PageSection from './PageSection/PageSection';
 export NotFound from './NotFound/NotFound';
+export Calendar from './Calendar/Calendar';
+export Week from './Week/Week';
+export Month from './Month/Month';
