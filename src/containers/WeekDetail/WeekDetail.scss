@@ -1,0 +1,41 @@
+.container {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  h2 {
+    padding: 0;
+    display: inline;
+    margin-right: 1rem;
+  }
+  h3 {
+    padding-bottom: 0;
+  }
+  header {
+    clear: both;
+  }
+}
+
+.age {
+  vertical-align: bottom;
+}
+
+.twoCol {
+  @media(min-width: 700px) {
+    display: flex;
+    > * {
+      width: 48%;
+    }
+    > *:first-child {
+      margin-right: 4%;
+    }
+  }
+}
+
+.closeLink {
+  color: gray;
+  &:focus, &:hover {
+    box-shadow: none;
+  }
+  &:active {
+    background: transparent;
+  }
+}

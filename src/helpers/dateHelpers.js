@@ -10,3 +10,7 @@ export function startOf({weekno, born}) {
     b.getDate() + (weekno % 52) * 7
   );
 }
+
+export function endOf({weekno, born}) {
+  return startOf({weekno: +weekno + 1, born});
+}

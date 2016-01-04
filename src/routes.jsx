@@ -5,6 +5,7 @@ import {
     App,
     Home,
     User,
+    WeekDetail,
   } from 'containers';
 
 // export default (store) => {
@@ -40,11 +41,9 @@ export default () => {
       {/*   <Route path="loginSuccess" component={LoginSuccess}/> */}
       {/* </Route> */}
 
-      { /* Routes */ }
-
-      { /* Catch all route */ }
-      { /* <Route path="*" component={NotFound} status={404} /> */ }
-      <Route path=":slug" component={User}/>
+      <Route path=":slug" component={User}>
+        <Route path="week/:weekno" component={WeekDetail}/>
+      </Route>
     </Route>
   );
 };

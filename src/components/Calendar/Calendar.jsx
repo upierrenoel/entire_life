@@ -1,9 +1,6 @@
 import React from 'react';
-import {Week} from 'components';
-// import DetailContainer from './DetailContainer';
+import {Week, DetailContainer} from 'components';
 // import IsMobileStore from '../stores/IsMobileStore';
-// import connectToStores from 'alt/utils/connectToStores';
-// import Immutable from 'immutable';
 // import tourSteps from '../lib/tourSteps';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter(require('./Calendar.scss'));
@@ -87,34 +84,6 @@ export default class Calendar extends React.Component {
     return (monthno >= age * 13) && (monthno < (age + 1) * 13);
   }
 
-  // renderDetail(age) {
-  //   if (!this.props.detail) return null;
-  //
-  //   const hasCurrent = this.selectedAge({age, weekno: this.props.weekno, monthno: this.props.monthno});
-  //   const hadCurrent = this.selectedAge({age, weekno: this.state.oldWeekno, monthno: this.state.oldMonthno});
-  //   const sameRow = hasCurrent && hadCurrent;
-  //
-  //   if (hasCurrent) {
-  //     return <DetailContainer>
-  //       {React.cloneElement(
-  //         this.props.detail, { params: {
-  //           slug: this.props.slug,
-  //           weekno: this.props.weekno,
-  //           monthno: this.props.monthno,
-  //       }})}
-  //     </DetailContainer>
-  //   } else if (hadCurrent && !sameRow) {
-  //     return <DetailContainer old={true}>
-  //       {React.cloneElement(
-  //         this.props.detail, { params: {
-  //           slug: this.props.slug,
-  //           weekno: this.state.oldWeekno,
-  //           monthno: this.state.oldMonthno,
-  //       }})}
-  //     </DetailContainer>
-  //   }
-  // }
-
   year = (age, events) => {
     return (
       <div key={age} className={styles.local.yearWrap}>
@@ -126,7 +95,7 @@ export default class Calendar extends React.Component {
           <small className={styles.local.age}>{!(age % 5) && age !== 100 ? age : null }</small>
           {this.renderDots({age, events})}
         </div>
-        {/* {this.renderDetail(age)} */}
+        {this.renderDetail(age)}
       </div>
     );
   }
@@ -139,6 +108,31 @@ export default class Calendar extends React.Component {
   endAge = () => {
     if (this.props.user.died) return Math.floor(this.finalWeek() / 52);
     return 101;
+  }
+
+  renderDetail = (age) => {
+    if (!this.props.detail) return null;
+
+    const hasCurrent = this.selectedAge({age, weekno: this.props.weekno, monthno: this.props.monthno});
+    const hadCurrent = this.selectedAge({age, weekno: this.state.oldWeekno, monthno: this.state.oldMonthno});
+    const sameRow = hasCurrent && hadCurrent;
+
+    if (hasCurrent) {
+      return <DetailContainer>{this.renderDetailInner()}</DetailContainer>;
+    } else if (hadCurrent && !sameRow) {
+      return <DetailContainer old>{this.renderDetailInner()}</DetailContainer>;
+    }
+  }
+
+  renderDetailInner = () => {
+    return (
+      React.cloneElement(
+        this.props.detail, { params: {
+          slug: this.props.user.slug,
+          weekno: this.state.oldWeekno,
+          monthno: this.state.oldMonthno,
+        }})
+    );
   }
 
   renderDots = ({age, events}) => {
