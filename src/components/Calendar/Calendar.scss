@@ -1,0 +1,32 @@
+@import "../../theme/variables.scss";
+
+.calendar {
+  width: 100%;
+  clear: both;
+  padding-bottom: 5rem;
+}
+.year {
+  position: relative;
+  a {
+    text-decoration: none;
+    color: $lightest-pink;
+    width: 7.692307692%; /* 100/13 */
+    display: inline-block;
+    text-align: center;
+    box-shadow: none;
+  }
+}
+.inWeeks {
+  a {
+    width: 1.923076923%; /* 100/52 */
+  }
+}
+.age {
+  font-size: 0.55em;
+  color: silver;
+  position: absolute;
+  text-align: right;
+  width: 2em;
+  left: -2.3em;
+  top: 0.75em;
+}

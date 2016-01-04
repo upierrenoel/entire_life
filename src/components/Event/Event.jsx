@@ -28,11 +28,11 @@ class Event extends React.Component {
   }
 
   // deleteEvent = () => {
-  //   EventService.destroy(this.props.slug, this.props.event.get('id'), this.props.weekno)
+  //   EventService.destroy(this.props.slug, this.props.event.id, this.props.weekno)
   // }
 
   date = () => {
-    let [, month, day] = this.props.event.get('date').split('-');
+    let [, month, day] = this.props.event.date.split('-');
     day = day.replace(/^0/, '');
     month = months[month];
     return `${day} ${month}`;
@@ -40,12 +40,12 @@ class Event extends React.Component {
 
   isPlan = () => {
     const event = this.props.event;
-    return event.get('date') > event.get('created_at');
+    return event.date > event.created_at;
   }
 
   expiredPlan = () => {
     return this.props.authed && this.isPlan() &&
-      this.props.event.get('date') < (new Date()).toISOString();
+      this.props.event.date < (new Date()).toISOString();
   }
 
   renderActions = () => {
@@ -67,10 +67,10 @@ class Event extends React.Component {
   //   const event = this.props.event;
   //   EventService.create({
   //     slug: this.props.slug,
-  //     title: event.get('title'),
-  //     emoji: event.get('emoji'),
-  //     date: event.get('date'),
-  //     description: event.get('description'),
+  //     title: event.title,
+  //     emoji: event.emoji,
+  //     date: event.date,
+  //     description: event.description,
   //   })
   // }
 
@@ -84,7 +84,7 @@ class Event extends React.Component {
   //   const nextWeek = new Date(604800000 + (new Date()).getTime())
   //   EventService.update({
   //     slug: this.props.slug,
-  //     id: event.get('id'),
+  //     id: event.id,
   //     date: nextWeek.toISOString(),
   //     weekno: this.props.weekno,
   //   })
@@ -112,15 +112,15 @@ class Event extends React.Component {
     return (
       <li className={this.expiredPlan() ? 'expired-plan' : ''}>
         <h5>
-          {this.emojify(this.props.event.get('emoji'), {attributes: {className: 'emoji'}})}
+          {this.emojify(this.props.event.emoji, {attributes: {className: 'emoji'}})}
           {this.isPlan() ? ' Plan: ' : ' '}
-          {this.props.event.get('title')}
+          {this.props.event.title}
         </h5>
         <small className="text-muted">{this.date()}</small>
-        <span className="pull-right">{this.props.event.get('id') ? this.renderActions() : null}</span>
+        <span className="pull-right">{this.props.event.id ? this.renderActions() : null}</span>
         <br/>
         <small className="description">
-          <Linkify>{this.props.event.get('description')}</Linkify>
+          <Linkify>{this.props.event.description}</Linkify>
         </small>
         {this.renderExpiredPlanActions()}
       </li>

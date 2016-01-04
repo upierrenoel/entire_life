@@ -25,12 +25,11 @@ export default class WeekDetail extends Component {
     events: PropTypes.array,
     pushState: PropTypes.func.isRequired,
     weekno: PropTypes.string,
-    slug: PropTypes.string,
   }
 
   shouldComponentUpdate(nextProps) {
     return this.props.weekno !== nextProps.weekno || // navigated to different week
-      this.props.slug !== nextProps.slug || // navigated to different user (not sure if possible)
+      this.props.user.slug !== nextProps.user.slug || // navigated to different user (not sure if possible)
       this.props.events !== nextProps.events;// || // updated an event
       // (!this.props.signedInUser && nextProps.signedInUser) || // user logged in
       // (this.props.signedInUser && !nextProps.signedInUser) || // user logged out
@@ -60,7 +59,7 @@ export default class WeekDetail extends Component {
   // }
 
   start = () => {
-    return startOf(+this.props.weekno);
+    return startOf({weekno: +this.props.weekno, born: this.props.user.born});
   }
 
   render() {
@@ -70,15 +69,15 @@ export default class WeekDetail extends Component {
           <header>
             <h2 className={styles.global.brand}>Week of {this.start().toDateString()}</h2>
             <span className={styles.local.age}>{`${Math.floor(+this.props.weekno / 52)} years old`}</span>
-            <Link to={`/${this.props.slug}`} className={[styles.global.pullRight, styles.local.closeLink].join(' ')}>
+            <Link to={`/${this.props.user.slug}`} className={[styles.global.pullRight, styles.local.closeLink].join(' ')}>
               &times;
             </Link>
           </header>
           <div className={this.authed() ? styles.local.twoCol : ''}>
             <div>
               <h3>This week in {this.whose()} life:</h3>
-              <Events events={this.props.events.get(this.props.weekno)}
-                slug={this.props.slug} weekno={+this.props.weekno}
+              <Events events={this.props.events}
+                slug={this.props.user.slug} weekno={+this.props.weekno}
                 authed={this.authed()} onEdit={this.editEvent}
               />
             </div>

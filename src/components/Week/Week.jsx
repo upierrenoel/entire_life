@@ -3,6 +3,8 @@ import reactMixin from 'react-mixin';
 import ReactEmoji from 'react-emoji';
 import { Link } from 'react-router';
 import { startOf } from 'helpers/dateHelpers';
+import styleImporter from 'helpers/styleImporter';
+const styles = styleImporter(require('./Week.scss'));
 
 class Week extends React.Component {
   static propTypes = {
@@ -18,7 +20,7 @@ class Week extends React.Component {
 
   emoji = () => {
     return this.props.events && this.props.events[0]
-      ? this.emojify(this.props.events[0].emoji, {attributes: {className: 'emoji'}})
+      ? this.emojify(this.props.events[0].emoji, {attributes: {className: styles.global.emoji}})
       : '●';
   }
 
@@ -39,9 +41,9 @@ class Week extends React.Component {
     const currentWeek = this.props.user.current_week;
     let klass;
 
-    if (currentWeek - 1 === this.props.weekno) klass = 'past previous';
+    if (currentWeek - 1 === this.props.weekno) klass = [styles.local.past, 'previous'].join(' ');
     else if (currentWeek + 1 === this.props.weekno) klass = 'next';
-    else if (currentWeek > this.props.weekno) klass = 'past';
+    else if (currentWeek > this.props.weekno) klass = styles.local.past;
     else if (currentWeek === this.props.weekno) klass = 'now';
 
     return klass;
@@ -53,7 +55,7 @@ class Week extends React.Component {
       <Link to={this.linkTo()} className={this.klass()}
         title={this.tooltip(start.toDateString())}>
         {this.emoji()}
-        {this.props.selected ? <div className="arrow"/> : null}
+        {this.props.selected ? <div className={styles.local.arrow}/> : null}
       </Link>
     );
   }

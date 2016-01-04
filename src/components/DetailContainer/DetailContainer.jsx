@@ -2,8 +2,6 @@ import React from 'react';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter(require('./DetailContainer.scss'));
 
-const scrollTimers = [];
-
 export default class DetailContainer extends React.Component {
   static propTypes = {
     old: React.PropTypes.bool,
@@ -32,16 +30,11 @@ export default class DetailContainer extends React.Component {
       this.animate();
       this.setState({animate: false}); // eslint-disable-line react/no-did-update-set-state
     }
-    this.scrollToTop();
+    if (!this.props.old) this.scrollToTop();
   }
 
   scrollToTop() {
-    if (this.props.old) return;
-    if (scrollTimers[0]) clearTimeout(scrollTimers[0]);
-
-    scrollTimers.push(
-      setTimeout(() => this.scrollTo(this.refs.top.offsetTop - 115), 100)
-    );
+    this.scrollTo(this.refs.top.offsetTop - 115);
   }
 
   scrollTo(to) {

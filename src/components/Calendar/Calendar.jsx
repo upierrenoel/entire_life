@@ -86,10 +86,11 @@ export default class Calendar extends React.Component {
 
   year = (age, events) => {
     return (
-      <div key={age} className={styles.local.yearWrap}>
+      <div key={age} className="year-wrap">
         <div className={[
           styles.global.containerWide,
           styles.local.year,
+          styles.local.inWeeks,
           // !this.props.isMobile ? styles.local.inWeeks : null
         ].join(' ')}>
           <small className={styles.local.age}>{!(age % 5) && age !== 100 ? age : null }</small>
