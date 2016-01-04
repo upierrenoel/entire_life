@@ -103,7 +103,7 @@ export default class Calendar extends React.Component {
 
   finalWeek = () => {
     const eventWeeks = Object.keys(this.props.events).map(v => +v);
-    return eventWeeks.sort()[eventWeeks.length - 1];
+    return eventWeeks.sort((a, b) => a - b)[eventWeeks.length - 1];
   }
 
   endAge = () => {
