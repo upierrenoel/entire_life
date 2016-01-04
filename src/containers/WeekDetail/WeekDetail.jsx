@@ -76,7 +76,7 @@ export default class WeekDetail extends Component {
           <div className={this.authed() ? styles.local.twoCol : ''}>
             <div>
               <h3>This week in {this.whose()} life:</h3>
-              <Events events={this.props.events}
+              <Events events={this.props.events} born={this.props.user.born}
                 slug={this.props.user.slug} weekno={+this.props.weekno}
                 authed={this.authed()} onEdit={this.editEvent}
               />

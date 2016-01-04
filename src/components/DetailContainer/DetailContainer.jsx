@@ -49,6 +49,7 @@ export default class DetailContainer extends React.Component {
   }
 
   animate() {
+    if (!this.refs.container) return;
     const height = this.refs.container.offsetHeight;
     this.setState({height}, () => {
       if (this.props.old) {

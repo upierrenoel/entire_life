@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Event} from 'components';
 import {startOf, endOf} from 'helpers/dateHelpers';
 
@@ -35,11 +35,12 @@ const Events = ({events, slug, born, weekno, authed, onEdit}) => {
 };
 
 Events.propTypes = {
-  events: React.PropTypes.array,
-  slug: React.PropTypes.string.isRequired,
-  weekno: React.PropTypes.number.isRequired,
-  authed: React.PropTypes.bool.isRequired,
-  onEdit: React.PropTypes.func,
+  events: PropTypes.array,
+  slug: PropTypes.string.isRequired,
+  born: PropTypes.string.isRequired,
+  weekno: PropTypes.number.isRequired,
+  authed: PropTypes.bool.isRequired,
+  onEdit: PropTypes.func,
 };
 
 export default Events;
