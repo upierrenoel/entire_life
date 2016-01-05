@@ -100,7 +100,7 @@
     "react-inline-css": "^2.0.0",
     "react-linkify": "^0.1.1",
     "react-mixin": "^3.0.3",
-    "react-redux": "^4.0.0",
+    "react-redux": "^4.0.6",
     "react-router": "^1.0.3",
     "redux": "^3.0.4",
     "redux-form": "^3.0.12",

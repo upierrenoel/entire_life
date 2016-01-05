@@ -1,13 +1,25 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {Week, DetailContainer} from 'components';
 // import IsMobileStore from '../stores/IsMobileStore';
 // import tourSteps from '../lib/tourSteps';
+// import shallowEqual from 'helpers/shallowEqual';
 import styleImporter from 'helpers/styleImporter';
+
 const styles = styleImporter(require('./Calendar.scss'));
 
+@connect(
+  state => {
+    const events = state.events.data[state.router.params.slug];
+    const eventWeeks = Object.keys(events).map(v => +v);
+    return {
+      finalWeek: eventWeeks.sort((a, b) => a - b)[eventWeeks.length - 1],
+    };
+  }
+)
 export default class Calendar extends React.Component {
   static propTypes = {
-    events: React.PropTypes.object.isRequired,
+    finalWeek: React.PropTypes.number.isRequired,
     user: React.PropTypes.object.isRequired,
     addSteps: React.PropTypes.func,
     showTour: React.PropTypes.bool,
@@ -37,7 +49,13 @@ export default class Calendar extends React.Component {
     }
   }
 
-  // monthsFor = ({age, events}) => {
+  shouldComponentUpdate(nextProps) {
+    return this.props.weekno !== nextProps.weekno ||
+      this.props.monthno !== nextProps.monthno;// ||
+      // !shallowEqual(this.props.user, nextProps.user);
+  }
+
+  // monthsFor = ({age}) => {
   //   let months = [];
   //   for(var i = 0; i < 13; i++) {
   //     const monthno = age * 13 + i;
@@ -46,7 +64,6 @@ export default class Calendar extends React.Component {
   //       Math.floor(+this.props.weekno/4) === monthno;
   //     months.push(
   //       <Month key={monthno} monthno={monthno}
-  //         events={EventStore.eventsForMonth(monthno)}
   //         selected={selected}
   //       />
   //     )
@@ -56,19 +73,19 @@ export default class Calendar extends React.Component {
 
   weeksIn = (age) => {
     if (this.props.user.died && this.endAge() === age) {
-      return this.finalWeek() % 52;
+      return this.props.finalWeek % 52;
     }
     return 51;
   }
 
-  weeksFor = ({age, events}) => {
+  weeksFor = ({age}) => {
     const weeks = [];
     for (let i = 0; i <= this.weeksIn(age); i++) {
       const weekno = age * 52 + i;
       const selected = +this.props.weekno === weekno ||
         +this.props.monthno * 4 === weekno;
       weeks.push(
-        <Week key={weekno} weekno={weekno} events={events['' + weekno]}
+        <Week key={weekno} weekno={weekno}
           selected={selected} user={this.props.user}
         />
       );
@@ -84,7 +101,7 @@ export default class Calendar extends React.Component {
     return (monthno >= age * 13) && (monthno < (age + 1) * 13);
   }
 
-  year = (age, events) => {
+  year = (age) => {
     return (
       <div key={age} className="year-wrap">
         <div className={[
@@ -94,20 +111,15 @@ export default class Calendar extends React.Component {
           // !this.props.isMobile ? styles.local.inWeeks : null
         ].join(' ')}>
           <small className={styles.local.age}>{!(age % 5) && age !== 100 ? age : null }</small>
-          {this.renderDots({age, events})}
+          {this.renderDots({age})}
         </div>
         {this.renderDetail(age)}
       </div>
     );
   }
 
-  finalWeek = () => {
-    const eventWeeks = Object.keys(this.props.events).map(v => +v);
-    return eventWeeks.sort((a, b) => a - b)[eventWeeks.length - 1];
-  }
-
   endAge = () => {
-    if (this.props.user.died) return Math.floor(this.finalWeek() / 52);
+    if (this.props.user.died) return Math.floor(this.props.finalWeek / 52);
     return 101;
   }
 
@@ -136,15 +148,15 @@ export default class Calendar extends React.Component {
     );
   }
 
-  renderDots = ({age, events}) => {
-    // if (this.props.isMobile) return this.monthsFor({age, events})
-    return this.weeksFor({age, events});
+  renderDots = ({age}) => {
+    // if (this.props.isMobile) return this.monthsFor({age})
+    return this.weeksFor({age});
   }
 
   render() {
     const years = [];
     for (let i = 0; i <= this.endAge(); i++) {
-      years.push(this.year(i, this.props.events));
+      years.push(this.year(i));
     }
     return (
       <div className={styles.local.calendar}>

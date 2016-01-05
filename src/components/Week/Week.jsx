@@ -1,11 +1,18 @@
 import React from 'react';
-import reactMixin from 'react-mixin';
 import ReactEmoji from 'react-emoji';
-import { Link } from 'react-router';
-import { startOf } from 'helpers/dateHelpers';
+import {connect} from 'react-redux';
+import {Link} from 'react-router';
+import {startOf} from 'helpers/dateHelpers';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter(require('./Week.scss'));
 
+@connect(
+  (state, ownProps) => {
+    return {
+      events: state.events.data[state.router.params.slug][ownProps.weekno],
+    };
+  }
+)
 class Week extends React.Component {
   static propTypes = {
     events: React.PropTypes.array,
@@ -20,7 +27,7 @@ class Week extends React.Component {
 
   emoji = () => {
     return this.props.events && this.props.events[0]
-      ? this.emojify(this.props.events[0].emoji, {attributes: {className: styles.global.emoji}})
+      ? ReactEmoji.emojify(this.props.events[0].emoji, {attributes: {className: styles.global.emoji}})
       : '●';
   }
 
@@ -60,7 +67,5 @@ class Week extends React.Component {
     );
   }
 }
-
-reactMixin(Week.prototype, ReactEmoji);
 
 export default Week;

@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { isLoaded as isUserLoaded, load as loadUser } from 'redux/modules/users';
-import { isLoaded as isEventsLoaded, load as loadEvents } from 'redux/modules/events';
-import { pushState } from 'redux-router';
+import {connect} from 'react-redux';
+import {isLoaded as isUserLoaded, load as loadUser} from 'redux/modules/users';
+import {isLoaded as isEventsLoaded, load as loadEvents} from 'redux/modules/events';
+import {pushState} from 'redux-router';
 import connectData from 'helpers/connectData';
-import { Nav, Logo, NotFound, Calendar } from 'components';
+import {Nav, Logo, NotFound, Calendar} from 'components';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter();
 
@@ -26,7 +26,6 @@ function fetchData(getState, dispatch, location, params) {
   state => {
     return {
       user: state.users.data[state.router.params.slug],
-      events: state.events.data[state.router.params.slug],
       weekno: state.router.params.weekno,
       monthno: state.router.params.monthno,
     };
@@ -36,7 +35,6 @@ function fetchData(getState, dispatch, location, params) {
 export default class User extends Component {
   static propTypes = {
     user: PropTypes.object,
-    events: PropTypes.object,
     pushState: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
     children: PropTypes.object,
@@ -73,12 +71,10 @@ export default class User extends Component {
     //     <p>There are things we're not meant to know. Amongst them, the detail's of {name}'s life!</p>
     //     <p>If this is your calendar, <Link to="/signin">sign in again</Link> to see it.</p>
     //   </div>
-    // } else if(!this.props.events.get('0') || !this.props.user.get('born')) {
-    //   return <Loading/>
-    // } else {
+    // }
     return (
       <Calendar
-        events={this.props.events} user={this.props.user}
+        user={this.props.user}
         slug={this.props.user.slug}
         detail={this.props.children} weekno={this.props.weekno}
         monthno={this.props.monthno}
