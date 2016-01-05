@@ -86,7 +86,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState, slug) {
-  return globalState.events && globalState.events[slug];
+  return globalState.events && globalState.events.data[slug];
 }
 
 export function load({userSlug}) {

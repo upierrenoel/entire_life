@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Week, DetailContainer} from 'components';
 // import IsMobileStore from '../stores/IsMobileStore';
 // import tourSteps from '../lib/tourSteps';
-// import shallowEqual from 'helpers/shallowEqual';
+import shallowEqual from 'helpers/shallowEqual';
 import styleImporter from 'helpers/styleImporter';
 
 const styles = styleImporter(require('./Calendar.scss'));
@@ -41,18 +41,19 @@ export default class Calendar extends React.Component {
   componentWillReceiveProps(newProps) {
     const oldWeekno = this.props.weekno;
     const oldMonthno = this.props.monthno;
-    if (oldWeekno && newProps.weekno !== oldWeekno) {
+    if (newProps.weekno !== oldWeekno) {
       this.setState({oldWeekno: oldWeekno});
     }
-    if (oldMonthno && newProps.monthno !== oldMonthno) {
+    if (newProps.monthno !== oldMonthno) {
       this.setState({oldMonthno: oldMonthno});
     }
   }
 
   shouldComponentUpdate(nextProps) {
     return this.props.weekno !== nextProps.weekno ||
-      this.props.monthno !== nextProps.monthno;// ||
-      // !shallowEqual(this.props.user, nextProps.user);
+      this.props.monthno !== nextProps.monthno ||
+      !this.props.detail && !!nextProps.detail ||
+      !shallowEqual(this.props.user, nextProps.user);
   }
 
   // monthsFor = ({age}) => {
