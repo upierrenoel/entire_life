@@ -40,7 +40,7 @@ export default class Team extends Component {
             className={[styles.global.row, styles.global.reverse, styles.global.verticallyCentered].join(' ')}
             style={{marginTop: 30, marginBottom: '3em'}}>
             <div className={[styles.global.col4, styles.global.centered].join(' ')}>
-              <img src="https://pbs.twimg.com/profile_images/433481660672139264/w1o6dzLj.jpeg" className={styles.global.circle} alt="picture of Uri Pierre-Noel"/>
+              <img src="http://www.gravatar.com/avatar/5fa2393daaadfe646f2986ddd4a981dc?s=500" className={styles.global.circle} alt="picture of Uri Pierre-Noel"/>
             </div>
             <div className={styles.global.col8}>
               <h2 className={styles.global.brand}>Uri Pierre Noel</h2>
