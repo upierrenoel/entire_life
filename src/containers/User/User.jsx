@@ -6,6 +6,7 @@ import {isLoaded as isUserLoaded, load as loadUser} from 'redux/modules/users';
 import {isLoaded as isEventsLoaded, load as loadEvents} from 'redux/modules/events';
 import {pushState} from 'redux-router';
 import connectData from 'helpers/connectData';
+import scrollToTop from 'helpers/scrollToTop';
 import {Nav, Logo, NotFound, Calendar} from 'components';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter();
@@ -34,6 +35,7 @@ function fetchData(getState, dispatch, location, params) {
   },
   dispatch => ({dispatch, pushState})
 )
+@scrollToTop()
 export default class User extends Component {
   static propTypes = {
     user: PropTypes.object,
