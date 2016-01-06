@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import DocumentMeta from 'react-document-meta';
 // import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 // import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
-import { pushState } from 'redux-router';
+import {pushState} from 'redux-router';
 // import connectData from 'helpers/connectData';
 import config from '../../config';
 

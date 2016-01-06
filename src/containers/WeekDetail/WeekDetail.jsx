@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import DocumentMeta from 'react-document-meta';
+import metaData from 'helpers/metaData';
 import {Link} from 'react-router';
 import {pushState} from 'redux-router';
 import {connect} from 'react-redux';
@@ -62,31 +64,41 @@ export default class WeekDetail extends Component {
     return startOf({weekno: +this.props.weekno, born: this.props.user.born});
   }
 
+  weekTitle = () => {
+    let weekTitle = '';
+    if (this.props.weekno) {
+      weekTitle += `Week ${this.props.weekno} `;
+      if (this.props.events) weekTitle += `⟡ ${this.props.events[0].title}`;
+      weekTitle += '⟡ ';
+    }
+    return weekTitle;
+  }
+
   render() {
-    if (this.props.user) {
-      return (
-        <div ref="container" className={[styles.global.containerWide, styles.local.container].join(' ')}>
-          <header>
-            <h2 className={styles.global.brand}>Week of {this.start().toDateString()}</h2>
-            <span className={styles.local.age}>{`${Math.floor(+this.props.weekno / 52)} years old`}</span>
-            <Link to={`/${this.props.user.slug}`} className={[styles.global.pullRight, styles.local.closeLink].join(' ')}>
-              &times;
-            </Link>
-          </header>
-          <div className={this.authed() ? styles.local.twoCol : ''}>
-            <div>
-              <h3>This week in {this.whose()} life:</h3>
-              <Events events={this.props.events} born={this.props.user.born}
-                slug={this.props.user.slug} weekno={+this.props.weekno}
-                authed={this.authed()} onEdit={this.editEvent}
-              />
-            </div>
-            <div>
-              {/* {this.form()} */}
-            </div>
+    const title = `${this.weekTitle()}${this.props.user.name} ⟡ a life `;
+    return (
+      <div ref="container" className={[styles.global.containerWide, styles.local.container].join(' ')}>
+        <DocumentMeta {...metaData(title)} extend />
+        <header>
+          <h2 className={styles.global.brand}>Week of {this.start().toDateString()}</h2>
+          <span className={styles.local.age}>{`${Math.floor(+this.props.weekno / 52)} years old`}</span>
+          <Link to={`/${this.props.user.slug}`} className={[styles.global.pullRight, styles.local.closeLink].join(' ')}>
+            &times;
+          </Link>
+        </header>
+        <div className={this.authed() ? styles.local.twoCol : ''}>
+          <div>
+            <h3>This week in {this.whose()} life:</h3>
+            <Events events={this.props.events} born={this.props.user.born}
+              slug={this.props.user.slug} weekno={+this.props.weekno}
+              authed={this.authed()} onEdit={this.editEvent}
+            />
+          </div>
+          <div>
+            {/* {this.form()} */}
           </div>
         </div>
-      );
-    }
+      </div>
+    );
   }
 }

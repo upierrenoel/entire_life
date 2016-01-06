@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import DocumentMeta from 'react-document-meta';
+import metaData from 'helpers/metaData';
 import {connect} from 'react-redux';
 import {isLoaded as isUserLoaded, load as loadUser} from 'redux/modules/users';
 import {isLoaded as isEventsLoaded, load as loadEvents} from 'redux/modules/events';
@@ -84,8 +86,12 @@ export default class User extends Component {
 
   render() {
     if (!this.props.user) return <NotFound/>;
+
+    const title = `${this.renderName()} ⟡ a life`;
+    const description = `${this.renderName()} is using Entire.Life to document the past and live into a more beautiful future. Free symbolic life calendars for all who wish to join!`;
     return (
       <div>
+        <DocumentMeta {...metaData(title, description)} extend />
         {/* <Nav startTour={this.startTour}> */}
         <Nav className={styles.global.containerWide} lower>
           <Logo type="a-life" style={{float: 'left', padding: '1.4em 1em 0 0'}}/>

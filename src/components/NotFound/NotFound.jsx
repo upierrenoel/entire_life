@@ -1,4 +1,6 @@
 import React from 'react';
+import DocumentMeta from 'react-document-meta';
+import metaData from 'helpers/metaData';
 import {Link} from 'react-router';
 import { Nav, Logo, PageSection, Footer } from 'components';
 import styleImporter from 'helpers/styleImporter';
@@ -13,8 +15,10 @@ const styles = styleImporter();
 // }
 
 export default () => {
+  const title = 'Not Found ⟡ Entire.Life';
   return (
     <div>
+      <DocumentMeta {...metaData(title)} extend />
       <PageSection type="sunset" style={{textAlign: 'center'}}>
         <Nav>
           <Logo type="white" style={{float: 'left'}}/>

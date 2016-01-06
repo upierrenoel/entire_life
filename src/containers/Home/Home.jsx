@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { Nav, Logo, PageSection, Footer } from 'components';
+import React, {Component} from 'react';
+import {Link} from 'react-router';
+import {Nav, Logo, PageSection, Footer} from 'components';
 import config from '../../config';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter(require('./Home.scss'));

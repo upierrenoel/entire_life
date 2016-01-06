@@ -1,11 +1,16 @@
 import React from 'react';
+import DocumentMeta from 'react-document-meta';
 import {Nav, Logo, PageSection, Footer} from 'components';
 import styleImporter from 'helpers/styleImporter';
+import metaData from 'helpers/metaData';
 const styles = styleImporter();
 
 export default () => {
+  const title = 'Team ⟡ Entire.Life';
+  const description = 'The team behind Entire.Life wants to help you live a fuller, more intentional life.';
   return (
     <div>
+      <DocumentMeta {...metaData(title, description)} extend />
       <PageSection type="sunset-blocked" className={styles.global.container}>
         <Nav lower>
           <Logo type="black" style={{float: 'left'}}/>
