@@ -1,4 +1,4 @@
-.sunset {
+.sunset, .sunset-blocked {
   min-height: 100vh;
   background-attachment: scroll;
   background-color: #373a3c;
@@ -11,13 +11,24 @@
   }
   background-image: url(./sunset.jpeg);
 }
-.sunset-inner {
+.sunset-inner, .sunset-blocked-inner {
   height: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+.sunset-blocked-inner {
+  justify-content: space-around;
+}
+.sunset-inner {
+  background-color: rgba(0,0,0,0.3);
+  color: white;
   justify-content: space-between;
-  background-color: rgba(0,0,0,0.35);
+}
+.sunset-blocked-inner > div {
+  background-color: rgba(0,0,0,0.75);
+  padding: 1em;
+  border-radius: 1em;
   color: white;
 }
 

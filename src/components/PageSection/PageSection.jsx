@@ -1,11 +1,11 @@
 import React from 'react';
 
-const PageSection = ({type, children, style}) => {
+const PageSection = ({type, children, style, className}) => {
   const styles = require('./PageSection.scss');
 
   return (
     <div className={styles[type]} style={style}>
-      <div className={styles[`${type}-inner`]}>
+      <div className={[styles[`${type}-inner`], className].join(' ')}>
         {children}
       </div>
     </div>
@@ -13,9 +13,10 @@ const PageSection = ({type, children, style}) => {
 };
 
 PageSection.propTypes = {
-  type: React.PropTypes.oneOf(['sunset', 'light', 'dark']).isRequired,
+  type: React.PropTypes.oneOf(['sunset', 'sunset-blocked', 'light', 'dark']).isRequired,
   children: React.PropTypes.node,
   style: React.PropTypes.object,
+  className: React.PropTypes.string,
 };
 
 export default PageSection;

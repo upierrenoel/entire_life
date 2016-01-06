@@ -4,6 +4,7 @@ import {IndexRoute, Route} from 'react-router';
 import {
     App,
     Home,
+    Team,
     User,
     WeekDetail,
   } from 'containers';
@@ -34,6 +35,7 @@ export default () => {
     <Route path="/" component={App}>
       { /* Home (main) route */ }
       <IndexRoute component={Home}/>
+      <Route path="team" component={Team}/>
 
       { /* Routes requiring login */ }
       {/* <Route onEnter={requireLogin}> */}

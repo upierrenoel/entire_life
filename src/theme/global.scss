@@ -1,6 +1,9 @@
+@import "node_modules/picnic/themes/default/theme";
 @import "./variables.scss";
-@import "node_modules/picnic/src/picnic.scss";
-@import "node_modules/picnic/plugins/button/_plugin.scss";
+@import "node_modules/picnic/plugins/normalize/plugin";
+@import "node_modules/picnic/plugins/generic/plugin";
+@import "node_modules/picnic/plugins/label/plugin";
+@import "node_modules/picnic/plugins/button/plugin";
 @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
 
 img {
