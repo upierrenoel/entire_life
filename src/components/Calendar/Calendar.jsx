@@ -10,10 +10,10 @@ const styles = styleImporter(require('./Calendar.scss'));
 
 @connect(
   state => {
-    const events = state.events.data[state.router.params.slug];
+    const events = state.events.data[state.router.params.slug] || {};
     const eventWeeks = Object.keys(events).map(v => +v);
     return {
-      finalWeek: eventWeeks.sort((a, b) => a - b)[eventWeeks.length - 1],
+      finalWeek: +eventWeeks.sort((a, b) => a - b)[eventWeeks.length - 1],
     };
   }
 )

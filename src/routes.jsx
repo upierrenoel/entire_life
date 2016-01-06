@@ -1,5 +1,5 @@
 import React from 'react';
-import {IndexRoute, Route} from 'react-router';
+import {Route} from 'react-router';
 // import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
     App,
@@ -32,9 +32,9 @@ export default () => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/" component={App}>
+    <Route component={App}>
       { /* Home (main) route */ }
-      <IndexRoute component={Home}/>
+      <Route path="/" component={Home}/>
       <Route path="team" component={Team}/>
 
       { /* Routes requiring login */ }

@@ -26,7 +26,7 @@ export default ({getState, dispatch}) => next => action => {
         .then(doTransition)
         .catch(error => {
           // TODO: You may want to handle errors for fetchData here
-          console.warn(new Error('Warning: Error in fetchData', error));
+          console.warn(new Error('Warning: Error in fetchData'), error);
           return doTransition();
         });
     });

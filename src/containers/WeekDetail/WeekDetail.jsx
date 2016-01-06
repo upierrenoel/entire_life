@@ -12,8 +12,10 @@ const styles = styleImporter(require('./WeekDetail.scss'));
 @connect(
   state => {
     return {
-      user: state.users.data[state.router.params.slug],
-      events: state.events.data[state.router.params.slug][state.router.params.weekno],
+      user: state.users.data[state.router.params.slug] || {},
+      events: state.router.params.slug
+        ? state.events.data[state.router.params.slug][state.router.params.weekno]
+        : [],
       weekno: state.router.params.weekno,
     };
   },
@@ -75,6 +77,8 @@ export default class WeekDetail extends Component {
   }
 
   render() {
+    if (!this.props.weekno) return null;
+
     const title = `${this.weekTitle()}${this.props.user.name} ⟡ a life `;
     return (
       <div ref="container" className={[styles.global.containerWide, styles.local.container].join(' ')}>

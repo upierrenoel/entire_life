@@ -49,7 +49,7 @@ export default class User extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.user.id !== nextProps.user.id) {
+    if (this.props.user && nextProps.user && this.props.user.id !== nextProps.user.id) {
       // navigated to new user
       // dispatch(loadUser())
       // dispatch(loadEvents())
