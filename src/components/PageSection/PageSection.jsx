@@ -1,11 +1,11 @@
 import React from 'react';
 
-const PageSection = ({type, children, style, className}) => {
+const PageSection = ({type, children, style, styleInner, className}) => {
   const styles = require('./PageSection.scss');
 
   return (
     <div className={styles[type]} style={style}>
-      <div className={[styles[`${type}-inner`], className].join(' ')}>
+      <div className={[styles[`${type}-inner`], className].join(' ')} style={styleInner}>
         {children}
       </div>
     </div>

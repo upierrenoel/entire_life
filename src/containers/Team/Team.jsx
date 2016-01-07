@@ -10,7 +10,7 @@ const styles = styleImporter();
 export default class Team extends Component {
   render() {
     const title = 'Team ⟡ Entire.Life';
-    const description = 'The team behind Entire.Life wants to help you live a fuller, more intentional life.';
+    const description = 'The team behind Entire.Life wants to help you live a fuller, more intentional life. Get started with your own life calendar today.';
     return (
       <div>
         <DocumentMeta {...metaData(title, description)} extend />

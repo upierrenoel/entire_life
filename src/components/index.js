@@ -8,6 +8,7 @@
 export Footer from './Footer/Footer';
 export Nav from './Nav/Nav';
 export Logo from './Logo/Logo';
+export Landing from './Landing/Landing';
 export PageSection from './PageSection/PageSection';
 export NotFound from './NotFound/NotFound';
 export Calendar from './Calendar/Calendar';

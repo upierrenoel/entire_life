@@ -4,6 +4,8 @@ import {Route} from 'react-router';
 import {
     App,
     Home,
+    Signin,
+    Pricing,
     Team,
     User,
     WeekDetail,
@@ -35,6 +37,8 @@ export default () => {
     <Route component={App}>
       { /* Home (main) route */ }
       <Route path="/" component={Home}/>
+      <Route path="signin" component={Signin}/>
+      <Route path="pricing" component={Pricing}/>
       <Route path="team" component={Team}/>
 
       { /* Routes requiring login */ }

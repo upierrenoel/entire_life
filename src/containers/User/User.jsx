@@ -89,8 +89,8 @@ export default class User extends Component {
   render() {
     if (!this.props.user) return <NotFound/>;
 
-    const title = `${this.renderName()} ⟡ a life`;
-    const description = `${this.renderName()} is using Entire.Life to document the past and live into a more beautiful future. Free symbolic life calendars for all who wish to join!`;
+    const title = `${this.renderName()} ⟡ A Life`;
+    const description = `${this.renderName()} is using Entire.Life to document the past and live into a more beautiful future. Free symbolic life calendars for all who wish to join in!`;
     return (
       <div>
         <DocumentMeta {...metaData(title, description)} extend />

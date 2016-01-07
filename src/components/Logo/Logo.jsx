@@ -1,17 +1,17 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {IndexLink} from 'react-router';
 import config from '../../config';
 import styles from './Logo.scss';
 
 const Logo = ({type, style}) => {
   return (
-    <Link to="/" className={styles.wrappingLink} style={style}>
+    <IndexLink to="/" className={styles.wrappingLink} style={{...style, height: 59}}>
       <img
         src={require(`./${type}.svg`)}
         alt={config.app.title}
         className={styles[type]}
       />
-    </Link>
+    </IndexLink>
   );
 };
 

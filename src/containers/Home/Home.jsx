@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
-import {Nav, Logo, PageSection, Footer} from 'components';
+import {Landing, PageSection, Footer} from 'components';
 import config from '../../config';
 import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter(require('./Home.scss'));
+const styles = styleImporter();
 
 class Details extends React.Component {
   state = {
@@ -92,14 +92,7 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <PageSection type="sunset" style={{textAlign: 'center'}}>
-          <Nav>
-            <Logo type="white" style={{float: 'left'}}/>
-          </Nav>
-          <h1 className={styles.global.container}>
-            <div className={styles.global.brand}>Plan. Remember.</div>
-            <div style={{fontSize: '.7em'}}>Live a Meaningful Life.</div>
-          </h1>
+        <Landing>
           <div className={styles.global.containerWide} style={{fontSize: '.9em'}}>
             <p>{config.app.description}</p>
           </div>
@@ -108,11 +101,7 @@ export default class Home extends Component {
               Claim my free life calendar now
             </Link>
           </p>
-          <div className={styles.local.screenshots}>
-            <img src={require('./screenshots.png')} alt="Entire.Life works on all devices"/>
-          </div>
-        </PageSection>
-
+        </Landing>
         <PageSection type="light">
           <div className={styles.global.container}>
             <div className={styles.global.row + ' ' + styles.global.verticallyCentered}>
@@ -181,18 +170,18 @@ export default class Home extends Component {
         </PageSection>
 
         <PageSection type="sunset-blocked" className={styles.global.container}>
-          <div className="bg-tint">
+          <div>
             <h2 className={styles.global.brand}>The Forest &amp; The Branches</h2>
             <p>It's easy to get stuck in the monotonous slog of the present.</p>
             <p>It's easy to lose awareness, and to let each week slip by without thought.</p>
             <p>It's easy to stop being intentional about how we live our lives.</p>
             <p>Most likely, all the other websites and apps that you use today will only increase your tendency to lose context. They'll keep you focused on a view of the branches right around you.</p>
             <p>Entire.Life will lift you above it all, and show you a view of the whole forest. The whole, beautiful forest of your life.</p>
-            <p className={styles.global.centered}>
-              <Link to="/signin" className={styles.global.button} style={{boxShadow: '-1px 1px 8px rgba(255,255,255,0.5)'}}>
+            <div className={styles.global.centered}>
+              <Link to="/signin" className={styles.global.button}>
                 Claim my free life calendar now
               </Link>
-            </p>
+            </div>
           </div>
         </PageSection>
 
