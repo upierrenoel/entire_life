@@ -1,0 +1,50 @@
+.accountLink {
+  display: inline-block;
+}
+
+.dropdownLink {
+  display: inline-block;
+  margin-right: 1.1rem;
+  &:focus, &:hover {
+    box-shadow: none;
+  }
+}
+
+.dropdownArrow {
+  font-size: 50%;
+}
+
+.dropdown {
+  position: absolute;
+  width: 160px;
+  top: 101%;
+  right: 0;
+  background-color: white;
+  background-color: rgba(255,255,255,0.9);
+  z-index: 2;
+  box-shadow: 0px 3px 5px rgba(0,0,0,0.1);
+  border-radius: 2px;
+  a {
+    width: 100%;
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+a.helpIcon {
+  display: inline-block;
+  border-radius: 50%;
+  background-color: silver;
+  color: white;
+  width: 1.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+  vertical-align: middle;
+  &:hover, &:focus {
+    box-shadow: none;
+  }
+}

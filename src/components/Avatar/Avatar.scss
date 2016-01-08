@@ -1,0 +1,18 @@
+.avatar {
+  display: inline-block;
+  margin-right: 0.5em;
+  height: 2.5em;
+  width: 2.5em;
+  vertical-align: middle;
+  background: #fff url('./placeholder.jpeg') no-repeat center center;
+  background-size: cover;
+  border-radius: 50%;
+  color: transparent;
+  &:active {
+    border-radius: 50%;
+    background-size: cover;
+  }
+  &:hover {
+    box-shadow: none;
+  }
+}

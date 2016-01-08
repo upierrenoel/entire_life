@@ -7,6 +7,8 @@
 
 export Footer from './Footer/Footer';
 export Nav from './Nav/Nav';
+export Avatar from './Avatar/Avatar';
+export SignedInNav from './SignedInNav/SignedInNav';
 export Logo from './Logo/Logo';
 export Landing from './Landing/Landing';
 export PageSection from './PageSection/PageSection';

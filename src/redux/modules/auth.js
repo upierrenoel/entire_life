@@ -70,6 +70,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         idToken: null,
+        user: null,
       };
     default:
       return state;
@@ -113,7 +114,7 @@ export function logout() {
     if (window.gapi) {
       clearInterval(waitForLoaded);
       if (window.gapi.auth2) {
-        window.gapi.auth2.getAuthInstance().signOut();
+        window.gapi.auth2.getAuthInstance().disconnect();
       }
     }
   }, 30);
