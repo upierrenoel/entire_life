@@ -1,5 +1,6 @@
 import superagent from 'superagent';
 import config from '../config';
+import cookie from 'js-cookie';
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
@@ -29,6 +30,9 @@ class _ApiClient {
           request.query(params);
         }
 
+        request.set('Authorization', `Bearer ${cookie.get('idToken')}`);
+
+        // might not need this anymore
         if (__SERVER__ && req.get('cookie')) {
           request.set('cookie', req.get('cookie'));
         }

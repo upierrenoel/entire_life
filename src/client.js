@@ -13,6 +13,8 @@ import {reduxReactRouter, ReduxRouter} from 'redux-router';
 import getRoutes from './routes';
 import makeRouteHooksSafe from './helpers/makeRouteHooksSafe';
 
+import 'helpers/googleAuth';
+
 const client = new ApiClient();
 
 const dest = document.getElementById('content');

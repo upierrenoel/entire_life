@@ -39,8 +39,8 @@ function fetchData(getState, dispatch, location, params) {
 export default class User extends Component {
   static propTypes = {
     user: PropTypes.object,
-    pushState: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
+    pushState: PropTypes.func.isRequired,
     children: PropTypes.object,
     weekno: PropTypes.string,
     monthno: PropTypes.string,
