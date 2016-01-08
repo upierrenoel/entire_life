@@ -1,15 +1,14 @@
 import cookie from 'js-cookie';
 
 const LOAD = 'entire-life/auth/LOAD';
-const LOAD_SUCCESS = 'entire-life/auth/LOAD_SUCCESS';
-const LOAD_FAIL = 'entire-life/auth/LOAD_FAIL';
 const LOGIN = 'entire-life/auth/LOGIN';
 const LOGIN_SUCCESS = 'entire-life/auth/LOGIN_SUCCESS';
 const LOGIN_FAIL = 'entire-life/auth/LOGIN_FAIL';
 const LOGOUT = 'entire-life/auth/LOGOUT';
 
 const initialState = {
-  loaded: false
+  loaded: false,
+  user: {}, // user is signed in if user.slug is present
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -17,35 +16,20 @@ export default function reducer(state = initialState, action = {}) {
     case LOAD:
       return {
         ...state,
-        loading: true
-      };
-    case LOAD_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        loaded: true,
-        user: action.result
-      };
-    case LOAD_FAIL:
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-        error: action.error
+        loggingIn: true,
       };
     case LOGIN:
       return {
         ...state,
-        idToken: action.idToken,
         user: {
           ...state.user,
           ...action.user,
         },
-        loggingIn: true
+        loggingIn: true,
       };
     case LOGIN_SUCCESS:
       const user = {
-        ...cookie.getJSON('user'),
+        ...JSON.parse(action.cookies.user),
         slug: action.result.user.slug,
         id: action.result.user.id,
         born: action.result.user.born,
@@ -53,24 +37,28 @@ export default function reducer(state = initialState, action = {}) {
         payment_frequency: action.result.user.payment_frequency,
         is_private: action.result.user.is_private,
       };
-      cookie.set('user', user);
       return {
         ...state,
         loggingIn: false,
+        loaded: true,
+        idToken: action.cookies.idToken,
         user,
+        loginError: null,
       };
     case LOGIN_FAIL:
       return {
         ...state,
+        loaded: true,
         loggingIn: false,
-        user: null,
+        idToken: null,
+        user: {},
         loginError: action.error
       };
     case LOGOUT:
       return {
         ...state,
         idToken: null,
-        user: null,
+        user: {},
       };
     default:
       return state;
@@ -83,8 +71,10 @@ export function isLoaded(globalState) {
 
 export function load() {
   return {
-    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('/loadAuth')
+    types: [LOAD, LOGIN_SUCCESS, LOGIN_FAIL],
+    promise: (client) => client.post('/users/record_login', {
+      onlyIf: cookies => cookies.idToken
+    })
   };
 }
 
@@ -102,7 +92,6 @@ export function login(googleUser) {
 
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-    idToken,
     promise: (client) => client.post('/users/record_login')
   };
 }
@@ -114,7 +103,7 @@ export function logout() {
     if (window.gapi) {
       clearInterval(waitForLoaded);
       if (window.gapi.auth2) {
-        window.gapi.auth2.getAuthInstance().disconnect();
+        window.gapi.auth2.getAuthInstance().signOut();
       }
     }
   }, 30);

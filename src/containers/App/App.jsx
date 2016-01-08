@@ -1,33 +1,28 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import DocumentMeta from 'react-document-meta';
-// import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
-// import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
+import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {pushState} from 'redux-router';
-// import connectData from 'helpers/connectData';
+import connectData from 'helpers/connectData';
 import config from '../../config';
 
-// function fetchData(getState, dispatch) {
-//   const promises = [];
-//   if (!isInfoLoaded(getState())) {
-//     promises.push(dispatch(loadInfo()));
-//   }
-//   if (!isAuthLoaded(getState())) {
-//     promises.push(dispatch(loadAuth()));
-//   }
-//   return Promise.all(promises);
-// }
+function fetchData(getState, dispatch) {
+  const promises = [];
+  if (!isAuthLoaded(getState())) {
+    promises.push(dispatch(loadAuth()));
+  }
+  return Promise.all(promises);
+}
 
-// @connectData(fetchData)
+@connectData(fetchData)
 @connect(
-  // state => ({user: state.auth.user}),
-  null,
-  {pushState})
+  state => ({currentUser: state.auth.user}),
+  {pushState}
+)
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
-    // user: PropTypes.object,
-    // logout: PropTypes.func.isRequired,
+    currentUser: PropTypes.object,
     pushState: PropTypes.func.isRequired
   };
 
@@ -35,20 +30,15 @@ export default class App extends Component {
     store: PropTypes.object.isRequired
   };
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (!this.props.user && nextProps.user) {
-  //     // login
-  //     this.props.pushState(null, '/loginSuccess');
-  //   } else if (this.props.user && !nextProps.user) {
-  //     // logout
-  //     this.props.pushState(null, '/');
-  //   }
-  // }
-
-  // handleLogout = (event) => {
-  //   event.preventDefault();
-  //   this.props.logout();
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.currentUser.slug && nextProps.currentUser.slug) {
+      // login
+      this.props.pushState(null, `/${nextProps.currentUser.slug}`);
+    } else if (this.props.currentUser.slug && !nextProps.currentUser.slug) {
+      // logout
+      this.props.pushState(null, '/');
+    }
+  }
 
   render() {
     const styles = require('./App.scss');

@@ -56,13 +56,31 @@ export default class Signin extends Component {
     });
   }
 
+  renderAction() {
+    const {auth} = this.props;
+    if (auth.loggingIn) {
+      return (
+        <img src={require('../../../static/icon-loading-spinner.gif')}
+          width="50px" height="50px" alt="loading" style={{margin: '0 auto'}}/>
+      );
+    } else if (auth.user.slug) {
+      return (
+        <p className={styles.g.lightLinks}>You're signed in. You can&nbsp;
+        <Link to={`/${auth.user.slug}`}>view your life calendar</Link>.</p>
+      );
+    }
+    return (
+      <div id="signin" ref="signin" style={{margin: '0 auto'}}/>
+    );
+  }
+
   render() {
     const title = 'Sign Up ⟡ Sign In ⟡ Entire.Life';
     return (
       <Landing>
         <DocumentMeta {...metaData(title)} extend />
         <div className={[
-          styles.global.container, styles.global.lightLinks
+          styles.g.container, styles.g.lightLinks
         ].join(' ')}>
           <small>
             To get started with your life calendar, you'll need to sign up
@@ -71,11 +89,7 @@ export default class Signin extends Component {
             your <nobr>data –</nobr> <Link to="/pricing">more info</Link>
           </small>
         </div>
-        {this.props.auth.loading
-          ? <img src={require('../../../static/icon-loading-spinner.gif')}
-              width="50px" height="50px" alt="loading" style={{margin: '0 auto'}}/>
-          : <div id="signin" ref="signin" style={{margin: '0 auto'}}/>
-        }
+        {this.renderAction()}
       </Landing>
     );
   }

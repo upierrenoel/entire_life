@@ -6,9 +6,12 @@ import {Avatar} from 'components';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter(require('./SignedInNav.scss'));
 
-@connect()
+@connect(
+  state => ({currentPath: state.router.location.pathname})
+)
 export default class SignedInNav extends Component {
   static propTypes = {
+    currentPath: PropTypes.string.isRequired,
     user: PropTypes.shape({
       slug: PropTypes.string.isRequired,
     }).isRequired,
@@ -90,7 +93,7 @@ export default class SignedInNav extends Component {
   }
 
   renderHelp = () => {
-    if (window.location.pathname.match(this.props.user.slug)) {
+    if (this.props.currentPath.match(this.props.user.slug)) {
       return (
         <div ref="helpLink" className={styles.l.accountLink}>
           <a href="#help" onClick={this.toggleHelpDropdown}
