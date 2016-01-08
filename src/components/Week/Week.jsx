@@ -8,9 +8,10 @@ const styles = styleImporter(require('./Week.scss'));
 
 @connect(
   (state, ownProps) => {
+    const slug = state.router.params.slug;
     return {
-      events: state.router.params.slug
-        ? state.events.data[state.router.params.slug][ownProps.weekno]
+      events: slug && state.events.data[slug]
+        ? state.events.data[slug][ownProps.weekno]
         : [],
     };
   }

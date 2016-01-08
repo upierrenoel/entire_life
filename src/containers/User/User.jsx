@@ -8,12 +8,13 @@ import {pushState} from 'redux-router';
 import connectData from 'helpers/connectData';
 import scrollToTop from 'helpers/scrollToTop';
 import {Nav, Logo, NotFound, Calendar} from 'components';
+import spinner from '../../../static/icon-loading-spinner.gif';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter();
 
-function fetchData(getState, dispatch, location, params) {
+function fetchDataDeferred(getState, dispatch) {
   const promises = [];
-  const slug = params.slug;
+  const slug = getState().router.params.slug;
 
   if (!isUserLoaded(getState(), slug)) {
     promises.push(dispatch(loadUser(slug)));
@@ -24,11 +25,13 @@ function fetchData(getState, dispatch, location, params) {
   return Promise.all(promises);
 }
 
-@connectData(fetchData)
+@connectData(null, fetchDataDeferred)
 @connect(
   state => {
     return {
       user: state.users.data[state.router.params.slug],
+      isUserLoading: !!state.users.loading,
+      isEventsLoading: !!state.events.loading,
       weekno: state.router.params.weekno,
       monthno: state.router.params.monthno,
     };
@@ -39,6 +42,8 @@ function fetchData(getState, dispatch, location, params) {
 export default class User extends Component {
   static propTypes = {
     user: PropTypes.object,
+    isUserLoading: PropTypes.bool.isRequired,
+    isEventsLoading: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
     children: PropTypes.object,
@@ -64,6 +69,9 @@ export default class User extends Component {
     //   const name = this.props.user.get('name').split(' ')[0]
     //   return `${name}'s life is ${name}'s business!`
     // }
+    if (this.props.isUserLoading) {
+      return <img src={spinner} alt="loading..." width="40"/>;
+    }
     return this.props.user.name;
   }
 
@@ -76,6 +84,13 @@ export default class User extends Component {
     //     <p>If this is your calendar, <Link to="/signin">sign in again</Link> to see it.</p>
     //   </div>
     // }
+    if (this.props.isUserLoading || this.props.isEventsLoading) {
+      return (
+        <p style={{clear: 'both', textAlign: 'center', paddingTop: '5em'}}>
+          <img src={spinner} alt="loading..." width="100"/>
+        </p>
+      );
+    }
     return (
       <Calendar
         user={this.props.user}
@@ -87,7 +102,7 @@ export default class User extends Component {
   }
 
   render() {
-    if (!this.props.user) return <NotFound/>;
+    if (!this.props.user && !this.props.isUserLoading) return <NotFound/>;
 
     const title = `${this.renderName()} ⟡ A Life`;
     const description = `${this.renderName()} is using Entire.Life to document the past and live into a more beautiful future. Free symbolic life calendars for all who wish to join in!`;
