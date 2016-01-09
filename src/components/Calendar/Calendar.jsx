@@ -132,19 +132,33 @@ export default class Calendar extends React.Component {
     const sameRow = hasCurrent && hadCurrent;
 
     if (hasCurrent) {
-      return <DetailContainer>{this.renderDetailInner()}</DetailContainer>;
+      return (
+        <DetailContainer>
+          {this.renderDetailInner({
+            weekno: this.props.weekno,
+            monthno: this.props.monthno,
+          })}
+        </DetailContainer>
+      );
     } else if (hadCurrent && !sameRow) {
-      return <DetailContainer old>{this.renderDetailInner()}</DetailContainer>;
+      return (
+        <DetailContainer old>
+          {this.renderDetailInner({
+            weekno: this.state.oldWeekno,
+            monthno: this.state.oldMonthno
+          })}
+        </DetailContainer>
+      );
     }
   }
 
-  renderDetailInner = () => {
+  renderDetailInner = ({weekno, monthno}) => {
     return (
       React.cloneElement(
         this.props.detail, { params: {
           slug: this.props.user.slug,
-          weekno: this.state.oldWeekno,
-          monthno: this.state.oldMonthno,
+          weekno,
+          monthno,
         }})
     );
   }
