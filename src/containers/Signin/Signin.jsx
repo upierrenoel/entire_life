@@ -63,13 +63,15 @@ export default class Signin extends Component {
   // See http://stackoverflow.com/q/34688248/249801 for more info.
   circumventStupidGoogleBug = () => {
     setTimeout(() => {
-      const signinText = document.querySelector('[id^=not_signed_in]').cloneNode();
-      const signedinText = document.querySelector('[id^=connected]').cloneNode();
-      const div = document.createElement('div');
-      div.style.display = 'none';
-      div.appendChild(signinText);
-      div.appendChild(signedinText);
-      document.body.appendChild(div);
+      const signinText = document.querySelector('[id^=not_signed_in]');
+      const signedinText = document.querySelector('[id^=connected]');
+      if (signinText && signedinText) {
+        const div = document.createElement('div');
+        div.style.display = 'none';
+        div.appendChild(signinText.cloneNode());
+        div.appendChild(signedinText.cloneNode());
+        document.body.appendChild(div);
+      }
     }, 500);
   }
 
