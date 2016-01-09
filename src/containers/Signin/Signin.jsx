@@ -50,6 +50,29 @@ export default class Signin extends Component {
     }, 30);
   }
 
+  // Google's sign in logic, as of Jan 2016, has a bug. It assumes that, after
+  // the button has been rendered on the page, we never remove its container
+  // from the page. Never ever. And since we do, it tries to change the "Sign
+  // in with Google" text to "Signed in with Google", but that text is no
+  // longer on the screen, and it causes a JS error.
+  //
+  // To workaround this annoying error, we can wait 500ms to ensure that the
+  // button is actually on the page, then clone the offending text elements and
+  // put them in a hidden div at the end of the body tag.
+  //
+  // See http://stackoverflow.com/q/34688248/249801 for more info.
+  circumventStupidGoogleBug = () => {
+    setTimeout(() => {
+      const signinText = document.querySelector('[id^=not_signed_in]').cloneNode();
+      const signedinText = document.querySelector('[id^=connected]').cloneNode();
+      const div = document.createElement('div');
+      div.style.display = 'none';
+      div.appendChild(signinText);
+      div.appendChild(signedinText);
+      document.body.appendChild(div);
+    }, 500);
+  }
+
   renderSignin = () => {
     this.afterGoogleLoaded(() => {
       window.gapi.signin2.render('signin', {
@@ -58,6 +81,7 @@ export default class Signin extends Component {
         height: 50,
         onsuccess: this.onSignIn,
       });
+      this.circumventStupidGoogleBug();
     });
   }
 
