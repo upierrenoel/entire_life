@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import {bindActionCreators} from 'redux';
 import accountValidation from './accountValidation';
-import * as userActions from 'redux/modules/users';
+import {save} from 'redux/modules/auth';
 import {PageSection, Logo, Nav, CheckboxPrivatePublic} from 'components';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter();
@@ -16,7 +16,7 @@ const styles = styleImporter();
     saveError: state.users.saveError,
     formKey: String(state.auth.user.id),
   }),
-  dispatch => bindActionCreators(userActions, dispatch)
+  dispatch => bindActionCreators({save}, dispatch)
 )
 @reduxForm({
   form: 'account',
@@ -43,12 +43,12 @@ export default class Account extends Component {
 
   render() {
     const { fields: {slug, name, born, is_private}, formKey, handleSubmit, invalid,
-      pristine, save, submitting, saveError: { [formKey]: saveError }, values } = this.props;
+      pristine, submitting, saveError: { [formKey]: saveError }, values } = this.props;
     const title = 'Edit Account ⟡ Entire.Life';
     return (
       <form role="form"
         onSubmit={handleSubmit(() => {
-          save(values).then(result => {
+          this.props.save(values).then(result => {
             if (result && typeof result.error === 'object') {
               return Promise.reject(result.error);
             }});
@@ -61,23 +61,29 @@ export default class Account extends Component {
           </Nav>
           <div style={{clear: 'both', marginBottom: '3em'}}>
             <p>
-              <label htmlFor="slug">Username (entire.life/{slug.value || slug.initialValue})</label>
-              <input type="text" {...slug} autoFocus/>
+              <label htmlFor={slug.name}>Username (entire.life/{slug.value || slug.initialValue})</label>
+              <input type="text" id={slug.name} {...slug} autoFocus/>
+              {slug.error && slug.touched &&
+                <label htmlFor={slug.name} className={styles.g.errorText}>{slug.error}</label>}
             </p>
             <p>
               <label htmlFor="name">Name</label>
               <input type="text" {...name}/>
+              {name.error && name.touched &&
+                <label htmlFor={name.name} className={styles.g.errorText}>{name.error}</label>}
             </p>
             <p>
               <label htmlFor="born">Birth Date</label>
               <input type="date" {...born}/>
+              {born.error && born.touched &&
+                <label htmlFor={born.name} className={styles.g.errorText}>{born.error}</label>}
             </p>
             <CheckboxPrivatePublic {...is_private}/>
             <button type="submit" className={styles.g.brand}
               disabled={pristine || invalid || submitting}>
-              Save Changes
+              {pristine ? 'Saved' : 'Save Changes'}
             </button>
-            {saveError && <div className={styles.g.error}>{saveError}</div>}
+            {saveError && <div className={styles.g.errorText}>{saveError}</div>}
           </div>
         </PageSection>
       </form>

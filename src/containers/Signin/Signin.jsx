@@ -8,7 +8,7 @@ import scrollToTop from 'helpers/scrollToTop';
 import DocumentMeta from 'react-document-meta';
 import metaData from 'helpers/metaData';
 import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
+const styles = styleImporter(require('./Signin.scss'));
 
 @connect(
   state => ({auth: state.auth}),
@@ -101,7 +101,7 @@ export default class Signin extends Component {
       );
     }
     return (
-      <div id="signin" ref="signin" style={{margin: '0 auto'}}/>
+      <div id="signin" ref="signin" className={styles.l.signin}/>
     );
   }
 

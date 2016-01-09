@@ -5,6 +5,9 @@ const LOGIN = 'entire-life/auth/LOGIN';
 const LOGIN_SUCCESS = 'entire-life/auth/LOGIN_SUCCESS';
 const LOGIN_FAIL = 'entire-life/auth/LOGIN_FAIL';
 const LOGOUT = 'entire-life/auth/LOGOUT';
+const SAVE = 'entire-life/auth/SAVE';
+const SAVE_SUCCESS = 'entire-life/auth/SAVE_SUCCESS';
+const SAVE_FAIL = 'entire-life/auth/SAVE_FAIL';
 
 const initialState = {
   loaded: false,
@@ -60,6 +63,28 @@ export default function reducer(state = initialState, action = {}) {
         idToken: null,
         user: {},
       };
+    case SAVE:
+      return state; // 'saving' flag handled by redux-form
+    case SAVE_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.result.user,
+        },
+        saveError: {
+          ...state.saveError,
+          [action.id]: null
+        }
+      };
+    case SAVE_FAIL:
+      return typeof action.error === 'string' ? {
+        ...state,
+        saveError: {
+          ...state.saveError,
+          [action.id]: action.error
+        }
+      } : state;
     default:
       return state;
   }
@@ -110,5 +135,16 @@ export function logout() {
 
   return {
     type: LOGOUT
+  };
+}
+
+export function save(user) {
+  return {
+    types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
+    id: user.id,
+    slug: user.slug,
+    promise: (client) => client.patch(`/users/${user.id}`, {
+      data: {user}
+    })
   };
 }
