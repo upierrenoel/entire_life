@@ -24,13 +24,7 @@ export default class Signin extends Component {
 
   componentDidMount() {
     window.addEventListener('keyup', this.signin);
-
-    const waitForLoaded = setInterval(() => {
-      if (window.gapi && window.gapi.auth2) {
-        clearInterval(waitForLoaded);
-        this.renderSignin();
-      }
-    }, 30);
+    this.renderSignin();
   }
 
   componentWillUnmount() {
@@ -41,22 +35,33 @@ export default class Signin extends Component {
     this.props.dispatch(login(googleUser));
   }
 
-  signin(e) {
+  signin = (e) => {
     if (e.keyCode === 13 || e.keyCode === 32) {
       this.refs.signin.firstChild.click();
     }
   }
 
-  renderSignin() {
-    window.gapi.signin2.render('signin', {
-      longtitle: true,
-      width: 220,
-      height: 50,
-      onsuccess: this.onSignIn,
+  afterGoogleLoaded = (func) => {
+    const waitForLoaded = setInterval(() => {
+      if (window.gapi && window.gapi.auth2) {
+        clearInterval(waitForLoaded);
+        func();
+      }
+    }, 30);
+  }
+
+  renderSignin = () => {
+    this.afterGoogleLoaded(() => {
+      window.gapi.signin2.render('signin', {
+        longtitle: true,
+        width: 220,
+        height: 50,
+        onsuccess: this.onSignIn,
+      });
     });
   }
 
-  renderAction() {
+  renderAction = () => {
     const {auth} = this.props;
     if (auth.loggingIn) {
       return (

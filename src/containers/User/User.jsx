@@ -69,7 +69,7 @@ export default class User extends Component {
     //   const name = this.props.user.get('name').split(' ')[0]
     //   return `${name}'s life is ${name}'s business!`
     // }
-    if (this.props.isUserLoading) {
+    if (!this.props.user || !this.props.user.name) {
       return <img src={spinner} alt="loading..." width="40"/>;
     }
     return this.props.user.name;
