@@ -61,12 +61,14 @@ export default class DetailContainer extends React.Component {
   render() {
     const inlineStyles = {
       height: this.state.height,
-      transition: 'height 500ms ease',
+      transition: 'height 200ms ease',
       overflow: 'hidden',
     };
     return (
-      <div className={styles.local.container} style={inlineStyles} ref="top">
-        {React.cloneElement(this.props.children, {ref: 'container'})}
+      <div ref="top" className={styles.local.container} style={inlineStyles}>
+        <div ref="container" className={[styles.g.containerWide, styles.l.inner].join(' ')}>
+          {this.props.children}
+        </div>
       </div>
     );
   }

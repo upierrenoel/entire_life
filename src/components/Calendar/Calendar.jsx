@@ -127,40 +127,34 @@ export default class Calendar extends React.Component {
   renderDetail = (age) => {
     if (!this.props.detail) return null;
 
-    const hasCurrent = this.selectedAge({age, weekno: this.props.weekno, monthno: this.props.monthno});
-    const hadCurrent = this.selectedAge({age, weekno: this.state.oldWeekno, monthno: this.state.oldMonthno});
+    const {weekno, monthno} = this.props;
+    const {oldWeekno, oldMonthno} = this.state;
+
+    const hasCurrent = this.selectedAge({age, weekno: weekno, monthno: monthno});
+    const hadCurrent = this.selectedAge({age, weekno: oldWeekno, monthno: oldMonthno});
     const sameRow = hasCurrent && hadCurrent;
 
     if (hasCurrent) {
       return (
         <DetailContainer>
-          {this.renderDetailInner({
-            weekno: this.props.weekno,
-            monthno: this.props.monthno,
-          })}
+          {React.cloneElement(
+            this.props.detail, {
+              weekno: weekno ? +weekno : undefined,
+              monthno: monthno ? +monthno : undefined,
+            })}
         </DetailContainer>
       );
     } else if (hadCurrent && !sameRow) {
       return (
         <DetailContainer old>
-          {this.renderDetailInner({
-            weekno: this.state.oldWeekno,
-            monthno: this.state.oldMonthno
-          })}
+          {React.cloneElement(
+            this.props.detail, {
+              weekno: oldWeekno ? +oldWeekno : undefined,
+              monthno: oldMonthno ? +oldMonthno : undefined,
+            })}
         </DetailContainer>
       );
     }
-  }
-
-  renderDetailInner = ({weekno, monthno}) => {
-    return (
-      React.cloneElement(
-        this.props.detail, { params: {
-          slug: this.props.user.slug,
-          weekno,
-          monthno,
-        }})
-    );
   }
 
   renderDots = ({age}) => {

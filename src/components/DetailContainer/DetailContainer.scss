@@ -1,3 +1,19 @@
+.inner {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  h2 {
+    padding: 0;
+    display: inline;
+    margin-right: 1rem;
+  }
+  h3 {
+    padding-bottom: 0;
+  }
+  header {
+    clear: both;
+  }
+}
+
 .container {
   background-color: #eee;
   box-shadow: 0 0 10px rgba(0,0,0,0.2) inset;
