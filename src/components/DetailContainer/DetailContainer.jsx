@@ -2,6 +2,8 @@ import React from 'react';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter(require('./DetailContainer.scss'));
 
+const animationSpeed = 200;
+
 export default class DetailContainer extends React.Component {
   static propTypes = {
     old: React.PropTypes.bool,
@@ -34,7 +36,9 @@ export default class DetailContainer extends React.Component {
   }
 
   scrollToTop() {
-    this.scrollTo(this.refs.top.offsetTop - 115);
+    setTimeout(() => {
+      this.scrollTo(this.refs.top.offsetTop - 115);
+    }, animationSpeed);
   }
 
   scrollTo(to) {
@@ -44,8 +48,8 @@ export default class DetailContainer extends React.Component {
   }
 
   alreadyVisible() {
-    return this.refs.top.offsetTop > document.body.scrollTop &&
-      this.refs.top.offsetTop < document.body.scrollTop + window.innerHeight;
+    return this.refs.top.offsetTop > window.pageYOffset &&
+      this.refs.top.offsetTop < window.pageYOffset + window.innerHeight;
   }
 
   animate() {
@@ -61,7 +65,7 @@ export default class DetailContainer extends React.Component {
   render() {
     const inlineStyles = {
       height: this.state.height,
-      transition: 'height 200ms ease',
+      transition: `height ${animationSpeed}ms ease`,
       overflow: 'hidden',
     };
     return (

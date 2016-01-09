@@ -54,12 +54,12 @@ export default class Account extends Component {
             }});
         })}>
         <DocumentMeta {...metaData(title)} extend />
-        <PageSection type="sunset-blocked" styleInner={{display: 'block'}} className={styles.g.container}>
+        <PageSection type="sunset-blocked" style={{paddingBottom: '3em'}} styleInner={{display: 'block'}} className={styles.g.container}>
           <Nav lower>
             <Logo type="black" style={{float: 'left'}}/>
             <h1 className={styles.g.brand}>Edit Account</h1>
           </Nav>
-          <div style={{clear: 'both', marginBottom: '3em'}}>
+          <div style={{clear: 'both'}}>
             <p>
               <label htmlFor={slug.name}>Username (entire.life/{slug.value || slug.initialValue})</label>
               <input type="text" id={slug.name} {...slug} autoFocus/>

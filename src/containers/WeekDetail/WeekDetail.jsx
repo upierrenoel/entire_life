@@ -69,7 +69,7 @@ export default class WeekDetail extends Component {
     let weekTitle = '';
     if (this.props.weekno) {
       weekTitle += `Week ${this.props.weekno} `;
-      if (this.props.events) weekTitle += `⟡ ${this.props.events[0].title}`;
+      if (this.props.events) weekTitle += `⟡ ${this.props.events[0].title} `;
       weekTitle += '⟡ ';
     }
     return weekTitle;
