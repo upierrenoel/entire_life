@@ -1,3 +1,5 @@
+@import "../../theme/variables.scss";
+
 .sunset, .sunset-blocked {
   min-height: 100vh;
   background-attachment: scroll;
@@ -30,6 +32,9 @@
   padding: 1em;
   border-radius: 1em;
   color: white;
+  input {
+    color: $black;
+  }
 }
 
 .dark, .light {
@@ -39,11 +44,11 @@
   padding-top: 0;
 }
 .dark {
-  background-color: #20221F;
-  color: #F0BFA1;
+  background-color: $black;
+  color: $pink;
 }
 .light {
-  background-color: #F0BFA1;
+  background-color: $pink;
   color: white;
   [type=text], [type=email] {
     color: gray;

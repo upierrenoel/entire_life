@@ -4,6 +4,9 @@
 @import "node_modules/picnic/plugins/generic/plugin";
 @import "node_modules/picnic/plugins/label/plugin";
 @import "node_modules/picnic/plugins/button/plugin";
+@import "node_modules/picnic/plugins/input/plugin";
+@import "node_modules/picnic/plugins/checkbox/plugin";
+@import "node_modules/picnic/plugins/radio/plugin";
 @import url(https://fonts.googleapis.com/css?family=Dancing+Script);
 
 img {
@@ -80,4 +83,16 @@ img {
 
 .active {
   background: #E3B998;
+}
+
+input[disabled] {
+  opacity: .7;
+}
+
+input[type=search] {
+  background-image: url(../../static/icon-magnifying-glass.svg);
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 5px;
+  padding-left: 30px;
 }

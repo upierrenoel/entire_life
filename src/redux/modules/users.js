@@ -111,8 +111,8 @@ export function save(user) {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: user.id,
     slug: user.slug,
-    promise: (client) => client.post(`/users/${user.id}`, {
-      data: user
+    promise: (client) => client.patch(`/users/${user.id}`, {
+      data: {user}
     })
   };
 }
