@@ -2,6 +2,9 @@ import React from 'react';
 import reactMixin from 'react-mixin';
 import ReactEmoji from 'react-emoji';
 import Linkify from 'react-linkify';
+import styleImporter from 'helpers/styleImporter';
+
+const styles = styleImporter(require('./Event.scss'));
 
 const months = {
   '01': 'Jan',
@@ -23,7 +26,7 @@ class Event extends React.Component {
     slug: React.PropTypes.string.isRequired,
     event: React.PropTypes.object.isRequired,
     weekno: React.PropTypes.number.isRequired,
-    authed: React.PropTypes.bool.isRequired,
+    canEdit: React.PropTypes.bool.isRequired,
     onEdit: React.PropTypes.func,
   }
 
@@ -44,23 +47,23 @@ class Event extends React.Component {
   }
 
   expiredPlan = () => {
-    return this.props.authed && this.isPlan() &&
+    return this.props.canEdit && this.isPlan() &&
       this.props.event.date < (new Date()).toISOString();
   }
 
   renderActions = () => {
-    // if(this.props.authed && this.props.onEdit) {
-    //   return (
-    //     <span>
-    //       <a onClick={this.props.onEdit} className="action-link">
-    //         {this.emojify(':pencil2:', {attributes: {height: '10px', width: '10px'}})}
-    //       </a>
-    //       <a className="action-link" onClick={this.deleteEvent}>
-    //         {this.emojify(':x:', {attributes: {height: '10px', width: '10px'}})}
-    //       </a>
-    //     </span>
-    //   )
-    // }
+    if (this.props.canEdit && this.props.onEdit) {
+      return (
+        <span>
+          <a onClick={this.props.onEdit} className={styles.l.actionLink}>
+            {this.emojify(':pencil2:', {attributes: {height: '10px', width: '10px'}})}
+          </a>
+          <a className={styles.l.actionLink} onClick={this.deleteEvent}>
+            {this.emojify(':x:', {attributes: {height: '10px', width: '10px'}})}
+          </a>
+        </span>
+      );
+    }
   }
 
   // createEvent = () => {
@@ -93,14 +96,14 @@ class Event extends React.Component {
   renderExpiredPlanActions = () => {
     if (this.expiredPlan()) {
       return (
-        <div className="button-group">
-          <button className="success" onClick={this.markDone}>
+        <div className={styles.l.buttonGroup}>
+          <button className={styles.g.success} onClick={this.markDone}>
             {this.emojify(':checkered_flag:', {singleEmoji: true})}
           </button>
-          <button className="warning" onClick={this.snooze}>
+          <button className={styles.g.warning} onClick={this.snooze}>
             {this.emojify(':sleeping:', {singleEmoji: true})}
           </button>
-          <button className="error" onClick={this.deleteEvent}>
+          <button className={styles.g.error} onClick={this.deleteEvent}>
             {this.emojify(':boom:', {singleEmoji: true})}
           </button>
         </div>
@@ -110,16 +113,16 @@ class Event extends React.Component {
 
   render() {
     return (
-      <li className={this.expiredPlan() ? 'expired-plan' : ''}>
+      <li className={this.expiredPlan() && styles.l.expiredPlan}>
         <h5>
-          {this.emojify(this.props.event.emoji, {attributes: {className: 'emoji'}})}
+          {this.emojify(this.props.event.emoji, {attributes: {className: styles.g.emoji}})}
           {this.isPlan() ? ' Plan: ' : ' '}
           {this.props.event.title}
         </h5>
-        <small className="text-muted">{this.date()}</small>
-        <span className="pull-right">{this.props.event.id ? this.renderActions() : null}</span>
+        <small className={styles.g.mutedText}>{this.date()}</small>
+        <span className={styles.g.pullRight}>{this.props.event.id ? this.renderActions() : null}</span>
         <br/>
-        <small className="description">
+        <small className={styles.l.description}>
           <Linkify>{this.props.event.description}</Linkify>
         </small>
         {this.renderExpiredPlanActions()}

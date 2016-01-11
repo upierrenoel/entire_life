@@ -1,0 +1,38 @@
+.actionLink {
+  padding: 0 0.2rem;
+  cursor: pointer;
+}
+.description {
+  word-wrap: break-word;
+}
+
+.expiredPlan {
+  border: 1px solid #B36A30;
+  border-radius: 3px;
+  padding: 1rem;
+  position: relative;
+  .buttonGroup {
+    position: absolute;
+    border: 1px solid #B36A30;
+    right: 50px;
+  }
+}
+
+.buttonGroup {
+  border-radius: 3px;
+  height: 2rem;
+  button {
+    border-radius: 0;
+    margin: 0;
+    height: 100%;
+    vertical-align: top;
+    line-height: 0;
+  }
+  button:first-child {
+    border-radius: 2px 0 0 2px;
+  }
+  button:last-child {
+    border-radius: 0 2px 2px 0;
+  }
+}
+

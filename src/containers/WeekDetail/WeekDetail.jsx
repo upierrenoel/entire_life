@@ -4,7 +4,7 @@ import metaData from 'helpers/metaData';
 import {Link} from 'react-router';
 import {pushState} from 'redux-router';
 import {connect} from 'react-redux';
-import {Events} from 'components';
+import {Events, EventForm} from 'components';
 import {startOf} from 'helpers/dateHelpers';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter(require('./WeekDetail.scss'));
@@ -12,6 +12,8 @@ const styles = styleImporter(require('./WeekDetail.scss'));
 @connect(
   (state, ownProps) => {
     return {
+      currentUser: state.auth.user,
+      canEdit: !!(state.auth.user.slug && state.auth.user.slug === state.router.params.slug),
       user: state.users.data[state.router.params.slug] || {},
       events: state.router.params.slug
         ? state.events.data[state.router.params.slug]['' + ownProps.weekno]
@@ -23,7 +25,8 @@ const styles = styleImporter(require('./WeekDetail.scss'));
 export default class WeekDetail extends Component {
 
   static propTypes = {
-    // signedInUser: PropTypes.object,
+    currentUser: PropTypes.object,
+    canEdit: PropTypes.bool,
     user: PropTypes.object.isRequired,
     events: PropTypes.array,
     pushState: PropTypes.func.isRequired,
@@ -34,13 +37,8 @@ export default class WeekDetail extends Component {
     return this.props.weekno !== nextProps.weekno || // navigated to different week
       this.props.user.slug !== nextProps.user.slug || // navigated to different user (not sure if possible)
       this.props.events !== nextProps.events;// || // updated an event
-      // (!this.props.signedInUser && nextProps.signedInUser) || // user logged in
-      // (this.props.signedInUser && !nextProps.signedInUser) || // user logged out
-  }
-
-  authed = () => {
-    return false;
-    // return LoginStore.canEdit(UserStore.getState().get('user'));
+      // (!this.props.currentUser && nextProps.currentUser) || // user logged in
+      // (this.props.currentUser && !nextProps.currentUser) || // user logged out
   }
 
   editEvent = (event) => {
@@ -49,17 +47,20 @@ export default class WeekDetail extends Component {
   }
 
   whose = () => {
-    if (this.authed()) return 'your';
+    if (this.props.canEdit) return 'your';
     return `${this.props.user.name.split(' ')[0]}'s`;
   }
 
-  // form = () => {
-  //   if(this.authed()) {
-  //     return <EventForm weekno={+this.props.weekno} start={this.start()}
-  //       slug={this.props.slug} eventUnderEdit={this.state.eventUnderEdit}
-  //     />
-  //   }
-  // }
+  form = () => {
+    if (this.props.canEdit) {
+      return (
+        <EventForm weekno={this.props.weekno} start={this.start()}
+          user={this.props.user}
+        />
+      );
+    }
+    // eventUnderEdit={this.state.eventUnderEdit}
+  }
 
   start = () => {
     return startOf({weekno: +this.props.weekno, born: this.props.user.born});
@@ -89,16 +90,16 @@ export default class WeekDetail extends Component {
             &times;
           </Link>
         </header>
-        <div className={this.authed() ? styles.local.twoCol : ''}>
+        <div className={this.props.canEdit ? styles.local.twoCol : ''}>
           <div>
             <h3>This week in {this.whose()} life:</h3>
             <Events events={this.props.events} born={this.props.user.born}
               slug={this.props.user.slug} weekno={+this.props.weekno}
-              authed={this.authed()} onEdit={this.editEvent}
+              canEdit={this.props.canEdit} onEdit={this.editEvent}
             />
           </div>
           <div>
-            {/* {this.form()} */}
+            {this.form()}
           </div>
         </div>
       </div>

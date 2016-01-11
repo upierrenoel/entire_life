@@ -9,7 +9,7 @@ const SAVE_FAIL = 'entire-life/events/SAVE_FAIL';
 
 const initialState = {
   data: {},
-  editing: {},
+  editing: null,
   saveError: {}
 };
 
@@ -47,31 +47,37 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         editing: {
-          ...state.editing,
-          [action.id]: true
+          slug: action.slug,
+          weekno: action.event.weekno,
+          index: state.data[action.slug][action.weekno].indexOf(action.event)
         }
       };
     case EDIT_STOP:
       return {
         ...state,
-        editing: {
-          ...state.editing,
-          [action.id]: false
-        }
+        editing: null
       };
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
-      // TODO
-      // need to update something like
-      // state.data[action.slug][action.result.event.weekno]
-      // probably need to remove the original
-      // and add one at new weekno, in case event switched weeks
-      console.warning('SAVE_SUCCESS not yet implemented');
-      const data = [...state.data];
-      data[action.result.id - 1] = action.result;
+      const data = {...state.data[action.slug]};
+      if (action.weekno) {
+        // remove old
+        data[action.weekno] = data[action.weekno].
+          filter(event => event.id !== action.result.event.id);
+        if (data[action.weekno] === []) data[action.weekno] = undefined;
+      }
+      // add new
+      data[action.result.event.weekno] = (data[action.result.event.weekno] || []).
+        push(action.result.event).sort((a, b) => a.date - b.date);
+
       return {
         ...state,
+        editing: null,
+        data: {
+          ...state.data,
+          [action.slug]: data,
+        }
       };
     case SAVE_FAIL:
       return typeof action.error === 'string' ? {
@@ -98,37 +104,44 @@ export function load({userSlug}) {
   };
 }
 
-function update({userSlug, event}) {
-  console.log("can we use event.user.slug? here's `event`:", event);
+function update({slug, event, weekno}) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: event.id,
-    slug: userSlug,
-    promise: (client) => client.post(`/users/${userSlug}/events/${event.id}`, {
+    slug,
+    weekno,
+    promise: (client) => client.post(`/users/${slug}/events/${event.id}`, {
       data: event
     })
   };
 }
 
-function create({userSlug, event}) {
+function create({slug, event}) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
-    slug: userSlug,
-    promise: (client) => client.post(`/users/${userSlug}/events`, {
+    slug,
+    promise: (client) => client.post(`/users/${slug}/events`, {
       data: event
     })
   };
 }
 
-export function save({userSlug, event}) {
-  if (event.id) return update({userSlug, event});
-  return create({userSlug, event});
+export function save({slug, event, weekno}) {
+  console.log("can we use event.user.slug? here's `event`:", event);
+  if (event.id) return update({slug, event, weekno});
+  return create({slug, event});
 }
 
-export function editStart(id) {
-  return { type: EDIT_START, id };
+export function editStart({slug, event}) {
+  console.log("can we use event.user.slug? here's `event`:", event);
+  return {
+    type: EDIT_START,
+    slug,
+    weekno: event.weekno,
+    id: event.id,
+  };
 }
 
-export function editStop(id) {
-  return { type: EDIT_STOP, id };
+export function editStop() {
+  return { type: EDIT_STOP };
 }

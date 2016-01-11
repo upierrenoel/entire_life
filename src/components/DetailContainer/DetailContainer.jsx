@@ -2,7 +2,7 @@ import React from 'react';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter(require('./DetailContainer.scss'));
 
-const animationSpeed = 200;
+const animationSpeed = 300;
 
 export default class DetailContainer extends React.Component {
   static propTypes = {
@@ -57,7 +57,13 @@ export default class DetailContainer extends React.Component {
     const height = this.refs.container.offsetHeight;
     this.setState({height}, () => {
       if (this.props.old) {
-        this.setState({height: 0});
+        setTimeout(() => { // wait for hard-coded height to be actually set, then animate shrink
+          this.setState({height: 0});
+        }, 1);
+      } else {
+        setTimeout(() => {
+          this.setState({height: 'auto'});
+        }, animationSpeed);
       }
     });
   }

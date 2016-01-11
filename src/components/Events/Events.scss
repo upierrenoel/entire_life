@@ -1,0 +1,14 @@
+.events {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li {
+    margin-bottom: 1rem;
+  }
+  li:last-child {
+    margin-bottom: 0;
+  }
+  h4 {
+    padding: 0;
+  }
+}
