@@ -15,7 +15,7 @@ const emojiPickerStyles = {
   backgroundColor: 'white',
   width: '100%',
   padding: '.3em .6em',
-  border: '1px solid #0074d9',
+  border: '1px solid #B36A30',
   borderTop: 'none',
   zIndex: '2'
 };
@@ -149,7 +149,7 @@ export default class EventForm extends Component {
     const { fields: {title, emoji, date, description}, handleSubmit, invalid,
       pristine, submitting, saveError, values } = this.props;
     return (
-      <form role="form" style={{position: 'relative'}}
+      <form role="form" style={{position: 'relative'}} onFocus={this.toggleEmojiPicker}
         onSubmit={handleSubmit(() => {
           this.props.save(values).then(result => {
             if (result && typeof result.error === 'object') {
@@ -175,7 +175,7 @@ export default class EventForm extends Component {
           {this.emojiPicker()}
           <small>Describe it with one small picture</small>
           {emoji.error && emoji.touched &&
-            <label htmlFor={emoji.name} className={styles.g.errorText}>{emoji.error}</label>}
+            <label htmlFor={emoji.name} className={styles.g.errorText}><br/>{emoji.error}</label>}
         </p>
         <p>
           <label htmlFor="description">Description</label>
