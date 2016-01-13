@@ -50,6 +50,7 @@ export default class EventForm extends Component {
     submitting: PropTypes.bool.isRequired,
     values: PropTypes.object.isRequired,
     saveError: PropTypes.object,
+    resetForm: PropTypes.func.isRequired,
   }
 
   state = {
@@ -146,14 +147,17 @@ export default class EventForm extends Component {
 
   render() {
     const { fields: {title, emoji, date, description}, handleSubmit, invalid,
-      pristine, submitting, saveError, values } = this.props;
+      pristine, submitting, saveError, resetForm, values } = this.props;
     return (
       <form role="form" style={{position: 'relative'}} onFocus={this.toggleEmojiPicker}
         onSubmit={handleSubmit(() => {
           this.props.save({slug: this.props.user.slug, event: values, weekno: event.weekno}).then(result => {
             if (result && typeof result.error === 'object') {
               return Promise.reject(result.error);
-            }});
+            }
+            resetForm();
+            this.refs.title.focus();
+          });
         })}>
         <h3>
           {title.defaultValue ? 'Edit' : this.newText()}
@@ -161,7 +165,7 @@ export default class EventForm extends Component {
         </h3>
         <p>
           <label htmlFor="title">Title</label>
-          <input type="text" autoComplete="off" id={title.name} {...title}/>
+          <input type="text" ref="title" autoComplete="off" id={title.name} {...title}/>
           {title.error && title.touched &&
             <label htmlFor={title.name} className={styles.g.errorText}>{title.error}</label>}
         </p>
