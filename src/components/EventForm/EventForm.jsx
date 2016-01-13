@@ -105,9 +105,8 @@ export default class EventForm extends Component {
     }
   }
 
-  // FIXME: remove state
   pickedEmoji = (emoji) => {
-    console.log('set emoji', emoji);
+    this.props.fields.emoji.onChange(emoji);
     this.refs.description.focus();
   }
 
@@ -151,7 +150,7 @@ export default class EventForm extends Component {
     return (
       <form role="form" style={{position: 'relative'}} onFocus={this.toggleEmojiPicker}
         onSubmit={handleSubmit(() => {
-          this.props.save(values).then(result => {
+          this.props.save({slug: this.props.user.slug, event: values, weekno: event.weekno}).then(result => {
             if (result && typeof result.error === 'object') {
               return Promise.reject(result.error);
             }});

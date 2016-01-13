@@ -1,8 +1,9 @@
-import React from 'react';
-import reactMixin from 'react-mixin';
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import ReactEmoji from 'react-emoji';
 import Linkify from 'react-linkify';
 import styleImporter from 'helpers/styleImporter';
+import {destroy as deleteEvent} from 'redux/modules/events';
 
 const styles = styleImporter(require('./Event.scss'));
 
@@ -21,18 +22,20 @@ const months = {
   '12': 'Dec',
 };
 
-class Event extends React.Component {
+@connect()
+class Event extends Component {
   static propTypes = {
-    slug: React.PropTypes.string.isRequired,
-    event: React.PropTypes.object.isRequired,
-    weekno: React.PropTypes.number.isRequired,
-    canEdit: React.PropTypes.bool.isRequired,
-    onEdit: React.PropTypes.func,
+    slug: PropTypes.string.isRequired,
+    event: PropTypes.object.isRequired,
+    weekno: PropTypes.number.isRequired,
+    canEdit: PropTypes.bool.isRequired,
+    onEdit: PropTypes.func,
+    dispatch: PropTypes.func.isRequired,
   }
 
-  // deleteEvent = () => {
-  //   EventService.destroy(this.props.slug, this.props.event.id, this.props.weekno)
-  // }
+  deleteEvent = () => {
+    this.props.dispatch(deleteEvent({slug: this.props.slug, event: this.props.event}));
+  }
 
   date = () => {
     let [, month, day] = this.props.event.date.split('-');
@@ -56,10 +59,10 @@ class Event extends React.Component {
       return (
         <span>
           <a onClick={this.props.onEdit} className={styles.l.actionLink}>
-            {this.emojify(':pencil2:', {attributes: {height: '10px', width: '10px'}})}
+            {ReactEmoji.emojify(':pencil2:', {attributes: {height: '10px', width: '10px'}})}
           </a>
           <a className={styles.l.actionLink} onClick={this.deleteEvent}>
-            {this.emojify(':x:', {attributes: {height: '10px', width: '10px'}})}
+            {ReactEmoji.emojify(':x:', {attributes: {height: '10px', width: '10px'}})}
           </a>
         </span>
       );
@@ -98,13 +101,13 @@ class Event extends React.Component {
       return (
         <div className={styles.l.buttonGroup}>
           <button className={styles.g.success} onClick={this.markDone}>
-            {this.emojify(':checkered_flag:', {singleEmoji: true})}
+            {ReactEmoji.emojify(':checkered_flag:', {singleEmoji: true})}
           </button>
           <button className={styles.g.warning} onClick={this.snooze}>
-            {this.emojify(':sleeping:', {singleEmoji: true})}
+            {ReactEmoji.emojify(':sleeping:', {singleEmoji: true})}
           </button>
           <button className={styles.g.error} onClick={this.deleteEvent}>
-            {this.emojify(':boom:', {singleEmoji: true})}
+            {ReactEmoji.emojify(':boom:', {singleEmoji: true})}
           </button>
         </div>
       );
@@ -115,7 +118,7 @@ class Event extends React.Component {
     return (
       <li className={this.expiredPlan() && styles.l.expiredPlan}>
         <h5>
-          {this.emojify(this.props.event.emoji, {attributes: {className: styles.g.emoji}})}
+          {ReactEmoji.emojify(this.props.event.emoji, {attributes: {className: styles.g.emoji}})}
           {this.isPlan() ? ' Plan: ' : ' '}
           {this.props.event.title}
         </h5>
@@ -130,7 +133,5 @@ class Event extends React.Component {
     );
   }
 }
-
-reactMixin(Event.prototype, ReactEmoji);
 
 export default Event;
