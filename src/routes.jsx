@@ -7,6 +7,7 @@ import {
   EventForm,
   Home,
   Signin,
+  SigningUp,
   Pricing,
   Team,
   User,
@@ -44,6 +45,7 @@ export default (store) => {
 
       { /* Routes requiring login */ }
       <Route onEnter={requireLogin}>
+        <Route path="signing-up" component={SigningUp}/>
         <Route path="account" component={Account}/>
       </Route>
 

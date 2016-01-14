@@ -163,8 +163,8 @@ export default class EventForm extends Component {
   render() {
     if (!this.props.user) return null;
 
-    const { fields: {title, emoji, date, description}, handleSubmit, invalid,
-      pristine, submitting, saveError, values, resetForm } = this.props;
+    const { fields: {title, emoji, date, description}, formKey, handleSubmit, invalid,
+      pristine, submitting, saveError: {[formKey]: saveError}, values, resetForm } = this.props;
     return (
       <form role="form" style={{position: 'relative'}} onFocus={this.toggleEmojiPicker}
         onSubmit={handleSubmit(() => {

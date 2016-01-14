@@ -63,6 +63,10 @@ export default function reducer(state = initialState, action = {}) {
         data: {
           ...state.data,
           [action.slug]: data,
+        },
+        saveError: {
+          ...state.saveError,
+          [action.id]: null
         }
       };
     case SAVE_FAIL:

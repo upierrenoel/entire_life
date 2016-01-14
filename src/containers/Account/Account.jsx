@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import {bindActionCreators} from 'redux';
 import accountValidation from './accountValidation';
-import {save} from 'redux/modules/auth';
+import {save, destroy} from 'redux/modules/auth';
 import {PageSection, Logo, Nav, CheckboxPrivatePublic} from 'components';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter();
@@ -13,7 +13,7 @@ const styles = styleImporter();
 @connect(
   state => ({
     currentUser: state.auth.user,
-    saveError: state.users.saveError,
+    saveError: state.auth.saveError,
     formKey: String(state.auth.user.id),
   }),
   dispatch => bindActionCreators({save}, dispatch)
@@ -43,50 +43,65 @@ export default class Account extends Component {
 
   render() {
     const { fields: {slug, name, born, is_private}, formKey, handleSubmit, invalid,
-      pristine, submitting, saveError: { [formKey]: saveError }, values } = this.props;
+      pristine, submitting, saveError: {[formKey]: saveError}, values, currentUser } = this.props;
     const title = 'Edit Account ⟡ Entire.Life';
     return (
-      <form role="form"
-        onSubmit={handleSubmit(() => {
-          this.props.save(values).then(result => {
-            if (result && typeof result.error === 'object') {
-              return Promise.reject(result.error);
-            }});
-        })}>
-        <DocumentMeta {...metaData(title)} extend />
-        <PageSection type="sunset-blocked" style={{paddingBottom: '3em'}} styleInner={{display: 'block'}} className={styles.g.container}>
-          <Nav lower>
-            <Logo type="black" style={{float: 'left'}}/>
-            <h1 className={styles.g.brand}>Edit Account</h1>
-          </Nav>
-          <div style={{clear: 'both'}}>
-            <p>
-              <label htmlFor={slug.name}>Username (entire.life/{slug.value || slug.initialValue})</label>
-              <input type="text" id={slug.name} {...slug} autoFocus/>
-              {slug.error && slug.touched &&
-                <label htmlFor={slug.name} className={styles.g.errorText}>{slug.error}</label>}
-            </p>
-            <p>
-              <label htmlFor="name">Name</label>
-              <input type="text" {...name}/>
-              {name.error && name.touched &&
-                <label htmlFor={name.name} className={styles.g.errorText}>{name.error}</label>}
-            </p>
-            <p>
-              <label htmlFor="born">Birth Date</label>
-              <input type="date" {...born}/>
-              {born.error && born.touched &&
-                <label htmlFor={born.name} className={styles.g.errorText}>{born.error}</label>}
-            </p>
-            <CheckboxPrivatePublic {...is_private}/>
-            <button type="submit" className={styles.g.brand}
-              disabled={pristine || invalid || submitting}>
-              {pristine ? 'Saved' : 'Save Changes'}
+      <div>
+        <form role="form"
+          onSubmit={handleSubmit(() => {
+            this.props.save(values).then(result => {
+              if (result && typeof result.error === 'object') {
+                return Promise.reject(result.error);
+              }});
+          })}>
+          <DocumentMeta {...metaData(title)} extend />
+          <PageSection type="sunset-blocked" style={{paddingBottom: '3em'}} styleInner={{display: 'block'}} className={styles.g.container}>
+            <Nav lower>
+              <Logo type="black" style={{float: 'left'}}/>
+              <h1 className={styles.g.brand}>Edit Account</h1>
+            </Nav>
+            <div style={{clear: 'both'}}>
+              <p>
+                <label htmlFor={slug.name}>Username (entire.life/{slug.value || slug.initialValue})</label>
+                <input type="text" id={slug.name} {...slug} autoFocus/>
+                {slug.error && slug.touched &&
+                  <label htmlFor={slug.name} className={styles.g.errorText}>{slug.error}</label>}
+              </p>
+              <p>
+                <label htmlFor="name">Name</label>
+                <input type="text" {...name}/>
+                {name.error && name.touched &&
+                  <label htmlFor={name.name} className={styles.g.errorText}>{name.error}</label>}
+              </p>
+              <p>
+                <label htmlFor="born">Birth Date</label>
+                <input type="date" {...born}/>
+                {born.error && born.touched &&
+                  <label htmlFor={born.name} className={styles.g.errorText}>{born.error}</label>}
+              </p>
+              <CheckboxPrivatePublic {...is_private}/>
+              <button type="submit" className={styles.g.brand}
+                disabled={pristine || invalid || submitting}>
+                {pristine ? 'Saved' : 'Save Changes'}
+              </button>
+              {saveError && <div className={styles.g.errorText}>{saveError}</div>}
+            </div>
+          </PageSection>
+        </form>
+        <PageSection type="dark" className={styles.g.container}>
+          <h1 className={styles.g.brand}>Danger Zone</h1>
+          <p>
+            <button className={styles.g.error}
+              onClick={() => this.props.dispatch(destroy(currentUser))}>
+              Delete Account
             </button>
-            {saveError && <div className={styles.g.errorText}>{saveError}</div>}
-          </div>
+          </p>
+          <p>
+            Clicking this button will completely and immediately delete your
+            Entire.Life account and all of its data.
+          </p>
         </PageSection>
-      </form>
+      </div>
     );
   }
 }

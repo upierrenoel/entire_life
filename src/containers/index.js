@@ -4,6 +4,7 @@ export EventForm from './EventForm/EventForm';
 export Home from './Home/Home';
 export Pricing from './Pricing/Pricing';
 export Signin from './Signin/Signin';
+export SigningUp from './SigningUp/SigningUp';
 export Team from './Team/Team';
 export User from './User/User';
 export WeekDetail from './WeekDetail/WeekDetail';

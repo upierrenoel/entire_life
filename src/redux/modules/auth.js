@@ -8,10 +8,14 @@ const LOGOUT = 'entire-life/auth/LOGOUT';
 const SAVE = 'entire-life/auth/SAVE';
 const SAVE_SUCCESS = 'entire-life/auth/SAVE_SUCCESS';
 const SAVE_FAIL = 'entire-life/auth/SAVE_FAIL';
+const DELETE = 'entire-life/auth/DELETE';
+const DELETE_SUCCESS = 'entire-life/auth/DELETE_SUCCESS';
+const DELETE_FAIL = 'entire-life/auth/DELETE_FAIL';
 
 const initialState = {
   loaded: false,
   user: {}, // user is signed in if user.slug is present
+  saveError: {},
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -85,6 +89,22 @@ export default function reducer(state = initialState, action = {}) {
           [action.id]: action.error
         }
       } : state;
+    case DELETE:
+      return state;
+    case DELETE_SUCCESS:
+      cookie.remove('idToken');
+      cookie.remove('user');
+      return {
+        ...state,
+        idToken: null,
+        user: {},
+        deleteError: null,
+      };
+    case DELETE_FAIL:
+      return typeof action.error === 'string' ? {
+        ...state,
+        deleteError: action.error
+      } : state;
     default:
       return state;
   }
@@ -121,9 +141,7 @@ export function login(googleUser) {
   };
 }
 
-export function logout() {
-  cookie.remove('idToken');
-  cookie.remove('user');
+function logoutGoogle() {
   const waitForLoaded = setInterval(() => {
     if (window.gapi) {
       clearInterval(waitForLoaded);
@@ -132,6 +150,12 @@ export function logout() {
       }
     }
   }, 30);
+}
+
+export function logout() {
+  cookie.remove('idToken');
+  cookie.remove('user');
+  logoutGoogle();
 
   return {
     type: LOGOUT
@@ -146,5 +170,13 @@ export function save(user) {
     promise: (client) => client.patch(`/users/${user.id}`, {
       data: {user}
     })
+  };
+}
+
+export function destroy(user) {
+  logoutGoogle();
+  return {
+    types: [DELETE, DELETE_SUCCESS, DELETE_FAIL],
+    promise: (client) => client.del(`/users/${user.slug}`)
   };
 }

@@ -5,7 +5,6 @@ const LOAD_FAIL = 'entire-life/users/LOAD_FAIL';
 const initialState = {
   data: {},
   editing: {},
-  saveError: {},
 };
 
 export default function reducer(state = initialState, action = {}) {

@@ -33,11 +33,16 @@ export default class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (!this.props.currentUser.slug && nextProps.currentUser.slug) {
       // login
-      this.props.pushState(null, `/${nextProps.currentUser.slug}`);
+      this.props.pushState(null, this.loggedInRoute(nextProps));
     } else if (this.props.currentUser.slug && !nextProps.currentUser.slug) {
       // logout
       this.props.pushState(null, '/');
     }
+  }
+
+  loggedInRoute = (nextProps) => {
+    if (nextProps.currentUser.born) return `/${nextProps.currentUser.slug}`;
+    return '/signing-up';
   }
 
   render() {
