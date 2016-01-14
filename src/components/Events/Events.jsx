@@ -14,7 +14,7 @@ const eventsOrPlans = ({weekno, born}) => {
   return 'events or plans';
 };
 
-const renderEvents = ({events, slug, weekno, canEdit, onEdit}) => {
+const renderEvents = ({events, slug, weekno, canEdit, editEventId}) => {
   return (
     events.map(event => <Event
       key={event.date + event.id + event.title}
@@ -22,16 +22,16 @@ const renderEvents = ({events, slug, weekno, canEdit, onEdit}) => {
       weekno={weekno}
       event={event}
       canEdit={canEdit}
-      onEdit={onEdit ? onEdit.bind(this, event) : null}
+      editEventId={editEventId}
       />
     )
   );
 };
 
-const Events = ({events, slug, born, weekno, canEdit, onEdit}) => {
+const Events = ({events, slug, born, weekno, canEdit, editEventId}) => {
   return (
     <ol className={styles.events}>
-      {!events ? `No ${eventsOrPlans({weekno, born})}` : renderEvents({events, slug, weekno, canEdit, onEdit})}
+      {!events ? `No ${eventsOrPlans({weekno, born})}` : renderEvents({events, slug, weekno, canEdit, editEventId})}
     </ol>
   );
 };
@@ -42,7 +42,7 @@ Events.propTypes = {
   born: PropTypes.string.isRequired,
   weekno: PropTypes.number.isRequired,
   canEdit: PropTypes.bool.isRequired,
-  onEdit: PropTypes.func,
+  editEventId: PropTypes.string,
 };
 
 export default Events;

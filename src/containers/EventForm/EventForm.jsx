@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import {bindActionCreators} from 'redux';
 import eventValidation from './eventValidation';
-import {save, editStop} from 'redux/modules/events';
+import {save} from 'redux/modules/events';
 import EmojiPicker from 'react-emoji-picker';
-import {endOf} from 'helpers/dateHelpers';
+import {startOf, endOf} from 'helpers/dateHelpers';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter();
 
@@ -21,8 +21,19 @@ const emojiPickerStyles = {
 };
 
 @connect(
-  null,
-  dispatch => bindActionCreators({save, editStop}, dispatch)
+  state => {
+    const weekno = state.router.params.weekno;
+    const user = state.router.params.slug && state.users.data[state.router.params.slug];
+    const eventId = state.router.params.id;
+    return {
+      weekno: weekno && +weekno,
+      user,
+      start: user && user.born && startOf({weekno, born: user.born}),
+      event: eventId && state.events.data[user.slug][weekno][eventId],
+      formKey: eventId || 'new',
+    };
+  },
+  dispatch => bindActionCreators({save}, dispatch)
 )
 @reduxForm({
   form: 'event',
@@ -30,19 +41,22 @@ const emojiPickerStyles = {
   validate: eventValidation,
 },
 state => {
-  const events = state.events;
+  const weekno = state.router.params.weekno;
+  const user = state.router.params.slug && state.users.data[state.router.params.slug];
+  const eventId = state.router.params.id;
+  const event = eventId && state.events.data[user.slug][weekno].filter(e => e.id === +eventId)[0];
   return {
-    initialValues: events.editing &&
-      events.data[events.editing.slug][events.editing.weekno][events.editing.index],
+    initialValues: event,
   };
 })
 export default class EventForm extends Component {
   static propTypes = {
-    user: PropTypes.object.isRequired,
-    start: PropTypes.object.isRequired,
-    weekno: PropTypes.number.isRequired,
+    user: PropTypes.object,
+    start: PropTypes.object,
+    weekno: PropTypes.number,
     save: PropTypes.func.isRequired,
-    editStop: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
+    formKey: PropTypes.string.isRequired,
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     invalid: PropTypes.bool.isRequired,
@@ -80,13 +94,14 @@ export default class EventForm extends Component {
   dates = (dateField) => {
     const dates = [];
     let date = this.props.start;
+    const value = dateField.value || dateField.defaultValue;
     while (date < this.end()) {
       const dateString = date.toISOString().replace(/T.+/, '');
       dates.push(
         <label key={date}>
           <br/>
           <input type="radio" {...dateField} value={dateString}
-            checked={dateField.value === dateString}/>
+            checked={value === dateString}/>
           <span className={styles.g.checkable}>{date.toDateString()}</span>
         </label>
       );
@@ -146,26 +161,29 @@ export default class EventForm extends Component {
   }
 
   render() {
+    if (!this.props.user) return null;
+
     const { fields: {title, emoji, date, description}, handleSubmit, invalid,
-      pristine, submitting, saveError, resetForm, values } = this.props;
+      pristine, submitting, saveError, values, resetForm } = this.props;
     return (
       <form role="form" style={{position: 'relative'}} onFocus={this.toggleEmojiPicker}
         onSubmit={handleSubmit(() => {
-          this.props.save({slug: this.props.user.slug, event: values, weekno: event.weekno}).then(result => {
+          this.props.save({slug: this.props.user.slug, event: values, weekno: this.props.weekno}).then(result => {
             if (result && typeof result.error === 'object') {
               return Promise.reject(result.error);
             }
             resetForm();
             this.refs.title.focus();
+            this.props.history.pushState(null, `/${this.props.user.slug}/week/${this.props.weekno}`);
           });
         })}>
         <h3>
-          {title.defaultValue ? 'Edit' : this.newText()}
+          {title.defaultValue ? 'Edit ' : this.newText()}
           {this.typeText()}:
         </h3>
         <p>
           <label htmlFor="title">Title</label>
-          <input type="text" ref="title" autoComplete="off" id={title.name} {...title}/>
+          <input type="text" required ref="title" autoComplete="off" id={title.name} {...title}/>
           {title.error && title.touched &&
             <label htmlFor={title.name} className={styles.g.errorText}>{title.error}</label>}
         </p>

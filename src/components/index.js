@@ -10,7 +10,6 @@ export Calendar from './Calendar/Calendar';
 export CheckboxPrivatePublic from './CheckboxPrivatePublic/CheckboxPrivatePublic';
 export DetailContainer from './DetailContainer/DetailContainer';
 export Event from './Event/Event';
-export EventForm from './EventForm/EventForm';
 export Events from './Events/Events';
 export Footer from './Footer/Footer';
 export Landing from './Landing/Landing';

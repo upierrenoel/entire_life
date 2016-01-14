@@ -1,8 +1,6 @@
 const LOAD = 'entire-life/events/LOAD';
 const LOAD_SUCCESS = 'entire-life/events/LOAD_SUCCESS';
 const LOAD_FAIL = 'entire-life/events/LOAD_FAIL';
-const EDIT_START = 'entire-life/events/EDIT_START';
-const EDIT_STOP = 'entire-life/events/EDIT_STOP';
 const SAVE = 'entire-life/events/SAVE';
 const SAVE_SUCCESS = 'entire-life/events/SAVE_SUCCESS';
 const SAVE_FAIL = 'entire-life/events/SAVE_FAIL';
@@ -12,7 +10,6 @@ const DELETE_FAIL = 'entire-life/events/DELETE_FAIL';
 
 const initialState = {
   data: {},
-  editing: null,
   saveError: {}
 };
 
@@ -46,20 +43,6 @@ export default function reducer(state = initialState, action = {}) {
           [action.slug]: action.error
         }
       };
-    case EDIT_START:
-      return {
-        ...state,
-        editing: {
-          slug: action.slug,
-          weekno: action.event.weekno,
-          index: state.data[action.slug][action.weekno].indexOf(action.event)
-        }
-      };
-    case EDIT_STOP:
-      return {
-        ...state,
-        editing: null
-      };
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
@@ -77,7 +60,6 @@ export default function reducer(state = initialState, action = {}) {
 
       return {
         ...state,
-        editing: null,
         data: {
           ...state.data,
           [action.slug]: data,
@@ -143,7 +125,7 @@ function update({slug, event, weekno}) {
     id: event.id,
     slug,
     weekno,
-    promise: (client) => client.post(`/users/${slug}/events/${event.id}`, {
+    promise: (client) => client.put(`/users/${slug}/events/${event.id}`, {
       data: {event}
     })
   };
@@ -162,19 +144,6 @@ function create({slug, event}) {
 export function save({slug, event, weekno}) {
   if (event.id) return update({slug, event, weekno});
   return create({slug, event});
-}
-
-export function editStart({slug, event}) {
-  return {
-    type: EDIT_START,
-    slug,
-    weekno: event.weekno,
-    id: event.id,
-  };
-}
-
-export function editStop() {
-  return { type: EDIT_STOP };
 }
 
 export function destroy({slug, event}) {

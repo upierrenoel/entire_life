@@ -1,5 +1,6 @@
 export App from './App/App';
 export Account from './Account/Account';
+export EventForm from './EventForm/EventForm';
 export Home from './Home/Home';
 export Pricing from './Pricing/Pricing';
 export Signin from './Signin/Signin';

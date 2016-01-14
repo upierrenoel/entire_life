@@ -6,7 +6,6 @@ const emojiPattern = emojiMap.
   join('|');
 
 const eventValidation = createValidator({
-  title: [required],
   emoji: [required, inFormat(new RegExp(`^:(${emojiPattern}):$`), 'Please select a symbol from the dropdown')],
   date: [required],
 });

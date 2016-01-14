@@ -1,9 +1,10 @@
 import React from 'react';
-import {Route} from 'react-router';
+import {Route, IndexRoute} from 'react-router';
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
   Account,
   App,
+  EventForm,
   Home,
   Signin,
   Pricing,
@@ -47,7 +48,10 @@ export default (store) => {
       </Route>
 
       <Route path=":slug" component={User}>
-        <Route path="week/:weekno" component={WeekDetail}/>
+        <Route path="week/:weekno" component={WeekDetail}>
+          <IndexRoute component={EventForm}/>
+          <Route path="edit-event/:id" component={EventForm}/>
+        </Route>
       </Route>
     </Route>
   );

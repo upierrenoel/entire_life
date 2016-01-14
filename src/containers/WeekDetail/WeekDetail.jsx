@@ -4,7 +4,7 @@ import metaData from 'helpers/metaData';
 import {Link} from 'react-router';
 import {pushState} from 'redux-router';
 import {connect} from 'react-redux';
-import {Events, EventForm} from 'components';
+import {Events} from 'components';
 import {startOf} from 'helpers/dateHelpers';
 import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter(require('./WeekDetail.scss'));
@@ -18,6 +18,7 @@ const styles = styleImporter(require('./WeekDetail.scss'));
       events: state.router.params.slug
         ? state.events.data[state.router.params.slug]['' + ownProps.weekno]
         : [],
+      editEventId: state.router.params.id,
     };
   },
   {pushState}
@@ -29,37 +30,15 @@ export default class WeekDetail extends Component {
     canEdit: PropTypes.bool,
     user: PropTypes.object.isRequired,
     events: PropTypes.array,
+    editEventId: PropTypes.string,
     pushState: PropTypes.func.isRequired,
     weekno: PropTypes.number,
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return this.props.weekno !== nextProps.weekno || // navigated to different week
-      this.props.user.slug !== nextProps.user.slug || // navigated to different user (not sure if possible)
-      this.props.events !== nextProps.events;// || // updated an event
-      // (!this.props.currentUser && nextProps.currentUser) || // user logged in
-      // (this.props.currentUser && !nextProps.currentUser) || // user logged out
-  }
-
-  editEvent = (event) => {
-    console.log('FIXME: WeekDetail#editEvent needs to dispatch an action', event);
-    // this.setState({eventUnderEdit: event});
+    children: PropTypes.node,
   }
 
   whose = () => {
     if (this.props.canEdit) return 'your';
     return `${this.props.user.name.split(' ')[0]}'s`;
-  }
-
-  form = () => {
-    if (this.props.canEdit) {
-      return (
-        <EventForm weekno={this.props.weekno} start={this.start()}
-          user={this.props.user}
-        />
-      );
-    }
-    // eventUnderEdit={this.state.eventUnderEdit}
   }
 
   start = () => {
@@ -95,11 +74,11 @@ export default class WeekDetail extends Component {
             <h3>This week in {this.whose()} life:</h3>
             <Events events={this.props.events} born={this.props.user.born}
               slug={this.props.user.slug} weekno={+this.props.weekno}
-              canEdit={this.props.canEdit} onEdit={this.editEvent}
+              canEdit={this.props.canEdit} editEventId={this.props.editEventId}
             />
           </div>
           <div>
-            {this.form()}
+            {this.props.children}
           </div>
         </div>
       </div>

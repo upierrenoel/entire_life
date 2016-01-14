@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import ReactEmoji from 'react-emoji';
 import Linkify from 'react-linkify';
@@ -29,8 +30,8 @@ class Event extends Component {
     event: PropTypes.object.isRequired,
     weekno: PropTypes.number.isRequired,
     canEdit: PropTypes.bool.isRequired,
-    onEdit: PropTypes.func,
     dispatch: PropTypes.func.isRequired,
+    editEventId: PropTypes.string,
   }
 
   deleteEvent = () => {
@@ -54,13 +55,28 @@ class Event extends Component {
       this.props.event.date < (new Date()).toISOString();
   }
 
+  underEdit = () => {
+    return this.props.event.id === +this.props.editEventId;
+  }
+
+  linkTo = () => {
+    const {event, slug, weekno} = this.props;
+    if (this.underEdit()) return `/${slug}/week/${weekno}`;
+    return `/${slug}/week/${weekno}/edit-event/${event.id}`;
+  }
+
   renderActions = () => {
-    if (this.props.canEdit && this.props.onEdit) {
+    if (this.props.canEdit) {
       return (
         <span>
-          <a onClick={this.props.onEdit} className={styles.l.actionLink}>
-            {ReactEmoji.emojify(':pencil2:', {attributes: {height: '10px', width: '10px'}})}
-          </a>
+          {this.underEdit()
+            ? <Link to={this.linkTo()} className={styles.l.actionLink}>
+                {ReactEmoji.emojify(':no_entry_sign:', {attributes: {height: '10px', width: '10px'}})}
+              </Link>
+            : <Link to={this.linkTo()} className={styles.l.actionLink}>
+                {ReactEmoji.emojify(':pencil2:', {attributes: {height: '10px', width: '10px'}})}
+              </Link>
+          }
           <a className={styles.l.actionLink} onClick={this.deleteEvent}>
             {ReactEmoji.emojify(':x:', {attributes: {height: '10px', width: '10px'}})}
           </a>
@@ -116,7 +132,8 @@ class Event extends Component {
 
   render() {
     return (
-      <li className={this.expiredPlan() && styles.l.expiredPlan}>
+      <li className={this.expiredPlan() && styles.l.expiredPlan}
+        style={{opacity: this.underEdit() && 0.5}}>
         <h5>
           {ReactEmoji.emojify(this.props.event.emoji, {attributes: {className: styles.g.emoji}})}
           {this.isPlan() ? ' Plan: ' : ' '}
