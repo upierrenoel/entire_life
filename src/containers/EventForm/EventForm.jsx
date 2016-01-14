@@ -173,6 +173,7 @@ export default class EventForm extends Component {
               return Promise.reject(result.error);
             }
             resetForm();
+            this.refs.description.value = ''; // resetForm doesn't catch this ¯\_(ツ)_/¯
             this.refs.title.focus();
             this.props.history.pushState(null, `/${this.props.user.slug}/week/${this.props.weekno}`);
           });

@@ -54,7 +54,7 @@ export default function reducer(state = initialState, action = {}) {
         if (data[action.weekno] === []) data[action.weekno] = undefined;
       }
       // add new
-      data[action.result.event.weekno] = data[action.result.event.weekno] || [];
+      data[action.result.event.weekno] = data[action.result.event.weekno].concat() || [];
       data[action.result.event.weekno].push(action.result.event);
       data[action.result.event.weekno].sort((a, b) => a.date - b.date);
 
