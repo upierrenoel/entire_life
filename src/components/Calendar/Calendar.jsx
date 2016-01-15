@@ -111,7 +111,7 @@ export default class Calendar extends React.Component {
           styles.local.inWeeks,
           // !this.props.isMobile ? styles.local.inWeeks : null
         ].join(' ')}>
-          <small className={styles.local.age}>{!(age % 5) && age !== 100 ? age : null }</small>
+          <small className={styles.local.age}>{!(age % 5) ? age : null }</small>
           {this.renderDots({age})}
         </div>
         {this.renderDetail(age)}
@@ -121,7 +121,7 @@ export default class Calendar extends React.Component {
 
   endAge = () => {
     if (this.props.user.died) return Math.floor(this.props.finalWeek / 52);
-    return 101;
+    return 100;
   }
 
   renderDetail = (age) => {
