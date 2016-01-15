@@ -78,7 +78,7 @@ export default class WeekDetail extends Component {
             />
           </div>
           <div>
-            {this.props.children}
+            {this.props.canEdit && this.props.children}
           </div>
         </div>
       </div>

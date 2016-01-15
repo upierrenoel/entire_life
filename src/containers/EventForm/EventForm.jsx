@@ -31,6 +31,7 @@ const emojiPickerStyles = {
       start: user && user.born && startOf({weekno, born: user.born}),
       event: eventId && state.events.data[user.slug][weekno][eventId],
       formKey: eventId || 'new',
+      saveError: state.events.saveError,
     };
   },
   dispatch => bindActionCreators({save}, dispatch)

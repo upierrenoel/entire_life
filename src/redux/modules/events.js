@@ -13,6 +13,8 @@ const initialState = {
   saveError: {}
 };
 
+let fresh;
+
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case LOAD:
@@ -54,9 +56,11 @@ export default function reducer(state = initialState, action = {}) {
         if (data[action.weekno] === []) data[action.weekno] = undefined;
       }
       // add new
-      data[action.result.event.weekno] = data[action.result.event.weekno].concat() || [];
-      data[action.result.event.weekno].push(action.result.event);
-      data[action.result.event.weekno].sort((a, b) => a.date - b.date);
+      fresh = data[action.result.event.weekno] || [];
+      fresh = fresh.concat();
+      fresh.push(action.result.event);
+      fresh.sort((a, b) => a.date - b.date);
+      data[action.result.event.weekno] = fresh;
 
       return {
         ...state,
@@ -86,13 +90,15 @@ export default function reducer(state = initialState, action = {}) {
       const old = state.data[action.slug][action.event.weekno];
       const i = old.indexOf(action.event);
       const j = state.deleting.indexOf(action.event.id);
+      fresh = old.slice(0, i).concat(old.slice(i + 1));
+      if (fresh.length === 0) fresh = undefined;
       return {
         ...state,
         deleting: state.deleting.slice(0, j).concat(state.deleting.slice(j + 1)),
         data: {
           [action.slug]: {
             ...state.data[action.slug],
-            [action.event.weekno]: old.slice(0, i).concat(old.slice(i + 1))
+            [action.event.weekno]: fresh
           }
         }
       };

@@ -9,6 +9,7 @@ import {
   Signin,
   SigningUp,
   Pricing,
+  Quiz,
   Team,
   User,
   WeekDetail,
@@ -46,6 +47,7 @@ export default (store) => {
       { /* Routes requiring login */ }
       <Route onEnter={requireLogin}>
         <Route path="signing-up" component={SigningUp}/>
+        <Route path="quiz" component={Quiz}/>
         <Route path="account" component={Account}/>
       </Route>
 
