@@ -29,7 +29,7 @@ export default class Hundredth extends Component {
         ].map(([emoji, title]) => {
           return (
             <label key={emoji} style={{display: 'inline-block', minWidth: 200}}>
-              <input type="radio" name="prompt1" value={emoji}
+              <input type="radio" name="prompt1" value={emoji} autoFocus={emoji === 'runner'}
                 onChange={this.prompt1answer.bind(this, emoji, title)} checked={value === emoji}/>
               <span className={styles.g.checkable}>{title}</span>
             </label>

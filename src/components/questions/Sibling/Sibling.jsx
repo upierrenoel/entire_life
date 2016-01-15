@@ -24,7 +24,7 @@ export default class Sibling extends Component {
       </p>,
       <p key="answer1" className={styles.g.horizontalSpacing}>
         <label style={{minWidth: 200}}>
-          <input type="radio" name="prompt1" value="yes"
+          <input type="radio" name="prompt1" value="yes" autoFocus
             onChange={this.prompt1answer1.bind(this)} checked={value === 'yes'}/>
           <span className={styles.g.checkable}>Yes</span>
         </label>
@@ -41,7 +41,8 @@ export default class Sibling extends Component {
     this.setState({
       prompts: [
         this.prompt1('yes'),
-        this.prompt2()
+        this.prompt2(),
+        this.props.skip(),
       ]
     });
   }
@@ -71,7 +72,8 @@ export default class Sibling extends Component {
       prompts: [
         this.prompt1('yes'),
         this.prompt2(e.target.value),
-        this.prompt3({name: e.target.value})
+        this.prompt3({name: e.target.value}),
+        this.props.skip(),
       ]
     });
   }

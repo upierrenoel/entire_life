@@ -84,7 +84,7 @@ export default class SigningUp extends Component {
             if (result && typeof result.error === 'object') {
               return Promise.reject(result.error);
             }
-            this.props.history.pushState(null, `/${result.slug}`);
+            this.props.history.pushState(null, `/quiz`);
           });
         })}>
         <DocumentMeta {...metaData(title)} extend />

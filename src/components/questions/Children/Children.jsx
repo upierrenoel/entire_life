@@ -23,7 +23,7 @@ export default class Children extends Component {
       </p>,
       <p key="answer1" className={styles.g.horizontalSpacing}>
         <label style={{minWidth: 200}}>
-          <input type="radio" name="prompt1" value="yes"
+          <input type="radio" name="prompt1" value="yes" autoFocus
             onChange={this.prompt1answer1.bind(this)} checked={value === 'yes'}/>
           <span className={styles.g.checkable}>Yes</span>
         </label>

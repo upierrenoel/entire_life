@@ -23,7 +23,7 @@ export default class Vacation extends Component {
         <label htmlFor="date">When's the last time you went on a big trip?</label>
         <input type="date" id="date" autoComplete="off"
           min={this.props.user.born} max={this.props.user101date}
-          onChange={this.prompt1answer.bind(this)} value={date}
+          onChange={this.prompt1answer.bind(this)} value={date} autoFocus
         />
       </p>
     ];
