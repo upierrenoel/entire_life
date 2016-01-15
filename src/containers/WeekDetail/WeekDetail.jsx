@@ -65,7 +65,7 @@ export default class WeekDetail extends Component {
         <header>
           <h2 className={styles.global.brand}>Week of {this.start().toDateString()}</h2>
           <span className={styles.local.age}>{`${Math.floor(+this.props.weekno / 52)} years old`}</span>
-          <Link to={`/${this.props.user.slug}`} className={[styles.global.pullRight, styles.local.closeLink].join(' ')}>
+          <Link to={`/${this.props.user.slug}`} className={[styles.g.pullRight, styles.g.closeLink].join(' ')}>
             &times;
           </Link>
         </header>

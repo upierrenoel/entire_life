@@ -110,6 +110,10 @@ export default class Quiz extends Component {
         >
           <small>Skip this question</small>
         </Link>
+        {this.currentQuestion() || <Link to={`/${this.props.user.slug}`}
+          className={[styles.g.pullRight, styles.g.closeLink].join(' ')}>
+          <small>No thanks</small>
+        </Link>}
       </p>
     );
   }
@@ -122,7 +126,7 @@ export default class Quiz extends Component {
   }
 
   render() {
-    const title = 'Welcome Quiz ⟡ Entire.Life';
+    const title = `Welcome Quiz ⟡ ${this.currentQuestion() + 1} ⟡ Entire.Life`;
     return (
       <PageSection type="sunset-blocked" styleInner={{display: 'block'}} className={styles.g.container}>
         <DocumentMeta {...metaData(title)} extend/>

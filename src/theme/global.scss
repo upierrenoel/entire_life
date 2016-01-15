@@ -104,3 +104,13 @@ input[type=search] {
 .mutedText {
   color: gray;
 }
+
+.closeLink {
+  color: gray;
+  &:focus, &:hover {
+    box-shadow: none;
+  }
+  &:active {
+    background: transparent;
+  }
+}

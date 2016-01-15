@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import {Link} from 'react-router';
+import styleImporter from 'helpers/styleImporter';
+const styles = styleImporter();
 
 export default class Move extends Component {
   static propTypes = {
@@ -19,13 +20,11 @@ export default class Move extends Component {
   prompt1(date) {
     return [
       <header>
-        <Link to={`/${this.props.user.slug}`} className="pull-right close-link"><small>No thanks</small></Link>
-        <h1 className="brand">Welcome!</h1>
-        <small>Answer a few quick questions to make your calendar more fun!</small>
+        Answer a few quick questions to make your calendar more fun!
       </header>,
       <p key="prompt1">
         <label htmlFor="date">When's the last time you moved?</label>
-        <input type="date" className="form-control" id="date" autoComplete="off"
+        <input type="date" id="date" autoComplete="off"
           min={this.props.user.born} max={this.props.user101date}
           onChange={this.prompt1answer.bind(this)} value={date}
         />
@@ -47,7 +46,7 @@ export default class Move extends Component {
     return [
       <p key="prompt2">
         <label htmlFor="where">Where to?</label>
-        <input type="text" className="form-control" id="where" autoComplete="off"
+        <input type="text" id="where" autoComplete="off"
           onChange={this.prompt2answer.bind(this)} value={value}
         />
       </p>
@@ -67,7 +66,7 @@ export default class Move extends Component {
 
   saveButton() {
     return (
-      <button key="save" type="submit" className="brand">
+      <button key="save" type="submit" className={styles.g.brand}>
         Next Question !
       </button>
     );

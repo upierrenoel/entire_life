@@ -13,13 +13,3 @@
     }
   }
 }
-
-.closeLink {
-  color: gray;
-  &:focus, &:hover {
-    box-shadow: none;
-  }
-  &:active {
-    background: transparent;
-  }
-}
