@@ -14,7 +14,7 @@ import {
   // Hundredth,
   Move,
   // Relationship,
-  // Sibling,
+  Sibling,
   // Vacation,
 } from 'components/questions';
 import spinner from '../../../static/icon-loading-spinner.gif';
@@ -46,7 +46,7 @@ export default class Quiz extends Component {
   static defaultProps = {
     questions: [
       <Move/>,
-      // <Sibling/>,
+      <Sibling/>,
       // <Vacation/>,
       // <Children/>,
       // <Relationship/>,
@@ -110,7 +110,7 @@ export default class Quiz extends Component {
         >
           <small>Skip this question</small>
         </Link>
-        {this.currentQuestion() || <Link to={`/${this.props.user.slug}`}
+        {!!this.currentQuestion() || <Link to={`/${this.props.user.slug}`}
           className={[styles.g.pullRight, styles.g.closeLink].join(' ')}>
           <small>No thanks</small>
         </Link>}

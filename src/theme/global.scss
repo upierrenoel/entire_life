@@ -114,3 +114,11 @@ input[type=search] {
     background: transparent;
   }
 }
+
+.horizontalSpacing {
+  display: flex;
+  flex-flow: wrap;
+  & > * {
+    flex: 1;
+  }
+}
