@@ -15,7 +15,7 @@ import {
   Move,
   // Relationship,
   Sibling,
-  // Vacation,
+  Vacation,
 } from 'components/questions';
 import spinner from '../../../static/icon-loading-spinner.gif';
 
@@ -47,7 +47,7 @@ export default class Quiz extends Component {
     questions: [
       <Move/>,
       <Sibling/>,
-      // <Vacation/>,
+      <Vacation/>,
       // <Children/>,
       // <Relationship/>,
       // <Hundredth/>,

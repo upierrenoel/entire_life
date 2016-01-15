@@ -10,4 +10,4 @@
 export Move from './Move/Move';
 // export Relationship from './Relationship/Relationship';
 export Sibling from './Sibling/Sibling';
-// export Vacation from './Vacation/Vacation';
+export Vacation from './Vacation/Vacation';
