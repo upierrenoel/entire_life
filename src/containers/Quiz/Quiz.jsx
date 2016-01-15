@@ -10,7 +10,7 @@ import styleImporter from 'helpers/styleImporter';
 const styles = styleImporter();
 
 import {
-  // Children,
+  Children,
   // Hundredth,
   Move,
   // Relationship,
@@ -48,7 +48,7 @@ export default class Quiz extends Component {
       <Move/>,
       <Sibling/>,
       <Vacation/>,
-      // <Children/>,
+      <Children/>,
       // <Relationship/>,
       // <Hundredth/>,
       <Loading/>,

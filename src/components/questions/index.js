@@ -5,7 +5,7 @@
  *
  */
 
-// export Children from './Children/Children';
+export Children from './Children/Children';
 // export Hundredth from './Hundredth/Hundredth';
 export Move from './Move/Move';
 // export Relationship from './Relationship/Relationship';
