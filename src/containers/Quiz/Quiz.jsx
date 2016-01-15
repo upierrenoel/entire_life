@@ -13,7 +13,7 @@ import {
   Children,
   // Hundredth,
   Move,
-  // Relationship,
+  Relationship,
   Sibling,
   Vacation,
 } from 'components/questions';
@@ -49,7 +49,7 @@ export default class Quiz extends Component {
       <Sibling/>,
       <Vacation/>,
       <Children/>,
-      // <Relationship/>,
+      <Relationship/>,
       // <Hundredth/>,
       <Loading/>,
     ]
