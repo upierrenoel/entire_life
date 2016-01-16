@@ -34,7 +34,9 @@ export default class App extends Component {
 
   componentDidMount() {
     // ensure correct isMobile display after first page load
-    this.props.dispatch(resize());
+    setTimeout(() => {
+      this.props.dispatch(resize());
+    }, 200);
 
     let timeOut = null;
     window.onresize = () => {

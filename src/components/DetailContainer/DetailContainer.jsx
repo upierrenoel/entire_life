@@ -2,6 +2,7 @@ import React from 'react';
 const styles = require('./DetailContainer.scss');
 
 const animationSpeed = 300;
+const transition = `height ${animationSpeed}ms ease`;
 
 export default class DetailContainer extends React.Component {
   static propTypes = {
@@ -16,6 +17,7 @@ export default class DetailContainer extends React.Component {
   state = {
     animate: false,
     height: this.props.old ? 'auto' : 0,
+    styles: { transition },
   }
 
   componentDidMount() {
@@ -61,7 +63,10 @@ export default class DetailContainer extends React.Component {
         }, 1);
       } else {
         setTimeout(() => {
-          this.setState({height: 'auto'});
+          this.setState({styles: {transition: 'none'}, height: 'auto'});
+          setTimeout(() => {
+            this.setState({styles: {transition}});
+          }, animationSpeed);
         }, animationSpeed);
       }
     });
@@ -69,8 +74,8 @@ export default class DetailContainer extends React.Component {
 
   render() {
     const inlineStyles = {
+      ...this.state.styles,
       height: this.state.height,
-      transition: `height ${animationSpeed}ms ease`,
       overflow: 'hidden',
     };
     return (
