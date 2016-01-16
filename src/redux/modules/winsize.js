@@ -17,6 +17,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 function isMobile() {
+  console.log(window.innerWidth);
   return window.innerWidth < 700;
 }
 

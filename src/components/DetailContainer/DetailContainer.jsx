@@ -36,7 +36,7 @@ export default class DetailContainer extends React.Component {
 
   scrollToTop() {
     setTimeout(() => {
-      this.scrollTo(this.refs.top.offsetTop - 115);
+      if (this.refs.top) this.scrollTo(this.refs.top.offsetTop - 115);
     }, animationSpeed);
   }
 
