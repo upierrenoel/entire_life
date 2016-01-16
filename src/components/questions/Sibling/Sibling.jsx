@@ -1,6 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
 
 export default class Sibling extends Component {
 
@@ -22,16 +20,16 @@ export default class Sibling extends Component {
       <p key="prompt1">
         Do you have any younger siblings?
       </p>,
-      <p key="answer1" className={styles.g.horizontalSpacing}>
+      <p key="answer1" className="horizontalSpacing">
         <label style={{minWidth: 200}}>
           <input type="radio" name="prompt1" value="yes" autoFocus
             onChange={this.prompt1answer1.bind(this)} checked={value === 'yes'}/>
-          <span className={styles.g.checkable}>Yes</span>
+          <span className="checkable">Yes</span>
         </label>
         <label style={{minWidth: 200}}>
           <input type="radio" name="prompt1" value="no"
             onChange={this.prompt1answer2.bind(this)} checked={value === 'no'}/>
-          <span className={styles.g.checkable}>No</span>
+          <span className="checkable">No</span>
         </label>
       </p>
     ];
@@ -104,7 +102,7 @@ export default class Sibling extends Component {
 
   saveButton() {
     return (
-      <button key="saveButton" type="submit" className={styles.g.brand}>
+      <button key="saveButton" type="submit" className="brand">
         Next Question !
       </button>
     );

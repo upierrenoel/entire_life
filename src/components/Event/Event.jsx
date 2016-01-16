@@ -3,10 +3,9 @@ import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import ReactEmoji from 'react-emoji';
 import Linkify from 'react-linkify';
-import styleImporter from 'helpers/styleImporter';
 import {destroy as deleteEvent} from 'redux/modules/events';
 
-const styles = styleImporter(require('./Event.scss'));
+const styles = require('./Event.scss');
 
 const months = {
   '01': 'Jan',
@@ -70,14 +69,14 @@ class Event extends Component {
       return (
         <span>
           {this.underEdit()
-            ? <Link to={this.linkTo()} className={styles.l.actionLink}>
+            ? <Link to={this.linkTo()} className={styles.actionLink}>
                 {ReactEmoji.emojify(':no_entry_sign:', {attributes: {height: '10px', width: '10px'}})}
               </Link>
-            : <Link to={this.linkTo()} className={styles.l.actionLink}>
+            : <Link to={this.linkTo()} className={styles.actionLink}>
                 {ReactEmoji.emojify(':pencil2:', {attributes: {height: '10px', width: '10px'}})}
               </Link>
           }
-          <a className={styles.l.actionLink} onClick={this.deleteEvent}>
+          <a className={styles.actionLink} onClick={this.deleteEvent}>
             {ReactEmoji.emojify(':x:', {attributes: {height: '10px', width: '10px'}})}
           </a>
         </span>
@@ -115,14 +114,14 @@ class Event extends Component {
   renderExpiredPlanActions = () => {
     if (this.expiredPlan()) {
       return (
-        <div className={styles.l.buttonGroup}>
-          <button className={styles.g.success} onClick={this.markDone}>
+        <div className={styles.buttonGroup}>
+          <button className="success" onClick={this.markDone}>
             {ReactEmoji.emojify(':checkered_flag:', {singleEmoji: true})}
           </button>
-          <button className={styles.g.warning} onClick={this.snooze}>
+          <button className="warning" onClick={this.snooze}>
             {ReactEmoji.emojify(':sleeping:', {singleEmoji: true})}
           </button>
-          <button className={styles.g.error} onClick={this.deleteEvent}>
+          <button className="error" onClick={this.deleteEvent}>
             {ReactEmoji.emojify(':boom:', {singleEmoji: true})}
           </button>
         </div>
@@ -132,17 +131,17 @@ class Event extends Component {
 
   render() {
     return (
-      <li className={this.expiredPlan() && styles.l.expiredPlan}
+      <li className={this.expiredPlan() && styles.expiredPlan}
         style={{opacity: this.underEdit() && 0.5}}>
         <h5>
-          {ReactEmoji.emojify(this.props.event.emoji, {attributes: {className: styles.g.emoji}})}
+          {ReactEmoji.emojify(this.props.event.emoji, {attributes: {className: 'emoji'}})}
           {this.isPlan() ? ' Plan: ' : ' '}
           {this.props.event.title}
         </h5>
-        <small className={styles.g.mutedText}>{this.date()}</small>
-        <span className={styles.g.pullRight}>{this.props.event.id ? this.renderActions() : null}</span>
+        <small className="mutedText">{this.date()}</small>
+        <span className="pullRight">{this.props.event.id ? this.renderActions() : null}</span>
         <br/>
-        <small className={styles.l.description}>
+        <small className={styles.description}>
           <Linkify>{this.props.event.description}</Linkify>
         </small>
         {this.renderExpiredPlanActions()}

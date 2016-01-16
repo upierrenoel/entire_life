@@ -1,6 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
 
 export default class Vacation extends Component {
   static propTypes = {
@@ -44,13 +42,13 @@ export default class Vacation extends Component {
       <p key="prompt2">
         How'd you get there?
       </p>,
-      <p key="answer2" className={styles.g.horizontalSpacing}>
+      <p key="answer2" className="horizontalSpacing">
         {['car', 'airplane', 'train', 'bus', 'boat'].map(mode => {
           return (
             <label key={mode} style={{minWidth: 100}}>
               <input type="radio" name="prompt2" value={mode}
                 onChange={this.prompt2answer.bind(this)} checked={value === mode}/>
-              <span className={styles.g.checkable}>{mode}</span>
+              <span className="checkable">{mode}</span>
             </label>
           );
         })}
@@ -94,7 +92,7 @@ export default class Vacation extends Component {
 
   saveButton() {
     return (
-      <button key="save" type="submit" className={styles.g.brand}>
+      <button key="save" type="submit" className="brand">
         Next Question !
       </button>
     );

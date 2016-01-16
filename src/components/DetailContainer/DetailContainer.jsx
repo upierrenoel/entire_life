@@ -1,6 +1,5 @@
 import React from 'react';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter(require('./DetailContainer.scss'));
+const styles = require('./DetailContainer.scss');
 
 const animationSpeed = 300;
 
@@ -75,8 +74,8 @@ export default class DetailContainer extends React.Component {
       overflow: 'hidden',
     };
     return (
-      <div ref="top" className={styles.local.container} style={inlineStyles}>
-        <div ref="container" className={[styles.g.containerWide, styles.l.inner].join(' ')}>
+      <div ref="top" className={styles.container} style={inlineStyles}>
+        <div ref="container" className={['containerWide', styles.inner].join(' ')}>
           {this.props.children}
         </div>
       </div>

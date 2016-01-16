@@ -1,12 +1,11 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Week, DetailContainer} from 'components';
 // import IsMobileStore from '../stores/IsMobileStore';
-// import tourSteps from '../lib/tourSteps';
+import tourSteps from 'utils/tourSteps';
 import shallowEqual from 'helpers/shallowEqual';
-import styleImporter from 'helpers/styleImporter';
 
-const styles = styleImporter(require('./Calendar.scss'));
+const styles = require('./Calendar.scss');
 
 @connect(
   state => {
@@ -17,15 +16,16 @@ const styles = styleImporter(require('./Calendar.scss'));
     };
   }
 )
-export default class Calendar extends React.Component {
+export default class Calendar extends Component {
   static propTypes = {
-    finalWeek: React.PropTypes.number.isRequired,
-    user: React.PropTypes.object.isRequired,
-    addSteps: React.PropTypes.func,
-    showTour: React.PropTypes.bool,
-    weekno: React.PropTypes.string,
-    monthno: React.PropTypes.string,
-    detail: React.PropTypes.element,
+    finalWeek: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired,
+    addSteps: PropTypes.func,
+    weekno: PropTypes.string,
+    monthno: PropTypes.string,
+    detail: PropTypes.element,
+    showTour: PropTypes.bool,
+    startTour: PropTypes.func,
   }
 
   state = {
@@ -33,10 +33,10 @@ export default class Calendar extends React.Component {
     oldMonthno: null,
   }
 
-  // componentDidMount() {
-  //   this.props.addSteps(tourSteps)
-  //   if (this.props.showTour) setTimeout(this.props.startTour, 100)
-  // }
+  componentDidMount() {
+    this.props.addSteps(tourSteps);
+    if (this.props.showTour) setTimeout(this.props.startTour, 100);
+  }
 
   componentWillReceiveProps(newProps) {
     const oldWeekno = this.props.weekno;
@@ -106,12 +106,12 @@ export default class Calendar extends React.Component {
     return (
       <div key={age} className="year-wrap">
         <div className={[
-          styles.global.containerWide,
-          styles.local.year,
-          styles.local.inWeeks,
-          // !this.props.isMobile ? styles.local.inWeeks : null
+          'containerWide',
+          styles.year,
+          styles.inWeeks,
+          // !this.props.isMobile ? styles.inWeeks : null
         ].join(' ')}>
-          <small className={styles.local.age}>{!(age % 5) ? age : null }</small>
+          <small className={styles.age}>{!(age % 5) ? age : null }</small>
           {this.renderDots({age})}
         </div>
         {this.renderDetail(age)}
@@ -168,7 +168,7 @@ export default class Calendar extends React.Component {
       years.push(this.year(i));
     }
     return (
-      <div className={styles.local.calendar}>
+      <div className={styles.calendar}>
         {years}
       </div>
     );

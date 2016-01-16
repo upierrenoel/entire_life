@@ -3,8 +3,6 @@ import DocumentMeta from 'react-document-meta';
 import metaData from 'helpers/metaData';
 import {Link} from 'react-router';
 import { Nav, Logo, PageSection, Footer } from 'components';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
 
 // const renderCalendarLink = () => {
 //   const user = LoginStore.getState().user;
@@ -23,11 +21,11 @@ export default () => {
         <Nav>
           <Logo type="white" style={{float: 'left'}}/>
         </Nav>
-        <h1 className={styles.global.container}>
-          <div className={styles.global.brand}>4 0 4</div>
+        <h1 className="container">
+          <div className="brand">4 0 4</div>
           <div>Not Found</div>
         </h1>
-        <div className={`${styles.global.container} ${styles.global.lightLinks}`}>
+        <div className={`$"container" $"lightLinks"`}>
           <p>
             You've stumbled on a page that doesn't exist.
             You can <Link to="/">visit the home page</Link>

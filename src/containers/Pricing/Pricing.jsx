@@ -4,8 +4,6 @@ import {PageSection, Nav, Logo} from 'components';
 import scrollToTop from 'helpers/scrollToTop';
 import DocumentMeta from 'react-document-meta';
 import metaData from 'helpers/metaData';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
 
 @scrollToTop()
 export default class Signin extends Component {
@@ -13,11 +11,11 @@ export default class Signin extends Component {
     const title = 'Pricing ⟡ Privacy ⟡ Entire.Life';
     const description = 'Your life is not for sale. Entire.Life will never advertise nor require you to pay. Get started with your own life calendar today.';
     return (
-      <PageSection type="sunset-blocked" styleInner={{display: 'block'}} className={styles.global.container}>
+      <PageSection type="sunset-blocked" styleInner={{display: 'block'}} className="container">
         <DocumentMeta {...metaData(title, description)} extend />
         <Nav>
           <Logo type="black" style={{float: 'left'}}/>
-          <h1 className={styles.global.brand}>Your life is not for sale !</h1>
+          <h1 className="brand">Your life is not for sale !</h1>
         </Nav>
         <div style={{clear: 'both', marginBottom: '3em'}}>
           <p>
@@ -35,8 +33,8 @@ export default class Signin extends Component {
             At some point, we will offer social media integrations and
             add-ons. These will cost some small amount of money per-year.
           </p>
-          <div className={styles.global.centered}>
-            <Link to="/signin" className={styles.global.button}>
+          <div className="centered">
+            <Link to="/signin" className="button">
               Claim my free life calendar now
             </Link>
           </div>

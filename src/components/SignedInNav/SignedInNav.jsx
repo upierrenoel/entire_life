@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 import {logout} from 'redux/modules/auth';
 import {Link} from 'react-router';
 import {Avatar} from 'components';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter(require('./SignedInNav.scss'));
+const styles = require('./SignedInNav.scss');
 
 @connect(
   state => ({currentPath: state.router.location.pathname})
@@ -16,7 +15,7 @@ export default class SignedInNav extends Component {
       slug: PropTypes.string.isRequired,
     }).isRequired,
     dispatch: PropTypes.func.isRequired,
-    // startTour: PropTypes.func,
+    startTour: PropTypes.func,
   }
 
   state = {
@@ -72,9 +71,9 @@ export default class SignedInNav extends Component {
   renderHelpDropdown = () => {
     if (this.state.showHelpDropdown) {
       return (
-        <div ref="helpDropdown" className={styles.l.dropdown}>
-          {/* <a href="#" onClick={this.props.startTour} className={styles.g.button}>Tour</a> */}
-          <Link to="/quiz" className={styles.g.button}>Welcome Quiz</Link>
+        <div ref="helpDropdown" className={styles.dropdown}>
+          <a href="#" onClick={this.props.startTour} className="button">Tour</a>
+          <Link to="/quiz" className="button">Welcome Quiz</Link>
         </div>
       );
     }
@@ -83,10 +82,10 @@ export default class SignedInNav extends Component {
   renderAccountDropdown = () => {
     if (this.state.showAccountDropdown) {
       return (
-        <div ref="accountDropdown" className={styles.l.dropdown}>
-          <Link to={`/${this.props.user.slug}`} className={styles.g.button} activeClassName={styles.g.active}>Your Life</Link>
-          <Link to={"/account"} className={styles.g.button} activeClassName={styles.g.active}>Settings</Link>
-          <a href="" onClick={this.logout} className={styles.g.button}>Sign Out</a>
+        <div ref="accountDropdown" className={styles.dropdown}>
+          <Link to={`/${this.props.user.slug}`} className="button" activeClassName="active">Your Life</Link>
+          <Link to={"/account"} className="button" activeClassName="active">Settings</Link>
+          <a href="" onClick={this.logout} className="button">Sign Out</a>
         </div>
       );
     }
@@ -95,9 +94,9 @@ export default class SignedInNav extends Component {
   renderHelp = () => {
     if (this.props.currentPath.match(this.props.user.slug)) {
       return (
-        <div ref="helpLink" className={styles.l.accountLink}>
+        <div ref="helpLink" className={styles.accountLink}>
           <a href="#help" onClick={this.toggleHelpDropdown}
-            className={styles.l.helpIcon}>?</a>
+            className={styles.helpIcon}>?</a>
         </div>
       );
     }
@@ -106,11 +105,11 @@ export default class SignedInNav extends Component {
   render() {
     return (
       <nav ref="nav">
-        <div ref="accountLink" className={styles.l.accountLink}>
-          <Link className={styles.l.dropdownLink}
+        <div ref="accountLink" className={styles.accountLink}>
+          <Link className={styles.dropdownLink}
             to="/account" onClick={this.toggleAccountDropdown}>
             <Avatar user={this.props.user}/>
-            <small className={styles.l.dropdownArrow}>&#x25bc;</small>
+            <small className={styles.dropdownArrow}>&#x25bc;</small>
           </Link>
         </div>
         {this.renderAccountDropdown()}

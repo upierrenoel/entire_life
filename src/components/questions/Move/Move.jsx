@@ -1,6 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
 
 export default class Move extends Component {
   static propTypes = {
@@ -66,7 +64,7 @@ export default class Move extends Component {
 
   saveButton() {
     return (
-      <button key="save" type="submit" className={styles.g.brand}>
+      <button key="save" type="submit" className="brand">
         Next Question !
       </button>
     );

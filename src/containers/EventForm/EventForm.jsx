@@ -6,8 +6,6 @@ import eventValidation from './eventValidation';
 import {save} from 'redux/modules/events';
 import EmojiPicker from 'react-emoji-picker';
 import {startOf, endOf} from 'helpers/dateHelpers';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
 
 const emojiPickerStyles = {
   position: 'absolute',
@@ -103,7 +101,7 @@ export default class EventForm extends Component {
           <br/>
           <input type="radio" {...dateField} value={dateString}
             checked={value === dateString}/>
-          <span className={styles.g.checkable}>{date.toDateString()}</span>
+          <span className="checkable">{date.toDateString()}</span>
         </label>
       );
       date = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
@@ -187,7 +185,7 @@ export default class EventForm extends Component {
           <label htmlFor="title">Title</label>
           <input type="text" required ref="title" autoComplete="off" id={title.name} {...title}/>
           {title.error && title.touched &&
-            <label htmlFor={title.name} className={styles.g.errorText}>{title.error}</label>}
+            <label htmlFor={title.name} className="errorText">{title.error}</label>}
         </p>
         <p style={{position: 'relative'}} ref="emoji">
           <label htmlFor="emoji">Single-symbol summary</label>
@@ -198,7 +196,7 @@ export default class EventForm extends Component {
           {this.emojiPicker()}
           <small>Describe it with one small picture</small>
           {emoji.error && emoji.touched &&
-            <label htmlFor={emoji.name} className={styles.g.errorText}><br/>{emoji.error}</label>}
+            <label htmlFor={emoji.name} className="errorText"><br/>{emoji.error}</label>}
         </p>
         <p>
           <label htmlFor="description">Description</label>
@@ -208,11 +206,11 @@ export default class EventForm extends Component {
           <label htmlFor="date">Date</label>
           {this.dates(date)}
         </p>
-        <button type="submit" className={styles.g.brand}
+        <button type="submit" className="brand"
           disabled={pristine || invalid || submitting}>
           Save
         </button>
-        {saveError && <div className={styles.g.errorText}>{saveError}</div>}
+        {saveError && <div className="errorText">{saveError}</div>}
       </form>
     );
   }

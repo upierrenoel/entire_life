@@ -1,8 +1,7 @@
 import React from 'react';
 import {Nav, Logo, PageSection} from 'components';
-import styleImporter from 'helpers/styleImporter';
 
-const styles = styleImporter(require('./Landing.scss'));
+const styles = require('./Landing.scss');
 
 export default ({children}) => {
   return (
@@ -11,13 +10,13 @@ export default ({children}) => {
         <Logo type="white" style={{float: 'left'}}/>
       </Nav>
       <h1>
-        <div className={styles.global.container}>
-          <div className={styles.global.brand}>Plan. Remember.</div>
+        <div className="container">
+          <div className="brand">Plan. Remember.</div>
           <div style={{fontSize: '.7em'}}>Live a Meaningful Life.</div>
         </div>
       </h1>
       {children}
-      <div className={styles.local.screenshots}>
+      <div className={styles.screenshots}>
         <img src={require('./screenshots.png')} alt="Entire.Life works on all devices"/>
       </div>
     </PageSection>

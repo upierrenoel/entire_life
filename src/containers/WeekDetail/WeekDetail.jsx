@@ -6,8 +6,7 @@ import {pushState} from 'redux-router';
 import {connect} from 'react-redux';
 import {Events} from 'components';
 import {startOf} from 'helpers/dateHelpers';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter(require('./WeekDetail.scss'));
+const styles = require('./WeekDetail.scss');
 
 @connect(
   (state, ownProps) => {
@@ -63,13 +62,13 @@ export default class WeekDetail extends Component {
       <div>
         <DocumentMeta {...metaData(title)} extend />
         <header>
-          <h2 className={styles.global.brand}>Week of {this.start().toDateString()}</h2>
-          <span className={styles.local.age}>{`${Math.floor(+this.props.weekno / 52)} years old`}</span>
-          <Link to={`/${this.props.user.slug}`} className={[styles.g.pullRight, styles.g.closeLink].join(' ')}>
+          <h2 className="brand">Week of {this.start().toDateString()}</h2>
+          <span className={styles.age}>{`${Math.floor(+this.props.weekno / 52)} years old`}</span>
+          <Link to={`/${this.props.user.slug}`} className="pullRight closeLink">
             &times;
           </Link>
         </header>
-        <div className={this.props.canEdit ? styles.local.twoCol : ''}>
+        <div className={this.props.canEdit ? styles.twoCol : ''}>
           <div>
             <h3>This week in {this.whose()} life:</h3>
             <Events events={this.props.events} born={this.props.user.born}

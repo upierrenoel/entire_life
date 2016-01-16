@@ -7,8 +7,7 @@ import {Landing} from 'components';
 import scrollToTop from 'helpers/scrollToTop';
 import DocumentMeta from 'react-document-meta';
 import metaData from 'helpers/metaData';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter(require('./Signin.scss'));
+const styles = require('./Signin.scss');
 
 @connect(
   state => ({auth: state.auth}),
@@ -96,12 +95,12 @@ export default class Signin extends Component {
       );
     } else if (auth.user.slug) {
       return (
-        <p className={styles.g.lightLinks}>You're signed in. You can&nbsp;
+        <p className="lightLinks">You're signed in. You can&nbsp;
         <Link to={`/${auth.user.slug}`}>view your life calendar</Link>.</p>
       );
     }
     return (
-      <div id="signin" ref="signin" className={styles.l.signin}/>
+      <div id="signin" ref="signin" className={styles.signin}/>
     );
   }
 
@@ -110,9 +109,7 @@ export default class Signin extends Component {
     return (
       <Landing>
         <DocumentMeta {...metaData(title)} extend />
-        <div className={[
-          styles.g.container, styles.g.lightLinks
-        ].join(' ')}>
+        <div className="container lightLinks">
           <small>
             To get started with your life calendar, you'll need to sign up
             for an account, which is as quick &amp; easy as signing in with

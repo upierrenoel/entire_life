@@ -111,6 +111,7 @@
     "react-emoji": "^0.4.1",
     "react-emoji-picker": "^1.0.8",
     "react-inline-css": "^2.0.0",
+    "react-joyride": "^1.1.1",
     "react-linkify": "^0.1.1",
     "react-mixin": "^3.0.3",
     "react-redux": "^4.0.6",

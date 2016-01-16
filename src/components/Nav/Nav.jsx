@@ -2,8 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import {SignedInNav} from 'components';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter(require('./Nav.scss'));
+const styles = require('./Nav.scss');
 
 @connect(
   state => ({auth: state.auth})
@@ -14,19 +13,19 @@ export default class Nav extends Component {
     className: PropTypes.string,
     lower: PropTypes.bool,
     auth: PropTypes.object,
+    startTour: PropTypes.func,
   }
 
   headerItems = () => {
     const {auth} = this.props;
     if (!auth.user || !auth.user.slug) {
       return (
-        <Link to={"/signin"} className={styles.global.button}>
+        <Link to={"/signin"} className="button">
           Sign In
         </Link>
       );
     }
-    // return <SignedInNav user={auth.user} startTour={this.props.startTour}/>;
-    return <SignedInNav user={auth.user}/>;
+    return <SignedInNav user={auth.user} startTour={this.props.startTour}/>;
   }
 
   render() {
@@ -34,8 +33,8 @@ export default class Nav extends Component {
     const localStyles = {};
     if (lower) localStyles.top = '1.5em';
     return (
-      <nav className={[styles.local.wrap, className].join(' ')}>
-        <div className={styles.local.items} style={localStyles}>
+      <nav className={[styles.wrap, className].join(' ')}>
+        <div className={styles.items} style={localStyles}>
           {this.headerItems()}
         </div>
         {children}

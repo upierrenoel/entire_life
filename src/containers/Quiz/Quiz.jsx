@@ -6,8 +6,6 @@ import {save} from 'redux/modules/events';
 import DocumentMeta from 'react-document-meta';
 import metaData from 'helpers/metaData';
 import {PageSection, Logo, Nav} from 'components';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
 
 import {
   Children,
@@ -111,7 +109,7 @@ export default class Quiz extends Component {
           <small>Skip this question</small>
         </Link>
         {!!this.currentQuestion() || <Link to={`/${this.props.user.slug}`}
-          className={[styles.g.pullRight, styles.g.closeLink].join(' ')}>
+          className="pullRight closeLink">
           <small>No thanks</small>
         </Link>}
       </p>
@@ -128,11 +126,11 @@ export default class Quiz extends Component {
   render() {
     const title = `Welcome Quiz ⟡ ${this.currentQuestion() + 1} ⟡ Entire.Life`;
     return (
-      <PageSection type="sunset-blocked" styleInner={{display: 'block'}} className={styles.g.container}>
+      <PageSection type="sunset-blocked" styleInner={{display: 'block'}} className="container">
         <DocumentMeta {...metaData(title)} extend/>
         <Nav lower>
           <Logo type="black" style={{float: 'left'}}/>
-          <h1 className={styles.g.brand}>Welcome Quiz</h1>
+          <h1 className="brand">Welcome Quiz</h1>
         </Nav>
         <div style={{clear: 'both'}}>
           {React.cloneElement(

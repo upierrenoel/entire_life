@@ -3,8 +3,6 @@ import {Nav, Logo, PageSection, Footer} from 'components';
 import scrollToTop from 'helpers/scrollToTop';
 import DocumentMeta from 'react-document-meta';
 import metaData from 'helpers/metaData';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
 
 @scrollToTop()
 export default class Team extends Component {
@@ -14,19 +12,19 @@ export default class Team extends Component {
     return (
       <div>
         <DocumentMeta {...metaData(title, description)} extend />
-        <PageSection type="sunset-blocked" className={styles.global.container}>
+        <PageSection type="sunset-blocked" className="container">
           <Nav lower>
             <Logo type="black" style={{float: 'left'}}/>
-            <h1 className={styles.global.brand}>
+            <h1 className="brand">
               Team
             </h1>
           </Nav>
-          <div className={[styles.global.row, styles.global.verticallyCentered].join(' ')} style={{marginTop: '4em'}}>
-            <div className={[styles.global.col4, styles.global.centered].join(' ')}>
-              <img src="https://secure.gravatar.com/avatar/259469ed60f945161a150e79a381b26c?s=400" className={styles.global.circle} alt="picture of Chad Ostrowski"/>
+          <div className="row verticallyCentered" style={{marginTop: '4em'}}>
+            <div className="col4 centered">
+              <img src="https://secure.gravatar.com/avatar/259469ed60f945161a150e79a381b26c?s=400" className="circle" alt="picture of Chad Ostrowski"/>
             </div>
-            <div className={styles.global.col8}>
-              <h2 className={styles.global.brand}>Chad Ostrowski</h2>
+            <div className="col8">
+              <h2 className="brand">Chad Ostrowski</h2>
               Chad builds this thing. He currently lives in Philadelphia, PA, USA. What he wants to give others:
               <ul>
                 <li>Wonder</li>
@@ -37,13 +35,13 @@ export default class Team extends Component {
             </div>
           </div>
           <div
-            className={[styles.global.row, styles.global.reverse, styles.global.verticallyCentered].join(' ')}
+            className="row reverse verticallyCentered"
             style={{marginTop: 30, marginBottom: '3em'}}>
-            <div className={[styles.global.col4, styles.global.centered].join(' ')}>
-              <img src="http://www.gravatar.com/avatar/5fa2393daaadfe646f2986ddd4a981dc?s=500" className={styles.global.circle} alt="picture of Uri Pierre-Noel"/>
+            <div className="col4 centered">
+              <img src="http://www.gravatar.com/avatar/5fa2393daaadfe646f2986ddd4a981dc?s=500" className="circle" alt="picture of Uri Pierre-Noel"/>
             </div>
-            <div className={styles.global.col8}>
-              <h2 className={styles.global.brand}>Uri Pierre Noel</h2>
+            <div className="col8">
+              <h2 className="brand">Uri Pierre Noel</h2>
               Uri markets this thing. He currently lives in Boston, MA, USA. What he wants to give to others:
               <ul>
                 <li>Happiness</li>

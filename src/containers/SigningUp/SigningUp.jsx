@@ -7,8 +7,6 @@ import {bindActionCreators} from 'redux';
 import signingupValidation from './signingupValidation';
 import {save} from 'redux/modules/auth';
 import {PageSection, Logo, Nav, CheckboxPrivatePublic} from 'components';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
 
 @connect(
   state => ({
@@ -88,25 +86,25 @@ export default class SigningUp extends Component {
           });
         })}>
         <DocumentMeta {...metaData(title)} extend />
-        <PageSection type="sunset-blocked" styleInner={{display: 'block'}} className={styles.g.container}>
+        <PageSection type="sunset-blocked" styleInner={{display: 'block'}} className="container">
           <Nav lower>
             <Logo type="black" style={{float: 'left'}}/>
-            <h1 className={styles.g.brand}>Almost Done, {currentUser.name} !</h1>
+            <h1 className="brand">Almost Done, {currentUser.name} !</h1>
           </Nav>
           <div style={{clear: 'both'}}>
             <p>
               <label htmlFor="born">When were you born? This will be the first date on your calendar!</label>
               <input type="date" {...born}/>
               {born.error && born.touched &&
-                <label htmlFor={born.name} className={styles.g.errorText}>{born.error}</label>}
+                <label htmlFor={born.name} className="errorText">{born.error}</label>}
             </p>
             <CheckboxPrivatePublic {...is_private}/>
             {this.renderSlug()}
-            <button type="submit" className={styles.g.brand}
+            <button type="submit" className="brand"
               disabled={pristine || invalid || submitting}>
               Looks good !
             </button>
-            {saveError && <div className={styles.g.errorText}>{JSON.stringify(saveError)}</div>}
+            {saveError && <div className="errorText">{JSON.stringify(saveError)}</div>}
           </div>
         </PageSection>
       </form>

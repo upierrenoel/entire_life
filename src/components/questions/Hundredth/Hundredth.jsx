@@ -1,6 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import styleImporter from 'helpers/styleImporter';
-const styles = styleImporter();
 
 export default class Hundredth extends Component {
 
@@ -31,7 +29,7 @@ export default class Hundredth extends Component {
             <label key={emoji} style={{display: 'inline-block', minWidth: 200}}>
               <input type="radio" name="prompt1" value={emoji} autoFocus={emoji === 'runner'}
                 onChange={this.prompt1answer.bind(this, emoji, title)} checked={value === emoji}/>
-              <span className={styles.g.checkable}>{title}</span>
+              <span className="checkable">{title}</span>
             </label>
           );
         })}
