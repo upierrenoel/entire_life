@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import {Link} from 'react-router';
 import DocumentMeta from 'react-document-meta';
 import metaData from 'helpers/metaData';
 import {connect} from 'react-redux';
@@ -36,6 +37,8 @@ function fetchDataDeferred(getState, dispatch) {
       weekno: state.router.params.weekno,
       monthno: state.router.params.monthno,
       location: state.router.location,
+      currentUser: state.auth.user,
+      canView: !!(state.auth.user.slug && state.auth.user.slug === state.router.params.slug),
     };
   },
   dispatch => ({dispatch, pushState})
@@ -44,6 +47,7 @@ function fetchDataDeferred(getState, dispatch) {
 export default class User extends Component {
   static propTypes = {
     user: PropTypes.object,
+    currentUser: PropTypes.object,
     isUserLoading: PropTypes.bool.isRequired,
     isEventsLoading: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
@@ -52,6 +56,7 @@ export default class User extends Component {
     weekno: PropTypes.string,
     monthno: PropTypes.string,
     location: PropTypes.object,
+    canView: PropTypes.bool,
     history: PropTypes.object,
   };
 
@@ -68,15 +73,6 @@ export default class User extends Component {
     // joyride calls 'window'; using componentDidMount to only render on client
     Joyride = require('react-joyride');
     this.setState({showTour: true}); // eslint-disable-line react/no-did-mount-set-state
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.user && nextProps.user && this.props.user.id !== nextProps.user.id) {
-      // navigated to new user
-      // dispatch(loadUser())
-      // dispatch(loadEvents())
-      console.log('can we use dispatch? this is what it is: ', this.props.dispatch);
-    }
   }
 
   addSteps = (steps, start) => {
@@ -118,25 +114,29 @@ export default class User extends Component {
   }
 
   renderName = () => {
-    // if(!LoginStore.canView(this.props.user)) {
-    //   const name = this.props.user.get('name').split(' ')[0]
-    //   return `${name}'s life is ${name}'s business!`
-    // }
     if (!this.props.user || !this.props.user.name) {
       return <img src={spinner} alt="loading..." width="40"/>;
+    }
+    if (!this.props.canView) {
+      const name = this.props.user.name.split(' ')[0];
+      return `${name}'s life is ${name}'s business!`;
     }
     return this.props.user.name;
   }
 
   renderCalendar = () => {
-    // const user = this.props.user;
-    // if(!LoginStore.canView(user)) {
-    //   const name = user.get('name').split(' ')[0]
-    //   return <div className="container-wide">
-    //     <p>There are things we're not meant to know. Amongst them, the detail's of {name}'s life!</p>
-    //     <p>If this is your calendar, <Link to="/signin">sign in again</Link> to see it.</p>
-    //   </div>
-    // }
+    const {user} = this.props;
+    if (!this.props.canView) {
+      const name = user.name.split(' ')[0];
+      return (
+        <div className="containerWide" style={{clear: 'both'}}>
+          <p>There are things we're not meant to know. Amongst them, the detail's of {name}'s life!</p>
+          {!!this.props.currentUser.slug ||
+            <p>If this is your calendar, <Link to="/signin">sign in again</Link> to see it.</p>
+          }
+        </div>
+      );
+    }
     if (this.props.isUserLoading || this.props.isEventsLoading) {
       return (
         <p style={{clear: 'both', textAlign: 'center', paddingTop: '5em'}}>
