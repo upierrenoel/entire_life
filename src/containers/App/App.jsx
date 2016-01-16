@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import DocumentMeta from 'react-document-meta';
 import {isLoaded as isAuthLoaded, load as loadAuth} from 'redux/modules/auth';
 import {resize} from 'redux/modules/winsize';
-import {pushState} from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
 
@@ -20,14 +19,13 @@ function fetchData(getState, dispatch) {
 @connectData(fetchData)
 @connect(
   state => ({currentUser: state.auth.user}),
-  dispatch => ({pushState, dispatch})
 )
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     currentUser: PropTypes.object,
-    pushState: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -50,10 +48,10 @@ export default class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (!this.props.currentUser.slug && nextProps.currentUser.slug) {
       // login
-      this.props.pushState(null, this.loggedInRoute(nextProps));
+      this.props.history.pushState(null, this.loggedInRoute(nextProps));
     } else if (this.props.currentUser.slug && !nextProps.currentUser.slug) {
       // logout
-      this.props.pushState(null, '/');
+      this.props.history.pushState(null, '/');
     }
   }
 
