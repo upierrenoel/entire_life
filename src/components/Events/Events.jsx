@@ -14,12 +14,13 @@ const eventsOrPlans = ({weekno, born}) => {
   return 'events or plans';
 };
 
-const renderEvents = ({events, slug, weekno, canEdit, editEventId}) => {
+const renderEvents = ({events, slug, weekno, monthno, canEdit, editEventId}) => {
   return (
     events.map(event => <Event
       key={event.date + event.id + event.title}
       slug={slug}
       weekno={weekno}
+      monthno={monthno}
       event={event}
       canEdit={canEdit}
       editEventId={editEventId}
@@ -28,10 +29,10 @@ const renderEvents = ({events, slug, weekno, canEdit, editEventId}) => {
   );
 };
 
-const Events = ({events, slug, born, weekno, canEdit, editEventId}) => {
+const Events = ({events, slug, born, weekno, monthno, canEdit, editEventId}) => {
   return (
     <ol className={styles.events}>
-      {!events ? `No ${eventsOrPlans({weekno, born})}` : renderEvents({events, slug, weekno, canEdit, editEventId})}
+      {!events ? `No ${eventsOrPlans({weekno, born})}` : renderEvents({events, slug, weekno, monthno, canEdit, editEventId})}
     </ol>
   );
 };
@@ -40,7 +41,8 @@ Events.propTypes = {
   events: PropTypes.array,
   slug: PropTypes.string.isRequired,
   born: PropTypes.string.isRequired,
-  weekno: PropTypes.number.isRequired,
+  weekno: PropTypes.number,
+  monthno: PropTypes.number,
   canEdit: PropTypes.bool.isRequired,
   editEventId: PropTypes.string,
 };

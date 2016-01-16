@@ -14,3 +14,10 @@ export function startOf({weekno, born}) {
 export function endOf({weekno, born}) {
   return startOf({weekno: +weekno + 1, born});
 }
+
+export function eventsForMonth(events, monthno) {
+  return (events[monthno * 4    ] || []).concat( // eslint-disable-line no-multi-spaces
+          events[monthno * 4 + 1] || []).concat(
+          events[monthno * 4 + 2] || []).concat(
+          events[monthno * 4 + 3] || []);
+}

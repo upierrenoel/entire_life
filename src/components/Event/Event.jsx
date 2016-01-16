@@ -27,7 +27,8 @@ class Event extends Component {
   static propTypes = {
     slug: PropTypes.string.isRequired,
     event: PropTypes.object.isRequired,
-    weekno: PropTypes.number.isRequired,
+    weekno: PropTypes.number,
+    monthno: PropTypes.number,
     canEdit: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     editEventId: PropTypes.string,
@@ -59,9 +60,10 @@ class Event extends Component {
   }
 
   linkTo = () => {
-    const {event, slug, weekno} = this.props;
-    if (this.underEdit()) return `/${slug}/week/${weekno}`;
-    return `/${slug}/week/${weekno}/edit-event/${event.id}`;
+    const {event, slug, weekno, monthno} = this.props;
+    const kind = weekno ? 'week' : 'month';
+    if (this.underEdit()) return `/${slug}/${kind}/${weekno || monthno}`;
+    return `/${slug}/${kind}/${weekno || monthno}/edit-event/${event.id}`;
   }
 
   createEvent = () => {

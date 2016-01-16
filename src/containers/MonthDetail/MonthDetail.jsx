@@ -5,17 +5,18 @@ import {Link} from 'react-router';
 import {pushState} from 'redux-router';
 import {connect} from 'react-redux';
 import {Events} from 'components';
-import {startOf} from 'helpers/dateHelpers';
-const styles = require('./WeekDetail.scss');
+import {startOf, eventsForMonth} from 'helpers/dateHelpers';
+const styles = require('../WeekDetail/WeekDetail.scss');
 
 @connect(
   (state, ownProps) => {
+    const slug = state.router.params.slug;
     return {
       currentUser: state.auth.user,
-      canEdit: !!(state.auth.user.slug && state.auth.user.slug === state.router.params.slug),
-      user: state.users.data[state.router.params.slug] || {},
-      events: state.router.params.slug
-        ? state.events.data[state.router.params.slug]['' + ownProps.weekno]
+      canEdit: !!(slug && slug === state.auth.user.slug),
+      user: state.users.data[slug] || {},
+      events: slug
+        ? eventsForMonth(state.events.data[slug], ownProps.monthno)
         : [],
       editEventId: state.router.params.id,
     };
@@ -23,7 +24,6 @@ const styles = require('./WeekDetail.scss');
   {pushState}
 )
 export default class WeekDetail extends Component {
-
   static propTypes = {
     currentUser: PropTypes.object,
     canEdit: PropTypes.bool,
@@ -31,7 +31,7 @@ export default class WeekDetail extends Component {
     events: PropTypes.array,
     editEventId: PropTypes.string,
     pushState: PropTypes.func.isRequired,
-    weekno: PropTypes.number,
+    monthno: PropTypes.number,
     children: PropTypes.node,
   }
 
@@ -41,40 +41,40 @@ export default class WeekDetail extends Component {
   }
 
   start = () => {
-    return startOf({weekno: +this.props.weekno, born: this.props.user.born});
+    return startOf({weekno: +this.props.monthno * 4, born: this.props.user.born});
   }
 
-  weekTitle = () => {
-    let weekTitle = '';
-    if (this.props.weekno) {
-      weekTitle += `Week ${this.props.weekno} `;
+  monthTitle = () => {
+    let monthTitle = '';
+    if (this.props.monthno) {
+      monthTitle += `Month ${this.props.monthno} `;
       if (this.props.events && this.props.events[0]) {
-        weekTitle += `⟡ ${this.props.events[0].title} `;
+        monthTitle += `⟡ ${this.props.events[0].title} `;
       }
-      weekTitle += '⟡ ';
+      monthTitle += '⟡ ';
     }
-    return weekTitle;
+    return monthTitle;
   }
 
   render() {
     if (!this.props.user.slug) return null;
 
-    const title = `${this.weekTitle()}${this.props.user.name} ⟡ a life `;
+    const title = `${this.monthTitle()}${this.props.user.name} ⟡ a life `;
     return (
       <div>
         <DocumentMeta {...metaData(title)} extend />
         <header>
-          <h2 className="brand">Week of {this.start().toDateString()}</h2>
-          <span className={styles.age}>{`${Math.floor(+this.props.weekno / 52)} years old`}</span>
+          <h2 className="brand">Month of {this.start().toDateString()}</h2>
+          <span className={styles.age}>{`${Math.floor(+this.props.monthno / 13)} years old`}</span>
           <Link to={`/${this.props.user.slug}`} className="pullRight closeLink">
             &times;
           </Link>
         </header>
         <div className={this.props.canEdit ? styles.twoCol : ''}>
           <div>
-            <h3>This week in {this.whose()} life:</h3>
+            <h3>This month in {this.whose()} life:</h3>
             <Events events={this.props.events} born={this.props.user.born}
-              slug={this.props.user.slug} weekno={+this.props.weekno}
+              slug={this.props.user.slug} monthno={+this.props.monthno}
               canEdit={this.props.canEdit} editEventId={this.props.editEventId}
             />
           </div>

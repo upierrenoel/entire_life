@@ -2,15 +2,8 @@ import React from 'react';
 import ReactEmoji from 'react-emoji';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
-import {startOf} from 'helpers/dateHelpers';
+import {startOf, eventsForMonth} from 'helpers/dateHelpers';
 const styles = require('../Week/Week.scss');
-
-const eventsForMonth = (events, monthno) => {
-  return (events[monthno * 4    ] || []).concat( // eslint-disable-line no-multi-spaces
-          events[monthno * 4 + 1] || []).concat(
-          events[monthno * 4 + 2] || []).concat(
-          events[monthno * 4 + 3] || []);
-};
 
 @connect(
   (state, ownProps) => {
@@ -50,7 +43,7 @@ export default class Month extends React.Component {
 
   linkTo = () => {
     if (this.props.selected) return `/${this.props.user.slug}`;
-    return `/${this.props.user.slug}/week/${this.props.monthno}`;
+    return `/${this.props.user.slug}/month/${this.props.monthno}`;
   }
 
   klass = () => {
@@ -66,12 +59,12 @@ export default class Month extends React.Component {
   }
 
   render() {
-    const start = startOf({monthno: this.props.monthno * 4, born: this.props.user.born});
+    const start = startOf({weekno: this.props.monthno * 4, born: this.props.user.born});
     return (
       <Link to={this.linkTo()} className={this.klass()}
         title={this.tooltip(start.toDateString())}>
         {this.emoji()}
-        {this.props.selected ? <div className="arrow"/> : null}
+        {this.props.selected ? <div className={styles.arrow}/> : null}
       </Link>
     );
   }

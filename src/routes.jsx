@@ -6,6 +6,7 @@ import {
   App,
   EventForm,
   Home,
+  MonthDetail,
   Signin,
   SigningUp,
   Pricing,
@@ -52,6 +53,10 @@ export default (store) => {
       </Route>
 
       <Route path=":slug" component={User}>
+        <Route path="month/:monthno" component={MonthDetail}>
+          <IndexRoute component={EventForm}/>
+          <Route path="edit-event/:id" component={EventForm}/>
+        </Route>
         <Route path="week/:weekno" component={WeekDetail}>
           <IndexRoute component={EventForm}/>
           <Route path="edit-event/:id" component={EventForm}/>
