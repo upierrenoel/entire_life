@@ -30,15 +30,17 @@ function fetchDataDeferred(getState, dispatch) {
 @connectData(null, fetchDataDeferred)
 @connect(
   state => {
+    const user = state.users.data[state.router.params.slug];
+    const currentUser = state.auth.user;
     return {
-      user: state.users.data[state.router.params.slug],
+      user,
+      currentUser,
       isUserLoading: !!state.users.loading,
       isEventsLoading: !!state.events.loading,
       weekno: state.router.params.weekno,
       monthno: state.router.params.monthno,
       location: state.router.location,
-      currentUser: state.auth.user,
-      canView: !!(state.auth.user.slug && state.auth.user.slug === state.router.params.slug),
+      canView: !user || !user.is_private || currentUser.id === user.id,
     };
   },
   dispatch => ({dispatch, pushState})
@@ -113,12 +115,13 @@ export default class User extends Component {
     }
   }
 
-  renderName = () => {
+  renderName = ({title} = {}) => {
     if (!this.props.user || !this.props.user.name) {
       return <img src={spinner} alt="loading..." width="40"/>;
     }
     if (!this.props.canView) {
       const name = this.props.user.name.split(' ')[0];
+      if (title) return name;
       return `${name}'s life is ${name}'s business!`;
     }
     return this.props.user.name;
@@ -170,8 +173,8 @@ export default class User extends Component {
   render() {
     if (!this.props.user && !this.props.isUserLoading) return <NotFound/>;
 
-    const title = `${this.renderName()} ⟡ A Life`;
-    const description = `${this.renderName()} is using Entire.Life to document the past and live into a more beautiful future. Free symbolic life calendars for all who wish to join in!`;
+    const title = `${this.renderName({title: true})} ⟡ A Life`;
+    const description = `${this.renderName({title: true})} is using Entire.Life to document the past and live into a more beautiful future. Free symbolic life calendars for all who wish to join in!`;
     return (
       <div>
         <DocumentMeta {...metaData(title, description)} extend />
