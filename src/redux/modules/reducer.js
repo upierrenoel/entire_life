@@ -4,6 +4,7 @@ import { routerStateReducer } from 'redux-router';
 import auth from './auth';
 import users from './users';
 import events from './events';
+import winsize from './winsize';
 import {reducer as form} from 'redux-form';
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
   form,
   auth,
   users,
-  events
+  events,
+  winsize,
 });

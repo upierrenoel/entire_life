@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {Week, DetailContainer} from 'components';
-// import IsMobileStore from '../stores/IsMobileStore';
+import {Week, Month, DetailContainer} from 'components';
 import tourSteps from 'utils/tourSteps';
 import shallowEqual from 'helpers/shallowEqual';
 
@@ -13,12 +12,14 @@ const styles = require('./Calendar.scss');
     const eventWeeks = Object.keys(events).map(v => +v);
     return {
       finalWeek: +eventWeeks.sort((a, b) => a - b)[eventWeeks.length - 1],
+      isMobile: state.winsize.isMobile,
     };
   }
 )
 export default class Calendar extends Component {
   static propTypes = {
     finalWeek: PropTypes.number.isRequired,
+    isMobile: PropTypes.bool,
     user: PropTypes.object.isRequired,
     addSteps: PropTypes.func,
     weekno: PropTypes.string,
@@ -53,24 +54,25 @@ export default class Calendar extends Component {
     return this.props.weekno !== nextProps.weekno ||
       this.props.monthno !== nextProps.monthno ||
       !this.props.detail && !!nextProps.detail ||
-      !shallowEqual(this.props.user, nextProps.user);
+      !shallowEqual(this.props.user, nextProps.user) ||
+      this.props.isMobile !== nextProps.isMobile;
   }
 
-  // monthsFor = ({age}) => {
-  //   let months = [];
-  //   for(var i = 0; i < 13; i++) {
-  //     const monthno = age * 13 + i;
-  //
-  //     const selected = +this.props.monthno === monthno ||
-  //       Math.floor(+this.props.weekno/4) === monthno;
-  //     months.push(
-  //       <Month key={monthno} monthno={monthno}
-  //         selected={selected}
-  //       />
-  //     )
-  //   }
-  //   return months;
-  // }
+  monthsFor = ({age}) => {
+    const months = [];
+    for (let i = 0; i < 13; i++) {
+      const monthno = age * 13 + i;
+
+      const selected = +this.props.monthno === monthno ||
+        Math.floor(+this.props.weekno / 4) === monthno;
+      months.push(
+        <Month key={monthno} monthno={monthno}
+          selected={selected} user={this.props.user}
+        />
+      );
+    }
+    return months;
+  }
 
   weeksIn = (age) => {
     if (this.props.user.died && this.endAge() === age) {
@@ -108,8 +110,7 @@ export default class Calendar extends Component {
         <div className={[
           'containerWide',
           styles.year,
-          styles.inWeeks,
-          // !this.props.isMobile ? styles.inWeeks : null
+          this.props.isMobile || styles.inWeeks
         ].join(' ')}>
           <small className={styles.age}>{!(age % 5) ? age : null }</small>
           {this.renderDots({age})}
@@ -158,7 +159,7 @@ export default class Calendar extends Component {
   }
 
   renderDots = ({age}) => {
-    // if (this.props.isMobile) return this.monthsFor({age})
+    if (this.props.isMobile) return this.monthsFor({age});
     return this.weeksFor({age});
   }
 

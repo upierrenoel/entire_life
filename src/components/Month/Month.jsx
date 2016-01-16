@@ -1,24 +1,42 @@
 import React from 'react';
-import reactMixin from 'react-mixin';
 import ReactEmoji from 'react-emoji';
-import { Link } from 'react-router';
-import { startOf } from 'helpers/dateHelpers';
+import {connect} from 'react-redux';
+import {Link} from 'react-router';
+import {startOf} from 'helpers/dateHelpers';
+const styles = require('../Week/Week.scss');
 
-class Month extends React.Component {
+const eventsForMonth = (events, monthno) => {
+  return (events[monthno * 4    ] || []).concat( // eslint-disable-line no-multi-spaces
+          events[monthno * 4 + 1] || []).concat(
+          events[monthno * 4 + 2] || []).concat(
+          events[monthno * 4 + 3] || []);
+};
+
+@connect(
+  (state, ownProps) => {
+    const slug = state.router.params.slug;
+    return {
+      events: slug && state.events.data[slug]
+        ? eventsForMonth(state.events.data[slug], ownProps.monthno)
+        : [],
+    };
+  }
+)
+export default class Month extends React.Component {
   static propTypes = {
     events: React.PropTypes.array,
     monthno: React.PropTypes.number.isRequired,
     selected: React.PropTypes.bool.isRequired,
-    currentWeek: React.PropTypes.number.isRequired,
     user: React.PropTypes.shape({
       slug: React.PropTypes.string.isRequired,
       born: React.PropTypes.string.isRequired,
+      current_week: React.PropTypes.number.isRequired,
     }).isRequired,
   }
 
   emoji = () => {
     return this.props.events && this.props.events[0]
-      ? this.emojify(this.props.events[0].emoji, {attributes: {className: 'emoji'}})
+      ? ReactEmoji.emojify(this.props.events[0].emoji, {attributes: {className: 'emoji'}})
       : '●';
   }
 
@@ -36,12 +54,12 @@ class Month extends React.Component {
   }
 
   klass = () => {
-    const currentMonth = Math.floor(this.props.currentWeek / 4);
+    const currentMonth = Math.floor(this.props.user.current_week / 4);
     let klass;
 
-    if (currentMonth - 1 === this.props.monthno) klass = 'past previous';
+    if (currentMonth - 1 === this.props.monthno) klass = [styles.past, 'previous'].join(' ');
     else if (currentMonth + 1 === this.props.monthno) klass = 'next';
-    else if (currentMonth > this.props.monthno) klass = 'past';
+    else if (currentMonth > this.props.monthno) klass = styles.past;
     else if (currentMonth === this.props.monthno) klass = 'now';
 
     return klass;
@@ -58,7 +76,3 @@ class Month extends React.Component {
     );
   }
 }
-
-reactMixin(Month.prototype, ReactEmoji);
-
-export default Month;

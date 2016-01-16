@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import DocumentMeta from 'react-document-meta';
-import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
+import {isLoaded as isAuthLoaded, load as loadAuth} from 'redux/modules/auth';
+import {resize} from 'redux/modules/winsize';
 import {pushState} from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
@@ -19,18 +20,32 @@ function fetchData(getState, dispatch) {
 @connectData(fetchData)
 @connect(
   state => ({currentUser: state.auth.user}),
-  {pushState}
+  dispatch => ({pushState, dispatch})
 )
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     currentUser: PropTypes.object,
-    pushState: PropTypes.func.isRequired
+    pushState: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
     store: PropTypes.object.isRequired
   };
+
+  componentDidMount() {
+    // ensure correct isMobile display after first page load
+    this.props.dispatch(resize());
+
+    let timeOut = null;
+    window.onresize = () => {
+      if (timeOut !== null) clearTimeout(timeOut);
+      timeOut = setTimeout(() => {
+        this.props.dispatch(resize());
+      }, 200);
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.currentUser.slug && nextProps.currentUser.slug) {
