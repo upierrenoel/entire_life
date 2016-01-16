@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {Week, Month, DetailContainer} from 'components';
+import {Year} from 'components';
 import tourSteps from 'utils/tourSteps';
 import shallowEqual from 'helpers/shallowEqual';
 
@@ -12,14 +12,12 @@ const styles = require('./Calendar.scss');
     const eventWeeks = Object.keys(events).map(v => +v);
     return {
       finalWeek: +eventWeeks.sort((a, b) => a - b)[eventWeeks.length - 1],
-      isMobile: state.winsize.isMobile,
     };
   }
 )
 export default class Calendar extends Component {
   static propTypes = {
     finalWeek: PropTypes.number.isRequired,
-    isMobile: PropTypes.bool,
     user: PropTypes.object.isRequired,
     addSteps: PropTypes.func,
     weekno: PropTypes.string,
@@ -54,113 +52,23 @@ export default class Calendar extends Component {
     return this.props.weekno !== nextProps.weekno ||
       this.props.monthno !== nextProps.monthno ||
       !this.props.detail && !!nextProps.detail ||
-      !shallowEqual(this.props.user, nextProps.user) ||
-      this.props.isMobile !== nextProps.isMobile;
-  }
-
-  monthsFor = ({age}) => {
-    const months = [];
-    for (let i = 0; i < 13; i++) {
-      const monthno = age * 13 + i;
-
-      const selected = +this.props.monthno === monthno ||
-        Math.floor(+this.props.weekno / 4) === monthno;
-      months.push(
-        <Month key={monthno} monthno={monthno}
-          selected={selected} user={this.props.user}
-        />
-      );
-    }
-    return months;
-  }
-
-  weeksIn = (age) => {
-    if (this.props.user.died && this.endAge() === age) {
-      return this.props.finalWeek % 52;
-    }
-    return 51;
-  }
-
-  weeksFor = ({age}) => {
-    const weeks = [];
-    for (let i = 0; i <= this.weeksIn(age); i++) {
-      const weekno = age * 52 + i;
-      const selected = +this.props.weekno === weekno ||
-        +this.props.monthno * 4 === weekno;
-      weeks.push(
-        <Week key={weekno} weekno={weekno}
-          selected={selected} user={this.props.user}
-        />
-      );
-    }
-    return weeks;
-  }
-
-  selectedAge = ({age, weekno, monthno}) => {
-    if (!weekno && !monthno) return false;
-
-    if (weekno) return (weekno >= age * 52) && (weekno < (age + 1) * 52);
-
-    return (monthno >= age * 13) && (monthno < (age + 1) * 13);
+      !shallowEqual(this.props.user, nextProps.user);
   }
 
   year = (age) => {
-    return (
-      <div key={age} className="year-wrap">
-        <div className={[
-          'containerWide',
-          styles.year,
-          this.props.isMobile || styles.inWeeks
-        ].join(' ')}>
-          <small className={styles.age}>{!(age % 5) ? age : null }</small>
-          {this.renderDots({age})}
-        </div>
-        {this.renderDetail(age)}
-      </div>
-    );
+    return React.createElement(Year, {
+      ...this.props,
+      key: age,
+      age,
+      endAge: this.endAge(),
+      oldWeekno: this.state.oldWeekno,
+      oldMonthno: this.state.oldMonthno,
+    });
   }
 
   endAge = () => {
     if (this.props.user.died) return Math.floor(this.props.finalWeek / 52);
     return 100;
-  }
-
-  renderDetail = (age) => {
-    if (!this.props.detail) return null;
-
-    const {weekno, monthno} = this.props;
-    const {oldWeekno, oldMonthno} = this.state;
-
-    const hasCurrent = this.selectedAge({age, weekno: weekno, monthno: monthno});
-    const hadCurrent = this.selectedAge({age, weekno: oldWeekno, monthno: oldMonthno});
-    const sameRow = hasCurrent && hadCurrent;
-
-    if (hasCurrent) {
-      return (
-        <DetailContainer>
-          {React.cloneElement(
-            this.props.detail, {
-              weekno: weekno ? +weekno : undefined,
-              monthno: monthno ? +monthno : undefined,
-            })}
-        </DetailContainer>
-      );
-    } else if (hadCurrent && !sameRow) {
-      return (
-        <DetailContainer old>
-          {React.cloneElement(
-            this.props.detail, {
-              weekno: oldWeekno ? +oldWeekno : undefined,
-              monthno: oldMonthno ? +oldMonthno : undefined,
-            })}
-        </DetailContainer>
-      );
-    }
-  }
-
-  renderDots = ({age}) => {
-    if (this.props.isMobile) return this.monthsFor({age});
-    return this.weeksFor({age});
   }
 
   render() {

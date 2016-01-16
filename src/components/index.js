@@ -20,3 +20,4 @@ export NotFound from './NotFound/NotFound';
 export PageSection from './PageSection/PageSection';
 export SignedInNav from './SignedInNav/SignedInNav';
 export Week from './Week/Week';
+export Year from './Year/Year';

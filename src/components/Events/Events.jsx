@@ -32,7 +32,10 @@ const renderEvents = ({events, slug, weekno, monthno, canEdit, editEventId}) => 
 const Events = ({events, slug, born, weekno, monthno, canEdit, editEventId}) => {
   return (
     <ol className={styles.events}>
-      {!events ? `No ${eventsOrPlans({weekno, born})}` : renderEvents({events, slug, weekno, monthno, canEdit, editEventId})}
+      {!events || events.length === 0
+        ? `No ${eventsOrPlans({weekno: weekno || monthno * 4, born})}`
+        : renderEvents({events, slug, weekno, monthno, canEdit, editEventId})
+      }
     </ol>
   );
 };
