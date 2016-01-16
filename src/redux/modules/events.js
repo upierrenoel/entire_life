@@ -53,7 +53,7 @@ export default function reducer(state = initialState, action = {}) {
         // remove old
         data[action.weekno] = data[action.weekno].
           filter(event => event.id !== action.result.event.id);
-        if (data[action.weekno] === []) data[action.weekno] = undefined;
+        if (data[action.weekno].length === 0) data[action.weekno] = undefined;
       }
       // add new
       fresh = data[action.result.event.weekno] || [];
@@ -129,12 +129,12 @@ export function load({userSlug}) {
   };
 }
 
-function update({slug, event, weekno}) {
+function update({slug, event}) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     id: event.id,
     slug,
-    weekno,
+    weekno: event.weekno,
     promise: (client) => client.put(`/users/${slug}/events/${event.id}`, {
       data: {event}
     })
@@ -151,8 +151,8 @@ function create({slug, event}) {
   };
 }
 
-export function save({slug, event, weekno}) {
-  if (event.id) return update({slug, event, weekno});
+export function save({slug, event}) {
+  if (event.id) return update({slug, event});
   return create({slug, event});
 }
 

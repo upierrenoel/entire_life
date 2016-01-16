@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import ReactEmoji from 'react-emoji';
 import Linkify from 'react-linkify';
-import {destroy as deleteEvent} from 'redux/modules/events';
+import {save, destroy} from 'redux/modules/events';
 
 const styles = require('./Event.scss');
 
@@ -34,7 +34,7 @@ class Event extends Component {
   }
 
   deleteEvent = () => {
-    this.props.dispatch(deleteEvent({slug: this.props.slug, event: this.props.event}));
+    this.props.dispatch(destroy({slug: this.props.slug, event: this.props.event}));
   }
 
   date = () => {
@@ -64,6 +64,32 @@ class Event extends Component {
     return `/${slug}/week/${weekno}/edit-event/${event.id}`;
   }
 
+  createEvent = () => {
+    this.props.dispatch(save({
+      slug: this.props.slug,
+      event: {
+        ...this.props.event,
+        id: null,
+      }
+    }));
+  }
+
+  markDone = () => {
+    this.createEvent();
+    this.deleteEvent();
+  }
+
+  snooze = () => {
+    const nextWeek = new Date(604800000 + (new Date()).getTime());
+    this.props.dispatch(save({
+      slug: this.props.slug,
+      event: {
+        ...this.props.event,
+        date: nextWeek.toISOString(),
+      }
+    }));
+  }
+
   renderActions = () => {
     if (this.props.canEdit) {
       return (
@@ -83,33 +109,6 @@ class Event extends Component {
       );
     }
   }
-
-  // createEvent = () => {
-  //   const event = this.props.event;
-  //   EventService.create({
-  //     slug: this.props.slug,
-  //     title: event.title,
-  //     emoji: event.emoji,
-  //     date: event.date,
-  //     description: event.description,
-  //   })
-  // }
-
-  // markDone = () => {
-  //   this.createEvent()
-  //   this.deleteEvent()
-  // }
-
-  // snooze = () => {
-  //   const event = this.props.event;
-  //   const nextWeek = new Date(604800000 + (new Date()).getTime())
-  //   EventService.update({
-  //     slug: this.props.slug,
-  //     id: event.id,
-  //     date: nextWeek.toISOString(),
-  //     weekno: this.props.weekno,
-  //   })
-  // }
 
   renderExpiredPlanActions = () => {
     if (this.expiredPlan()) {
