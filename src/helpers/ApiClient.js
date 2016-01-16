@@ -15,7 +15,7 @@ function formatUrl(path) {
 }
 
 function getRawCookies(req) {
-  if (req) return req.get('cookie');
+  if (req) return req.get('cookie') || '';
   return document.cookie;
 }
 
