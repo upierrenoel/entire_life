@@ -6,7 +6,7 @@ import {pushState} from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
 
-require('!style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap!../../theme/global.scss');
+require('../../theme/global.scss');
 
 function fetchData(getState, dispatch) {
   const promises = [];
