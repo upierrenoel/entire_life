@@ -5,19 +5,23 @@ import {Link} from 'react-router';
 import {pushState} from 'redux-router';
 import {connect} from 'react-redux';
 import {Events} from 'components';
-import {startOf} from 'helpers/dateHelpers';
+import {startOf, endOf, shortDate} from 'helpers/dateHelpers';
 const styles = require('./WeekDetail.scss');
 
 @connect(
   (state, ownProps) => {
+    const user = state.users.data[state.router.params.slug] || {};
+    const weekno = ownProps.weekno || Math.floor(ownProps.monthno / 4);
     return {
       currentUser: state.auth.user,
       canEdit: !!(state.auth.user.slug && state.auth.user.slug === state.router.params.slug),
-      user: state.users.data[state.router.params.slug] || {},
+      user,
       events: state.router.params.slug
         ? state.events.data[state.router.params.slug]['' + ownProps.weekno]
         : [],
       editEventId: state.router.params.id,
+      start: user && user.born && startOf({weekno: weekno, born: user.born}),
+      end: user && user.born && endOf({weekno: weekno, born: user.born}),
     };
   },
   {pushState}
@@ -33,15 +37,13 @@ export default class WeekDetail extends Component {
     pushState: PropTypes.func.isRequired,
     weekno: PropTypes.number,
     children: PropTypes.node,
+    start: PropTypes.object,
+    end: PropTypes.object,
   }
 
   whose = () => {
     if (this.props.canEdit) return 'your';
     return `${this.props.user.name.split(' ')[0]}'s`;
-  }
-
-  start = () => {
-    return startOf({weekno: +this.props.weekno, born: this.props.user.born});
   }
 
   weekTitle = () => {
@@ -64,11 +66,11 @@ export default class WeekDetail extends Component {
       <div>
         <DocumentMeta {...metaData(title)} extend />
         <header>
-          <h2 className="brand">Week of {this.start().toDateString()}</h2>
-          <span className={styles.age}>{`${Math.floor(+this.props.weekno / 52)} years old`}</span>
           <Link to={`/${this.props.user.slug}`} className="pullRight closeLink">
             &times;
           </Link>
+          <h2 className="brand">{shortDate(this.props.start)} &ndash; {shortDate(this.props.end)}</h2>
+          <nobr className={styles.age}>{`${Math.floor(this.props.weekno / 52)} years old`}</nobr>
         </header>
         <div className={this.props.canEdit ? styles.twoCol : ''}>
           <div>

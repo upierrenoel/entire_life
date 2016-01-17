@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import eventValidation from './eventValidation';
 import {save} from 'redux/modules/events';
 import EmojiPicker from 'react-emoji-picker';
-import {startOf, endOf} from 'helpers/dateHelpers';
+import {startOf, endOf, eventsForMonth} from 'helpers/dateHelpers';
 
 const emojiPickerStyles = {
   position: 'absolute',
@@ -21,13 +21,14 @@ const emojiPickerStyles = {
 @connect(
   state => {
     const weekno = state.router.params.weekno;
+    const monthno = state.router.params.monthno;
     const user = state.router.params.slug && state.users.data[state.router.params.slug];
     const eventId = state.router.params.id;
     return {
       weekno: weekno && +weekno,
+      monthno: monthno && +monthno,
       user,
-      start: user && user.born && startOf({weekno, born: user.born}),
-      event: eventId && state.events.data[user.slug][weekno][eventId],
+      start: user && user.born && startOf({weekno: weekno || monthno * 4, born: user.born}),
       formKey: eventId || 'new',
       saveError: state.events.saveError,
     };
@@ -41,9 +42,14 @@ const emojiPickerStyles = {
 },
 state => {
   const weekno = state.router.params.weekno;
+  const monthno = state.router.params.monthno;
   const user = state.router.params.slug && state.users.data[state.router.params.slug];
   const eventId = state.router.params.id;
-  const event = eventId && state.events.data[user.slug][weekno].filter(e => e.id === +eventId)[0];
+  const events = weekno
+    ? eventId && state.events.data[user.slug][weekno] || []
+    : eventId && eventsForMonth(state.events.data[user.slug], monthno);
+  const event = eventId && events.filter(e => e.id === +eventId)[0];
+
   return {
     initialValues: event,
   };
@@ -53,6 +59,7 @@ export default class EventForm extends Component {
     user: PropTypes.object,
     start: PropTypes.object,
     weekno: PropTypes.number,
+    monthno: PropTypes.number,
     save: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     formKey: PropTypes.string.isRequired,
@@ -80,7 +87,7 @@ export default class EventForm extends Component {
 
   end = () => {
     return endOf({
-      weekno: this.props.weekno,
+      weekno: this.props.weekno || (this.props.monthno * 4) + 3,
       born: this.props.user.born
     });
   }
@@ -94,7 +101,7 @@ export default class EventForm extends Component {
     const dates = [];
     let date = this.props.start;
     const value = dateField.value || dateField.defaultValue;
-    while (date < this.end()) {
+    while (date <= this.end()) {
       const dateString = date.toISOString().replace(/T.+/, '');
       dates.push(
         <label key={date}>
@@ -159,6 +166,12 @@ export default class EventForm extends Component {
     return 'Make a ';
   }
 
+  linkTo() {
+    return this.props.weekno
+      ? `/${this.props.user.slug}/week/${this.props.weekno}`
+      : `/${this.props.user.slug}/month/${this.props.monthno}`;
+  }
+
   render() {
     if (!this.props.user) return null;
 
@@ -167,14 +180,14 @@ export default class EventForm extends Component {
     return (
       <form role="form" style={{position: 'relative'}} onFocus={this.toggleEmojiPicker}
         onSubmit={handleSubmit(() => {
-          this.props.save({slug: this.props.user.slug, event: values, weekno: this.props.weekno}).then(result => {
+          this.props.save({slug: this.props.user.slug, event: values}).then(result => {
             if (result && typeof result.error === 'object') {
               return Promise.reject(result.error);
             }
             resetForm();
             this.refs.description.value = ''; // resetForm doesn't catch this ¯\_(ツ)_/¯
             this.refs.title.focus();
-            this.props.history.pushState(null, `/${this.props.user.slug}/week/${this.props.weekno}`);
+            this.props.history.pushState(null, this.linkTo());
           });
         })}>
         <h3>

@@ -4,23 +4,9 @@ import {connect} from 'react-redux';
 import ReactEmoji from 'react-emoji';
 import Linkify from 'react-linkify';
 import {save, destroy} from 'redux/modules/events';
+import {shortDate} from 'helpers/dateHelpers';
 
 const styles = require('./Event.scss');
-
-const months = {
-  '01': 'Jan',
-  '02': 'Feb',
-  '03': 'Mar',
-  '04': 'Apr',
-  '05': 'May',
-  '06': 'Jun',
-  '07': 'Jul',
-  '08': 'Aug',
-  '09': 'Sep',
-  '10': 'Oct',
-  '11': 'Nov',
-  '12': 'Dec',
-};
 
 @connect()
 class Event extends Component {
@@ -39,10 +25,7 @@ class Event extends Component {
   }
 
   date = () => {
-    let [, month, day] = this.props.event.date.split('-');
-    day = day.replace(/^0/, '');
-    month = months[month];
-    return `${day} ${month}`;
+    return shortDate(this.props.event.date);
   }
 
   isPlan = () => {

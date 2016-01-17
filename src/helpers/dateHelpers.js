@@ -12,7 +12,7 @@ export function startOf({weekno, born}) {
 }
 
 export function endOf({weekno, born}) {
-  return startOf({weekno: +weekno + 1, born});
+  return new Date(startOf({weekno: +weekno + 1, born}).getTime() - 86400000);
 }
 
 export function eventsForMonth(events, monthno) {
@@ -20,4 +20,29 @@ export function eventsForMonth(events, monthno) {
           events[monthno * 4 + 1] || []).concat(
           events[monthno * 4 + 2] || []).concat(
           events[monthno * 4 + 3] || []);
+}
+
+const months = {
+  '01': 'Jan',
+  '02': 'Feb',
+  '03': 'Mar',
+  '04': 'Apr',
+  '05': 'May',
+  '06': 'Jun',
+  '07': 'Jul',
+  '08': 'Aug',
+  '09': 'Sep',
+  '10': 'Oct',
+  '11': 'Nov',
+  '12': 'Dec',
+};
+
+export function shortDate(date) {
+  const dateStr = typeof date === 'string'
+    ? date
+    : date.toISOString().replace(/T.+$/, '');
+  let [year, month, day] = dateStr.split('-'); // eslint-disable-line prefer-const
+  day = day.replace(/^0/, '');
+  month = months[month];
+  return `${day} ${month} ${year}`;
 }
