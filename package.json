@@ -106,6 +106,7 @@
     "pretty-error": "^1.2.0",
     "query-string": "^3.0.0",
     "react": "^0.14.2",
+    "react-day-picker": "^1.2.0",
     "react-document-meta": "^2.0.0",
     "react-dom": "^0.14.1",
     "react-emoji": "^0.4.1",

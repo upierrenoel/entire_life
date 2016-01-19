@@ -1,8 +1,13 @@
+export function dateFromString(dateStr) {
+  if (!dateStr) return undefined;
+  const [year, month, day] = dateStr.split('-').map(x => parseInt(x, 10));
+  return new Date(year, month - 1, day);
+}
+
 export function startOf({weekno, born}) {
   if (!born) throw Error("startOf func requires a 'born' date to work");
 
-  const [year, month, day] = born.split('-').map(x => parseInt(x, 10));
-  const b = new Date(year, month - 1, day);
+  const b = dateFromString(born);
 
   return new Date(
     b.getFullYear() + Math.floor(weekno / 52),

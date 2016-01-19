@@ -8,6 +8,7 @@
 export Avatar from './Avatar/Avatar';
 export Calendar from './Calendar/Calendar';
 export CheckboxPrivatePublic from './CheckboxPrivatePublic/CheckboxPrivatePublic';
+export DatePicker from './DatePicker/DatePicker';
 export DetailContainer from './DetailContainer/DetailContainer';
 export Event from './Event/Event';
 export Events from './Events/Events';

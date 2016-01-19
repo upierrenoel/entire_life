@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import eventValidation from './eventValidation';
 import {save} from 'redux/modules/events';
 import EmojiPicker from 'react-emoji-picker';
+import {DatePicker} from 'components';
 import {startOf, endOf, eventsForMonth} from 'helpers/dateHelpers';
 
 const emojiPickerStyles = {
@@ -40,18 +41,16 @@ const emojiPickerStyles = {
   fields: ['id', 'title', 'emoji', 'date', 'description'],
   validate: eventValidation,
 },
-state => {
-  const weekno = state.router.params.weekno;
-  const monthno = state.router.params.monthno;
-  const user = state.router.params.slug && state.users.data[state.router.params.slug];
+(state, ownProps) => {
   const eventId = state.router.params.id;
-  const events = weekno
-    ? eventId && state.events.data[user.slug][weekno] || []
-    : eventId && eventsForMonth(state.events.data[user.slug], monthno);
+  const events = ownProps.weekno
+    ? eventId && state.events.data[ownProps.user.slug][ownProps.weekno] || []
+    : eventId && eventsForMonth(state.events.data[ownProps.user.slug], ownProps.monthno);
   const event = eventId && events.filter(e => e.id === +eventId)[0];
+  const date = ownProps.start.toISOString().replace(/T.+$/, '');
 
   return {
-    initialValues: event,
+    initialValues: event || {date},
   };
 })
 export default class EventForm extends Component {
@@ -90,30 +89,6 @@ export default class EventForm extends Component {
       weekno: this.props.weekno || (this.props.monthno * 4) + 3,
       born: this.props.user.born
     });
-  }
-
-  selectDate = (e) => {
-    this.setState({date: e.target.value});
-  }
-
-  // FIXME: mismatches with what's on server
-  dates = (dateField) => {
-    const dates = [];
-    let date = this.props.start;
-    const value = dateField.value || dateField.defaultValue;
-    while (date <= this.end()) {
-      const dateString = date.toISOString().replace(/T.+/, '');
-      dates.push(
-        <label key={date}>
-          <br/>
-          <input type="radio" {...dateField} value={dateString}
-            checked={value === dateString}/>
-          <span className="checkable">{date.toDateString()}</span>
-        </label>
-      );
-      date = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
-    }
-    return dates;
   }
 
   emojiPicker = () => {
@@ -215,10 +190,7 @@ export default class EventForm extends Component {
           <label htmlFor="description">Description</label>
           <textarea ref="description" id={description.name} {...description}/>
         </p>
-        <p>
-          <label htmlFor="date">Date</label>
-          {this.dates(date)}
-        </p>
+        <DatePicker start={this.props.start} end={this.end()} {...date}/>
         <button type="submit" className="brand"
           disabled={pristine || invalid || submitting}>
           Save

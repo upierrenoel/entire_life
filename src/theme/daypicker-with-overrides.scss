@@ -1,0 +1,12 @@
+@import "./variables";
+@import "react-day-picker/lib/style.css";
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  background-color: $orange;
+}
+.DayPicker-Weekdays, .DayPicker-Body {
+  font-size: .8em;
+}
+.DayPicker-Weekday, .DayPicker-Day {
+  padding: .4em .3em;
+}
