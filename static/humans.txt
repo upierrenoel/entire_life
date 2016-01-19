@@ -1,0 +1,14 @@
+/* TEAM */
+	Developer/Designer: Chad Ostrowski
+	Contact: hi [at] chadoh.com
+	Twitter: @chadoh
+	From: Philadelphia, Pennsylvania, USA
+
+	Marketing: Uri Pierre-Noel
+	Twitter: @upierrenoel
+	From: Boston, Massachusetts, USA
+
+/* SITE */
+	Language: English
+	Doctype: HTML5
+	IDE: vim
