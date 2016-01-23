@@ -1,10 +1,10 @@
 const SIZE_CHANGED = 'entire-life/winsize/SIZE_CHANGED';
 
-const initialState = {
-  isMobile: true,
-};
+const initialState = () => ({
+  isMobile: __SERVER__ && __MOBILE__
+});
 
-export default function reducer(state = initialState, action = {}) {
+export default function reducer(state = initialState(), action = {}) {
   switch (action.type) {
     case SIZE_CHANGED:
       return {
