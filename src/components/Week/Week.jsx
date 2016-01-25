@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import ReactEmoji from 'react-emoji';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
@@ -7,7 +7,7 @@ const styles = require('./Week.scss');
 
 @connect(
   (state, ownProps) => {
-    const slug = state.router.params.slug;
+    const slug = ownProps.user.slug;
     return {
       events: slug && state.events.data[slug]
         ? state.events.data[slug][ownProps.weekno]
@@ -15,15 +15,16 @@ const styles = require('./Week.scss');
     };
   }
 )
-class Week extends React.Component {
+class Week extends Component {
   static propTypes = {
-    events: React.PropTypes.array,
-    weekno: React.PropTypes.number.isRequired,
-    selected: React.PropTypes.bool.isRequired,
-    user: React.PropTypes.shape({
-      slug: React.PropTypes.string.isRequired,
-      born: React.PropTypes.string.isRequired,
-      current_week: React.PropTypes.number.isRequired,
+    events: PropTypes.array,
+    weekno: PropTypes.number.isRequired,
+    selected: PropTypes.bool.isRequired,
+    user: PropTypes.shape({
+      slug: PropTypes.string.isRequired,
+      born: PropTypes.string.isRequired,
+      current_week: PropTypes.number.isRequired,
+      takingTour: PropTypes.bool,
     }).isRequired,
   }
 
@@ -42,6 +43,7 @@ class Week extends React.Component {
   }
 
   linkTo = () => {
+    if (this.props.user.takingTour) return '/signin';
     if (this.props.selected) return `/${this.props.user.slug}`;
     return `/${this.props.user.slug}/week/${this.props.weekno}`;
   }

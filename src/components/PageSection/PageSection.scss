@@ -46,6 +46,9 @@
 .dark {
   background-color: $black;
   color: $pink;
+  [type=text], [type=date] {
+    color: $black;
+  }
 }
 .light {
   background-color: $pink;
@@ -53,4 +56,8 @@
   [type=text], [type=email] {
     color: gray;
   }
+}
+.white {
+  background-color: white;
+  color: $black;
 }

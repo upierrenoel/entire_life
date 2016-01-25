@@ -20,7 +20,10 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         data: {
           ...state.data,
-          [action.slug]: action.result.user
+          [action.slug]: {
+            ...action.result.user,
+            takingTour: action.takingTour,
+          },
         },
         error: {
           ...state.error,
@@ -46,7 +49,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState, slug) {
-  return globalState.users && globalState.users.data[slug];
+  return globalState.users && globalState.users.data[slug] && globalState.users.data[slug].name;
 }
 
 export function load(userSlug) {
@@ -54,5 +57,19 @@ export function load(userSlug) {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     slug: userSlug,
     promise: (client) => client.get(`/users/${userSlug}`)
+  };
+}
+
+export function loadStub(user) {
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    slug: user.slug,
+    takingTour: true,
+    promise: (client) => client.get('/users/show_stub', {
+      params: {
+        'user[slug]': user.slug,
+        'user[born]': user.born,
+      }
+    })
   };
 }

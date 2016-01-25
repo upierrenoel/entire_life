@@ -33,7 +33,7 @@ export default class Calendar extends Component {
   }
 
   componentDidMount() {
-    this.props.addSteps(tourSteps);
+    this.props.addSteps(tourSteps(!!this.props.user.email));
     if (this.props.showTour) setTimeout(this.props.startTour, 100);
   }
 

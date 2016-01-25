@@ -17,7 +17,7 @@ import {PageSection, Logo, Nav, CheckboxPrivatePublic} from 'components';
   dispatch => bindActionCreators({save}, dispatch)
 )
 @reduxForm({
-  form: 'account',
+  form: 'signing-up',
   fields: ['id', 'born', 'slug', 'is_private'],
   validate: signingupValidation,
 },
@@ -29,7 +29,6 @@ export default class SigningUp extends Component {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     invalid: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired,
     formKey: PropTypes.string.isRequired,
     values: PropTypes.object.isRequired,
@@ -73,7 +72,7 @@ export default class SigningUp extends Component {
 
   render() {
     const { currentUser, fields: {born, is_private}, formKey, handleSubmit, invalid,
-      pristine, submitting, saveError: { [formKey]: saveError }, values } = this.props;
+      submitting, saveError: { [formKey]: saveError }, values } = this.props;
     const title = 'Almost There ⟡ Entire.Life';
     return (
       <form role="form"
@@ -101,7 +100,7 @@ export default class SigningUp extends Component {
             <CheckboxPrivatePublic {...is_private}/>
             {this.renderSlug()}
             <button type="submit" className="brand"
-              disabled={pristine || invalid || submitting}>
+              disabled={invalid || submitting}>
               Looks good !
             </button>
             {saveError && <div className="errorText">{JSON.stringify(saveError)}</div>}

@@ -48,18 +48,18 @@ export default class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.currentUser.slug && nextProps.currentUser.slug) {
+    if (!this.props.currentUser.email && nextProps.currentUser.email) {
       // login
-      this.props.history.pushState(null, this.loggedInRoute(nextProps));
-    } else if (this.props.currentUser.slug && !nextProps.currentUser.slug) {
+      this.props.history.pushState(null, this.loggedInRoute(this.props, nextProps));
+    } else if (this.props.currentUser.email && !nextProps.currentUser.email) {
       // logout
       this.props.history.pushState(null, '/');
     }
   }
 
-  loggedInRoute = (nextProps) => {
-    if (nextProps.currentUser.born) return `/${nextProps.currentUser.slug}`;
-    return '/signing-up';
+  loggedInRoute = (currentProps, nextProps) => {
+    if (!nextProps.currentUser.born || currentProps.currentUser.takingTour) return '/signing-up';
+    return `/${nextProps.currentUser.slug}`;
   }
 
   render() {

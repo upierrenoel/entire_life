@@ -1,12 +1,19 @@
-const steps = [{
+const finalStepText = (signedIn) => {
+  if (signedIn) {
+    return "Why wait until a New Year when you'll soon get a perfectly good New Week? Go ahead and make a plan to do something great next week. We'll check in with you once it's passed.";
+  }
+  return "Why wait until a New Year when you'll soon get a perfectly good New Week? Make plans for next week, the next year, or the next thirty years&mdash;no matter when, we'll check in with you once it's passed.";
+};
+
+const steps = (signedIn) => [{
   title: 'Welcome to the world!',
-  text: 'This baby emoji represents the week you were born. Once this tour is over, you can mouse over it to see the date.',
+  text: 'This baby emoji represents your birth. Once this tour is over, you can mouse over it to see the date.',
   selector: '.year-wrap:first-child a:first-of-type',
   position: 'bottom',
 }, {
   title: 'Your first year',
   text: 'Each row represents one year of your life. For this whole first row, you were 0 years old. Cute little you, just squirming & watching & learning.',
-  selector: '.year-wrap:first-child .year',
+  selector: '.year-wrap:first-child div:first-child',
   position: 'bottom',
 }, {
   title: '100 trips around the sun!',
@@ -15,7 +22,7 @@ const steps = [{
   position: 'top',
 }, {
   title: "You're here now",
-  text: 'Welcome! This is a good place to be.',
+  text: 'Welcome! Today is the present&mdash;a good place to be.',
   selector: 'a.now',
   position: 'bottom',
 }, {
@@ -25,22 +32,12 @@ const steps = [{
   position: 'bottom',
 }, {
   title: "New Week's Resolutions",
-  text: "Why wait until a New Year when you'll soon get a perfectly good New Week? Go ahead and make a plan to do something great next week. We'll check in with you once it's passed.",
+  text: finalStepText(signedIn),
   selector: 'a.next',
   position: 'bottom',
 }];
 
 const tourCallbacks = {
-  // 'a.now': (slug, user) => {
-  //   setTimeout(() => {
-  //     history.pushState(null, `/${slug}/week/${user.get('current_week')}`)
-  //   }, 500)
-  // },
-  // 'a.previous': (slug, user) => {
-  //   setTimeout(() => {
-  //     history.pushState(null, `/${slug}/week/${user.get('current_week') - 1}`)
-  //   }, 500)
-  // },
   'a.next': (user, history) => {
     setTimeout(() => {
       history.pushState(null, `/${user.slug}/week/${user.current_week + 1}`);

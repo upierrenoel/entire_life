@@ -129,6 +129,19 @@ export function load({userSlug}) {
   };
 }
 
+export function loadStub(user) {
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    slug: user.slug,
+    promise: (client) => client.get(`/events`, {
+      params: {
+        'user[slug]': user.slug,
+        'user[born]': user.born,
+      }
+    })
+  };
+}
+
 function update({slug, event}) {
   return {
     types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],

@@ -117,6 +117,7 @@ export default class User extends Component {
 
   renderName = ({title} = {}) => {
     if (!this.props.user || !this.props.user.name) {
+      if (title) return '...';
       return <img src={spinner} alt="loading..." width="40"/>;
     }
     if (!this.props.canView) {
@@ -152,7 +153,6 @@ export default class User extends Component {
         startTour={this.startTour}
         showTour={!!this.props.location.query.tour}
         user={this.props.user}
-        slug={this.props.user.slug}
         detail={this.props.children} weekno={this.props.weekno}
         monthno={this.props.monthno}
       />

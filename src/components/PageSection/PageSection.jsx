@@ -13,7 +13,7 @@ const PageSection = ({type, children, style, styleInner, className}) => {
 };
 
 PageSection.propTypes = {
-  type: React.PropTypes.oneOf(['sunset', 'sunset-blocked', 'light', 'dark']).isRequired,
+  type: React.PropTypes.oneOf(['sunset', 'sunset-blocked', 'light', 'dark', 'white']).isRequired,
   children: React.PropTypes.node,
   style: React.PropTypes.object,
   className: React.PropTypes.string,

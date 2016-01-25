@@ -127,6 +127,7 @@
     "style-loader": "^0.13.0",
     "superagent": "^1.4.0",
     "url-loader": "^0.5.7",
+    "uuid": "^2.0.1",
     "warning": "^2.1.0",
     "webpack": "^1.12.9",
     "webpack-isomorphic-tools": "^2.2.18"

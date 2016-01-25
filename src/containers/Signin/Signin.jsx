@@ -31,7 +31,7 @@ export default class Signin extends Component {
   }
 
   onSignIn = (googleUser) => {
-    this.props.dispatch(login(googleUser));
+    this.props.dispatch(login(googleUser, this.props.auth.user));
   }
 
   signin = (e) => {
@@ -93,7 +93,7 @@ export default class Signin extends Component {
         <img src={require('../../../static/icon-loading-spinner.gif')}
           width="50px" height="50px" alt="loading" style={{margin: '0 auto'}}/>
       );
-    } else if (auth.user.slug) {
+    } else if (auth.user.email) {
       return (
         <p className="lightLinks">You're signed in. You can&nbsp;
         <Link to={`/${auth.user.slug}`}>view your life calendar</Link>.</p>

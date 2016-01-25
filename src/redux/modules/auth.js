@@ -1,4 +1,5 @@
 import cookie from 'js-cookie';
+import uuid from 'uuid';
 
 const LOAD = 'entire-life/auth/LOAD';
 const LOGIN = 'entire-life/auth/LOGIN';
@@ -123,21 +124,23 @@ export function load() {
   };
 }
 
-export function login(googleUser) {
+export function login(googleUser, user) {
   const idToken = googleUser.getAuthResponse().id_token;
   const profile = googleUser.getBasicProfile();
-  const user = {
+  const cookieUser = {
     googleId: profile.getId(),
     name: profile.getName(),
     imageUrl: profile.getImageUrl(),
     email: profile.getEmail(),
   };
   cookie.set('idToken', idToken);
-  cookie.set('user', user);
+  cookie.set('user', cookieUser);
 
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-    promise: (client) => client.post('/users/record_login')
+    promise: (client) => client.post('/users/record_login', {
+      data: {user}
+    })
   };
 }
 
@@ -159,6 +162,23 @@ export function logout() {
 
   return {
     type: LOGOUT
+  };
+}
+
+const stubUser = {
+  slug: uuid.v4(),
+  takingTour: true,
+};
+
+export function cache(user) {
+  return {
+    type: SAVE_SUCCESS,
+    id: user.id,
+    slug: user.slug,
+    result: {user: {
+      ...user,
+      ...stubUser,
+    }}
   };
 }
 

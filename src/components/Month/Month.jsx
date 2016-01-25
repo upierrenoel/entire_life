@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import ReactEmoji from 'react-emoji';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
@@ -15,15 +15,16 @@ const styles = require('../Week/Week.scss');
     };
   }
 )
-export default class Month extends React.Component {
+export default class Month extends Component {
   static propTypes = {
-    events: React.PropTypes.array,
-    monthno: React.PropTypes.number.isRequired,
-    selected: React.PropTypes.bool.isRequired,
-    user: React.PropTypes.shape({
-      slug: React.PropTypes.string.isRequired,
-      born: React.PropTypes.string.isRequired,
-      current_week: React.PropTypes.number.isRequired,
+    events: PropTypes.array,
+    monthno: PropTypes.number.isRequired,
+    selected: PropTypes.bool.isRequired,
+    user: PropTypes.shape({
+      slug: PropTypes.string.isRequired,
+      born: PropTypes.string.isRequired,
+      current_week: PropTypes.number.isRequired,
+      takingTour: PropTypes.bool,
     }).isRequired,
   }
 
@@ -42,6 +43,7 @@ export default class Month extends React.Component {
   }
 
   linkTo = () => {
+    if (this.props.user.takingTour) return '/signin';
     if (this.props.selected) return `/${this.props.user.slug}`;
     return `/${this.props.user.slug}/month/${this.props.monthno}`;
   }

@@ -18,7 +18,7 @@ export default class Nav extends Component {
 
   headerItems = () => {
     const {auth} = this.props;
-    if (!auth.user || !auth.user.slug) {
+    if (!auth.user || !auth.user.email) {
       return (
         <Link to={"/signin"} className="button">
           Sign In
