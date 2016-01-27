@@ -21,6 +21,8 @@ module.exports = Object.assign({
       property: {
         'og:site_name': 'Entire.Life',
         'og:image': 'https://entire.life/social-share.png',
+        'og:image:width': '600',
+        'og:image:height': '375',
         'og:locale': 'en_US',
         'og:title': 'Entire.Life',
         'og:description': 'Entire.Life is a symbolic life calendar that helps you remember the good and plan for the better.',
