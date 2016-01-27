@@ -20,7 +20,7 @@ module.exports = Object.assign({
       charSet: 'utf-8',
       property: {
         'og:site_name': 'Entire.Life',
-        'og:image': 'https://entire.life/images/social-share-2.png',
+        'og:image': 'https://entire.life/social-share.png',
         'og:locale': 'en_US',
         'og:title': 'Entire.Life',
         'og:description': 'Entire.Life is a symbolic life calendar that helps you remember the good and plan for the better.',
@@ -29,7 +29,7 @@ module.exports = Object.assign({
         'twitter:creator': '@chadoh',
         'twitter:title': 'Entire.Life',
         'twitter:description': 'Entire.Life is a symbolic life calendar that helps you remember the good and plan for the better.',
-        'twitter:image': 'https://entire.life/images/social-share-2.png',
+        'twitter:image': 'https://entire.life/social-share.png',
       }
     }
   }
