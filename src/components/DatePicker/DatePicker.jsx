@@ -23,11 +23,8 @@ export default class DetailContainer extends Component {
         <label htmlFor="date">Date</label>
         <DayPicker
           initialMonth={start}
-          fromMonth={start}
-          toMonth={end}
           numberOfMonths={start.getMonth() === end.getMonth() ? 1 : 2}
           modifiers={{
-            disabled: day => day < start || day >= end,
             selected: day => DateUtils.isSameDay(value, day),
           }}
           onDayClick={this.onChange}
