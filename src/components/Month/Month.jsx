@@ -7,7 +7,7 @@ const styles = require('../Week/Week.scss');
 
 @connect(
   (state, ownProps) => {
-    const slug = state.router.params.slug;
+    const slug = ownProps.user.slug;
     return {
       events: slug && state.events.data[slug]
         ? eventsForMonth(state.events.data[slug], ownProps.monthno)
