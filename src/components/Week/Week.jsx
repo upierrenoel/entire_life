@@ -9,8 +9,8 @@ const styles = require('./Week.scss');
   (state, ownProps) => {
     const slug = ownProps.user.slug;
     return {
-      events: slug && state.events.data[slug]
-        ? state.events.data[slug][ownProps.weekno]
+      events: slug && state.events.data[slug] && state.events.data[slug].events
+        ? state.events.data[slug].events[ownProps.weekno]
         : [],
     };
   }

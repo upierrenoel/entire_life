@@ -28,7 +28,10 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         data: {
           ...state.data,
-          [action.slug]: action.result
+          [action.slug]: {
+            loaded: true,
+            events: action.result,
+          }
         },
         error: null
       };
@@ -38,7 +41,9 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         data: {
           ...state.data,
-          [action.slug]: null
+          [action.slug]: {
+            loaded: false,
+          }
         },
         error: {
           ...state.error,
@@ -48,7 +53,7 @@ export default function reducer(state = initialState, action = {}) {
     case SAVE:
       return state; // 'saving' flag handled by redux-form
     case SAVE_SUCCESS:
-      const data = {...state.data[action.slug]};
+      const data = {...(state.data[action.slug] && state.data[action.slug].events)};
       if (action.weekno) {
         // remove old
         data[action.weekno] = data[action.weekno].
@@ -66,7 +71,10 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         data: {
           ...state.data,
-          [action.slug]: data,
+          [action.slug]: {
+            ...state.data[action.slug],
+            events: data,
+          }
         },
         saveError: {
           ...state.saveError,
@@ -87,7 +95,7 @@ export default function reducer(state = initialState, action = {}) {
         deleting: [action.event.id]
       };
     case DELETE_SUCCESS:
-      const old = state.data[action.slug][action.event.weekno];
+      const old = state.data[action.slug].events[action.event.weekno];
       const i = old.indexOf(action.event);
       const j = state.deleting.indexOf(action.event.id);
       fresh = old.slice(0, i).concat(old.slice(i + 1));
@@ -98,7 +106,10 @@ export default function reducer(state = initialState, action = {}) {
         data: {
           [action.slug]: {
             ...state.data[action.slug],
-            [action.event.weekno]: fresh
+            events: {
+              ...state.data[action.slug].events,
+              [action.event.weekno]: fresh
+            }
           }
         }
       };
@@ -118,7 +129,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState, slug) {
-  return globalState.events && globalState.events.data[slug];
+  return globalState.events && globalState.events.data[slug] && globalState.events.data[slug].loaded;
 }
 
 export function load({userSlug}) {

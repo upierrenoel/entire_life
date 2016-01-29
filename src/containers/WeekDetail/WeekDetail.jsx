@@ -12,12 +12,13 @@ const styles = require('./WeekDetail.scss');
   (state, ownProps) => {
     const user = state.users.data[state.router.params.slug] || {};
     const weekno = ownProps.weekno || Math.floor(ownProps.monthno / 4);
+    const slug = state.router.params.slug;
     return {
       currentUser: state.auth.user,
-      canEdit: !!(state.auth.user.slug && state.auth.user.slug === state.router.params.slug),
+      canEdit: !!(state.auth.user.slug && state.auth.user.slug === slug),
       user,
-      events: state.router.params.slug
-        ? state.events.data[state.router.params.slug]['' + ownProps.weekno]
+      events: slug
+        ? state.events.data[slug] && state.events.data[slug].events['' + ownProps.weekno]
         : [],
       editEventId: state.router.params.id,
       start: user && user.born && startOf({weekno: weekno, born: user.born}),

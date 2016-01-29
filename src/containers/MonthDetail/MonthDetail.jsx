@@ -18,7 +18,7 @@ const styles = require('../WeekDetail/WeekDetail.scss');
       canEdit: !!(slug && slug === state.auth.user.slug),
       user,
       events: slug
-        ? eventsForMonth(state.events.data[slug], ownProps.monthno)
+        ? eventsForMonth(state.events.data[slug] && state.events.data[slug].events, ownProps.monthno)
         : [],
       editEventId: state.router.params.id,
       start: user && user.born && startOf({weekno: monthno * 4, born: user.born}),

@@ -176,7 +176,7 @@ let Joyride;
     return {
       currentUser: user,
       user: state.users.data[user.slug],
-      events: state.events.data[user.slug],
+      events: state.events.data[user.slug] && state.events.data[user.slug].events,
       isUserLoading: !!state.users.loading,
       isEventsLoading: !!state.events.loading,
       location: state.router.location,

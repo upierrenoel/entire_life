@@ -43,11 +43,13 @@ const emojiPickerStyles = {
 },
 (state, ownProps) => {
   const eventId = state.router.params.id;
+  const slug = ownProps.user.slug;
   const events = ownProps.weekno
-    ? eventId && state.events.data[ownProps.user.slug][ownProps.weekno] || []
-    : eventId && eventsForMonth(state.events.data[ownProps.user.slug], ownProps.monthno);
+    ? eventId && state.events.data[slug] && state.events.data[slug].events[ownProps.weekno] || []
+    : eventId && eventsForMonth(state.events.data[slug] && state.events.data[slug].events, ownProps.monthno);
   const event = eventId && events.filter(e => e.id === +eventId)[0];
-  const date = ownProps.start.toISOString().replace(/T.+$/, '');
+  const date = ownProps.start && !isNaN(ownProps.start.getTime())
+    && ownProps.start.toISOString().replace(/T.+$/, '');
 
   return {
     initialValues: event || {date},
@@ -190,7 +192,7 @@ export default class EventForm extends Component {
           <label htmlFor="description">Description</label>
           <textarea ref="description" id={description.name} {...description}/>
         </p>
-        <DatePicker start={this.props.start} end={this.end()} {...date}/>
+        {date.value && <DatePicker start={this.props.start} end={this.end()} {...date}/>}
         <button type="submit" className="brand"
           disabled={pristine || invalid || submitting}>
           Save
