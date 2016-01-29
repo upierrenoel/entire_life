@@ -45,8 +45,8 @@ export default class Team extends Component {
               Uri markets this thing. He currently lives in Boston, MA, USA. What he wants to give to others:
               <ul>
                 <li>Happiness</li>
-                <li>Beauty</li>
-                <li>Inspiration</li>
+                <li>Energy</li>
+                <li>Change</li>
               </ul>
               <span><a href="https://www.instagram.com/upierrenoel/">Instagram</a> | <a href="http://upierrenoel.tumblr.com/">Blog</a> | <a href="https://twitter.com/upierrenoel">Twitter</a> | <a href="https://entire.life/upierrenoel">Entire.Life</a></span>
             </div>
